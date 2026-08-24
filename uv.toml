@@ -1,0 +1,5 @@
+# Never build a venv against a system/Homebrew interpreter. Those can be moved
+# or removed by `brew upgrade` out from under us, which silently breaks the venv
+# and makes "it works on my machine" a real risk. uv downloads and owns its own
+# standalone CPython under ~/.local/share/uv/python instead.
+python-preference = "only-managed"
