@@ -167,8 +167,9 @@ not as something to reimplement.
 ### Our contribution
 
 **An independent evaluation of commercial and open EOT systems under realistic
-conditions** — telephony band, disfluencies, and short answers — **publishing
-the full tradeoff curve for every system, not a single operating point.**
+conditions** — telephony band, disfluencies, short answers, and (if data is
+available) code-switched speech — **publishing the full tradeoff curve for
+every system, not a single operating point.**
 Existing published results are mostly English-centric, on clean audio, at one
 undisclosed threshold, and self-reported by the vendor.
 
