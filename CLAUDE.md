@@ -51,6 +51,12 @@ A single operating point is not a result. A curve is.
 1. **Fixed silence timeout** at 500ms and 1000ms (the industry default)
 2. **Silero VAD + fixed timeout**
 3. **Punctuation heuristic** on the STT transcript
+4. **Deepgram Flux** (Phase 2) — commercial fused STT + EOT, the closest
+   competitor. **Eval set only. Never in the live loop.** Cost is bounded and
+   small: a 200-turn eval set is well under 35 minutes of audio, ~$0.26 per
+   full pass at list price. Pin the model version and run date, and cache raw
+   responses under `results/` so the comparison survives a vendor update and
+   can be re-analyzed without re-paying.
 
 If we cannot beat baseline #1, the project has failed and we say so plainly.
 
@@ -94,6 +100,17 @@ These exist because violating them silently invalidates the entire project.
 - **Sample rate:** develop at 16kHz, but the eval must include an 8kHz
   telephony-band condition. Phone audio is the real deployment target and it
   degrades linguistic cues that clean-audio models rely on.
+- **Streaming STT for the live path: `parakeet-mlx`.** Chosen for **native
+  word-level timestamps** from its TDT decoder. Our entire metric is *when* a
+  decision fired relative to the true turn end, so timestamp error propagates
+  directly into `added_latency_ms` — the measurement instrument must be more
+  precise than the effect being measured. Runs natively on Apple Silicon via
+  MLX/Metal, so local iteration is unmetered.
+  **`whisper.cpp` was rejected:** Whisper is a 30-second-window model whose
+  "streaming" is emulated with sliding windows, and its word timings are
+  *approximated* from cross-attention (DTW) rather than emitted by the decoder.
+  Approximate timings are disqualifying here, not merely inconvenient.
+  Not yet verified against the real API — that happens in Phase 1.
 - Training may use GPU (Colab / rented hour). Inference may not.
 - Prefer small encoder models (DistilBERT-class or smaller) over anything
   large. Latency budget dominates accuracy here.
@@ -139,12 +156,26 @@ These exist because violating them silently invalidates the entire project.
 ## 8. Known Prior Art (do not reinvent; do differentiate)
 
 Silero VAD, Pipecat Smart Turn v2, TEN Turn Detection, Turnsense,
-Speechmatics EOT, OpenAI `semantic_vad`.
+Speechmatics EOT, OpenAI `semantic_vad`, **Deepgram Flux**.
 
-Most are English-centric and evaluated on clean audio. **Our differentiation
-is evaluation under realistic conditions** — telephony band, disfluencies,
-and (if data is available) code-switched speech — plus publishing the full
-tradeoff curve rather than a single operating point.
+**Deepgram Flux** is the closest competitor: a fused model doing transcription
+and end-of-turn detection in a single pass, using acoustic and semantic context
+rather than silence thresholds, with an `eager_eot_threshold` for speculative
+LLM warm-up. It is a commercial black box. We treat it as a system under test,
+not as something to reimplement.
+
+### Our contribution
+
+**An independent evaluation of commercial and open EOT systems under realistic
+conditions** — telephony band, disfluencies, and short answers — **publishing
+the full tradeoff curve for every system, not a single operating point.**
+Existing published results are mostly English-centric, on clean audio, at one
+undisclosed threshold, and self-reported by the vendor.
+
+Our own model is measured against that field: same eval set, same conditions,
+same curve, including Flux. If a commercial system beats it, we report that
+plainly (rule 2). **The evaluation is the contribution; our model is a
+participant in it, not the point of it.**
 
 ## 9. Ethics / Legal
 
@@ -173,6 +204,17 @@ number.
 **Consequence:** any import of `src/stt/` from `eval/` is a bug, in the same way
 that reading `data/eval/` during training is a bug (rule 1). Assert it and fail
 loudly.
+
+**Exception — black-box systems under test.** A fused STT+EOT system such as
+Flux cannot consume a replayed transcript; it takes audio. When we evaluate one
+as a baseline (section 3), it reads eval *audio* directly. That is not a
+violation of the rule above: it is a system under test, not a transcript source
+for our model. Our model and the transcript-based baselines still consume
+replayed gold only. Keep such a client in `src/baselines/`, not `src/stt/`, so
+the assertion above stays literally true and never needs weakening (rule 4).
+Note that these results are *not* bit-reproducible the way the rest of the eval
+is — a vendor can update the model underneath us — which is why section 3
+requires pinning the version and caching raw responses.
 
 **Known limitation — the optimism gap.** Gold transcripts have no word errors,
 no revised partials, and perfect timings. Real ASR has all three, and the gap
