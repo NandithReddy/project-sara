@@ -1,0 +1,12 @@
+# Virtualenv
+.venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Downloaded corpora — never committed (see data/README.md for licenses)
+data/raw/
+
+# macOS
+.DS_Store
