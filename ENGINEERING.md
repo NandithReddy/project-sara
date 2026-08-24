@@ -153,3 +153,30 @@ tradeoff curve rather than a single operating point.
   recorded, before the call starts.
 - Respect corpus licenses. Record the license of every dataset in
   `data/README.md` before downloading it.
+## 10. Eval Path vs. Live Path (architectural decision)
+
+**The eval path and the live path are separate. They do not share a transcript
+source.**
+
+**Eval path — the eval harness never calls an STT.** It replays force-aligned
+gold transcripts from the corpus as a *simulated incremental stream*: words are
+released at their aligned timestamps to imitate what a streaming recognizer
+would have emitted. Metrics are therefore deterministic, free, and reproducible
+— the same eval run twice produces byte-identical numbers, and a regression is
+always a change in our model, never STT jitter, network latency, or a vendor
+silently shipping a new model version.
+
+**Live path — the live pipeline uses a real streaming STT.** It exists only for
+demonstration and qualitative testing. It is never the source of a reported
+number.
+
+**Consequence:** any import of `src/stt/` from `eval/` is a bug, in the same way
+that reading `data/eval/` during training is a bug (rule 1). Assert it and fail
+loudly.
+
+**Known limitation — the optimism gap.** Gold transcripts have no word errors,
+no revised partials, and perfect timings. Real ASR has all three, and the gap
+flatters us by an amount we have not measured. **Phase 6 adds a "real ASR
+output" eval condition** that runs the same eval audio through the live STT and
+re-reports every metric, to quantify that gap. Until Phase 6 runs, every number
+we publish carries the caveat that it is measured on gold transcripts.
