@@ -80,6 +80,9 @@ class Turn:
     n_words: int
     disfluent: bool
     text: str
+    words: tuple[tuple[str, float, float], ...]
+    """(text, start_s, end_s) per word. The harness replays these at their own
+    timings to imitate what a streaming recogniser would have emitted."""
     next_speaker_gap_ms: float
     own_resume_gap_ms: float
     """Silence until THIS speaker talks again, or inf if they never do.
@@ -202,6 +205,7 @@ def extract_turns(meeting: str, meta: dict) -> list[Turn]:
                 n_words=n,
                 disfluent=disfluent,
                 text=" ".join(w["t"] for w in ws),
+                words=tuple((w["t"], w["s"], w["e"]) for w in ws),
                 next_speaker_gap_ms=(nxt[1][0]["s"] - t1) * 1000,
                 own_resume_gap_ms=own_resume_gap_ms,
                 stratum=(

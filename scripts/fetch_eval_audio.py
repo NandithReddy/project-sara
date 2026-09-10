@@ -84,6 +84,11 @@ def main() -> int:
     ap.add_argument("--out", type=Path, default=REPO / "data/eval")
     ap.add_argument("--limit", type=int, default=0, help="0 = all")
     ap.add_argument("--sleep", type=float, default=0.15, help="politeness delay")
+    ap.add_argument(
+        "--reuse-audio",
+        action="store_true",
+        help="decode existing FLAC instead of refetching (unchanged segments)",
+    )
     args = ap.parse_args()
 
     spec = json.loads(args.turns.read_text())
@@ -112,10 +117,16 @@ def main() -> int:
         b0 = data_off + int(seg_start * sr) * ba
         b1 = data_off + int(seg_end * sr) * ba - 1
 
-        raw = http_range(url, b0, b1)
-        fetched += len(raw)
-        pcm = np.frombuffer(raw[: len(raw) - len(raw) % ba], dtype="<i2")
-        audio = (pcm.astype(np.float32) / 32768.0).copy()
+        path = audio_dir / f"{t['turn_id']}.flac"
+        if args.reuse_audio and path.exists():
+            audio, _sr = sf.read(path, dtype="float32")
+            audio = np.asarray(audio, dtype=np.float32).reshape(-1)
+        else:
+            raw = http_range(url, b0, b1)
+            fetched += len(raw)
+            pcm = np.frombuffer(raw[: len(raw) - len(raw) % ba], dtype="<i2")
+            audio = (pcm.astype(np.float32) / 32768.0).copy()
+            sf.write(path, audio, sr, format="FLAC", subtype="PCM_16")
 
         # Ground the boundary: last speech frame at or before the annotated end.
         vad.reset()
@@ -149,13 +160,18 @@ def main() -> int:
                 f"({t['n_words']}w {t['text'][:24]!r}) -- annotated boundary"
             )
 
-        path = audio_dir / f"{t['turn_id']}.flac"
-        sf.write(path, audio, sr, format="FLAC", subtype="PCM_16")
-
         rows.append(
             {
-                **t,
+                **{k: v for k, v in t.items() if k != "words"},
                 "audio": f"audio/{path.name}",
+                "words": [
+                    {
+                        "t": w[0],
+                        "start_ms": round((w[1] - seg_start) * 1000.0, 1),
+                        "end_ms": round((w[2] - seg_start) * 1000.0, 1),
+                    }
+                    for w in t["words"]
+                ],
                 "seg_start_s": round(seg_start, 3),
                 "seg_duration_ms": round(len(audio) / sr * 1000.0, 1),
                 "turn_start_ms": round((t["start_s"] - seg_start) * 1000.0, 1),
