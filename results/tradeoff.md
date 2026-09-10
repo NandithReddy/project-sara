@@ -7,7 +7,45 @@ eval.sweep` over the 198 frozen turns in `data/eval/`. Latency is measured from
 the audio-grounded true end of the turn; a turn never answered is counted at
 the 2000ms fallback. Cutoff rate is at the 150ms boundary tolerance.
 
-**No model exists yet.** This is the field the model will be measured against.
+**The text-only model v1 is on the chart, and it loses.** Read that section
+first; the baseline reading below it is unchanged.
+
+## text EOT model v1 — measured, does not beat the timer
+
+| system | cutoff (tol) | hold | p50 | p95 |
+|---|---|---|---|---|
+| Silero timer, 800ms | 10.6% | 4.5% | 800 | 885 |
+| punctuation heuristic | 24.7% | 6.6% | 96 | 2000 |
+| **text EOT v1 @0.5** | **53.5%** | 10.1% | 160 | 2000 |
+| text EOT v1 @0.9 | 12.1% | **64.1%** | 2000 | 2000 |
+
+To approach the 800ms timer's cutoff rate the model must refuse to answer on
+64% of turns. Its curve is the yellow wall at the fallback. Dominated at every
+threshold.
+
+**Why, with numbers** (full detail in the Phase 4 commit message):
+
+- **Turn-level separability is 55.1%.** On 89 of 198 turns some prefix of the
+  turn scores higher than the whole turn, so no threshold can be right. By
+  stratum: short **89%**, ordinary 33%, disfluent 42%. On disfluent turns the
+  median max-prefix score (0.77) is *higher* than the median full-turn score
+  (0.57).
+- **Half the false fires are on the first word** — `Okay`, `Oh`, `Um`. In
+  training, `Okay` alone is a whole turn 61% of the time. Text cannot tell
+  `Okay.` from `Okay so the thing is`; a timer can, because it waits. This is
+  the Phase 3 label-collision ceiling, now at turn level.
+- **Streaming compounds precision.** 0.36 per-example precision at 0.5, ~5
+  prefixes per turn, one false fire is a cutoff. Class weighting (6.1× on
+  positives) pushed the model *toward* firing — backwards for this metric.
+- **The ranking is weak and the model overfits fast.** Val AP 0.505 on 10
+  held-out speakers; best epoch is 1 in every run. AMI's scenario meetings all
+  discuss one fictional product and the model memorises it.
+
+**What worked:** short answers — 89% separable, median P(complete) 0.92 —
+which is exactly the stratum where every timer is worst. The semantic signal
+does the thing it was built for there and fails where the timer's patience is
+the advantage. Latency is a non-issue: 0.41ms p50 per inference, 20× under
+budget.
 
 ## What the chart says
 

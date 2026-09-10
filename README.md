@@ -12,20 +12,21 @@ fixed silence timer in a cascade voice pipeline.
 
 ---
 
-## Status: Phase 0 of 9
+## Status: Phase 4 of 9
 
-**No EOT model exists yet. No EOT metric has been measured.** What is in the
-repo is the toolchain, the directory skeleton, a green test suite, and one
-spike that produced real measurements.
+**The baselines are measured, the tradeoff curve exists, and the first model
+loses to a 800ms silence timer.** The chart, the CSV behind it, and the
+reading of both are in [`results/`](results/tradeoff.md). Every number there is
+from a run over the frozen eval set; nothing is estimated.
 
 | Phase | | |
 |---|---|---|
 | 0 | Scaffold, pinned toolchain, test suite | done |
-| 1 | Live loop with a fixed-timeout baseline | next |
-| 2 | Frozen eval set + harness + baseline numbers | not started |
-| 3 | Training data | not started |
-| 4 | EOT model v1, text only | not started |
-| 5 | The tradeoff curve | not started |
+| 1 | Live loop with a fixed-timeout baseline | done |
+| 2 | Frozen eval set + harness + baseline numbers | done — 198 turns, 3 baselines |
+| 3 | Training data | done — 41,287 examples, labels reviewed |
+| 4 | EOT model v1, text only | **measured: does not beat the timer** |
+| 5 | The tradeoff curve | done — baselines and v1 on it |
 | 6 | Telephony band + real-ASR conditions | not started |
 | 7 | Prosody, only if Phase 5 shows headroom | not started |
 | 8 | Inbound telephony adapter (optional) | not started |
@@ -39,8 +40,16 @@ decision or a measurement with a file behind it.
 
 ## What has actually been measured
 
-One thing: whether `parakeet-mlx` can serve as the streaming STT on the live
-path. Full record in
+**The tradeoff curve** — premature-cutoff rate against added latency for two
+silence timers, a punctuation heuristic, and the text-only model, on 198 held
+out turns: [`results/tradeoff.png`](results/tradeoff.png), read in
+[`results/tradeoff.md`](results/tradeoff.md). The headline: the industry
+default 500ms timer interrupts 17% of turns; the punctuation heuristic answers
+3× faster at the same cutoff rate but its p95 is the fallback wall; and model
+v1 is dominated by the timer everywhere, for reasons that are measured rather
+than guessed.
+
+**The streaming STT** — whether `parakeet-mlx` can serve on the live path. Full record in
 [`results/spike-parakeet-mlx-streaming.md`](results/spike-parakeet-mlx-streaming.md).
 
 The STT was originally chosen over `whisper.cpp` on the argument that its TDT
