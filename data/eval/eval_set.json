@@ -19,7 +19,14 @@
       "text": "and that could allow n easy navigation used as a joystick as well",
       "next_speaker_gap_ms": 8039.999999999964,
       "own_resume_gap_ms": 34759.99999999999,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003a.B.1033.18.flac",
+      "seg_start_s": 1032.68,
+      "seg_duration_ms": 7560.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 5060.0,
+      "true_end_ms": 5120.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003a.B.2.13",
@@ -34,7 +41,14 @@
       "text": "Okay well I think we're ready to begin Right my name's Adam Duguid we're here because of real reaction um we have in the group",
       "next_speaker_gap_ms": 60.0000000000005,
       "own_resume_gap_ms": 5250.0,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003a.B.2.13.flac",
+      "seg_start_s": 1.63,
+      "seg_duration_ms": 14050.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 11550.0,
+      "true_end_ms": 12032.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003a.B.730.78",
@@ -49,7 +63,14 @@
       "text": "Any ideas of where you think a new remote control could go into this market",
       "next_speaker_gap_ms": 1889.9999999999864,
       "own_resume_gap_ms": 54990.00000000001,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003a.B.730.78.flac",
+      "seg_start_s": 730.28,
+      "seg_duration_ms": 7300.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 4800.0,
+      "true_end_ms": 4864.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003a.C.266.00",
@@ -64,7 +85,14 @@
       "text": "Oh that's good we can clip them on Okay Yeah there was this microphone as well that you",
       "next_speaker_gap_ms": 2000.0,
       "own_resume_gap_ms": 3110.0000000000136,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2003a.C.266.00.flac",
+      "seg_start_s": 265.5,
+      "seg_duration_ms": 8260.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 5760.0,
+      "true_end_ms": 4352.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003a.C.274.37",
@@ -79,7 +107,14 @@
       "text": "Just um somewhere",
       "next_speaker_gap_ms": 8469.99999999997,
       "own_resume_gap_ms": 25269.99999999998,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2003a.C.274.37.flac",
+      "seg_start_s": 273.87,
+      "seg_duration_ms": 4670.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2170.0,
+      "true_end_ms": 2144.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003b.B.316.90",
@@ -94,7 +129,14 @@
       "text": "Yep",
       "next_speaker_gap_ms": 1100.0000000000227,
       "own_resume_gap_ms": 121670.00000000001,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003b.B.316.90.flac",
+      "seg_start_s": 316.4,
+      "seg_duration_ms": 3310.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 810.0,
+      "true_end_ms": 832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003b.D.807.14",
@@ -109,7 +151,14 @@
       "text": "Click to save in where do I have to save it",
       "next_speaker_gap_ms": 120.00000000000455,
       "own_resume_gap_ms": 13889.999999999985,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2003b.D.807.14.flac",
+      "seg_start_s": 806.64,
+      "seg_duration_ms": 5840.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3340.0,
+      "true_end_ms": 3360.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003c.A.1869.68",
@@ -124,7 +173,14 @@
       "text": "Um well I I think other than ge getting a sort of more aesthetically pleasing form for it um mo most of the sort of layout design decisions are are made I would say Um but then again the um the menu structure to to a considerable extent that's gonna vary according to the model of television and also any customisations that the user might wish to incorporate So um and one of the nice things about having an L_C_D_ and a menu structure is that there is that flexibility to it",
       "next_speaker_gap_ms": 389.99999999987267,
       "own_resume_gap_ms": 104009.99999999999,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003c.A.1869.68.flac",
+      "seg_start_s": 1869.18,
+      "seg_duration_ms": 44990.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 42490.0,
+      "true_end_ms": 42496.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003c.B.1382.30",
@@ -139,7 +195,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 720.0000000000273,
       "own_resume_gap_ms": 4819.999999999936,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003c.B.1382.30.flac",
+      "seg_start_s": 1381.8,
+      "seg_duration_ms": 3440.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 940.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003c.C.1992.85",
@@ -154,7 +217,14 @@
       "text": "And it's stylish",
       "next_speaker_gap_ms": 369.99999999989086,
       "own_resume_gap_ms": 8819.999999999936,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003c.C.1992.85.flac",
+      "seg_start_s": 1992.35,
+      "seg_duration_ms": 3830.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1330.0,
+      "true_end_ms": 1376.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003c.C.2203.11",
@@ -169,7 +239,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 589.9999999996908,
       "own_resume_gap_ms": 11039.999999999964,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003c.C.2203.11.flac",
+      "seg_start_s": 2202.61,
+      "seg_duration_ms": 3290.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 790.0,
+      "true_end_ms": 800.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003c.D.2039.17",
@@ -184,7 +261,14 @@
       "text": "The U_S_B_ for which",
       "next_speaker_gap_ms": 410.00000000008185,
       "own_resume_gap_ms": 7369.999999999891,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003c.D.2039.17.flac",
+      "seg_start_s": 2038.67,
+      "seg_duration_ms": 4080.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1580.0,
+      "true_end_ms": 1632.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.A.1479.86",
@@ -199,7 +283,14 @@
       "text": "Mm-hmm",
       "next_speaker_gap_ms": 189.9999999998272,
       "own_resume_gap_ms": 4189.999999999827,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003d.A.1479.86.flac",
+      "seg_start_s": 1479.36,
+      "seg_duration_ms": 3560.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1060.0,
+      "true_end_ms": 928.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.A.2092.76",
@@ -214,7 +305,14 @@
       "text": "in added expense",
       "next_speaker_gap_ms": 710.0000000000364,
       "own_resume_gap_ms": 39789.99999999996,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003d.A.2092.76.flac",
+      "seg_start_s": 2092.26,
+      "seg_duration_ms": 4320.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1820.0,
+      "true_end_ms": 1920.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.B.1750.32",
@@ -229,7 +327,14 @@
       "text": "um the the cost features",
       "next_speaker_gap_ms": 1670.0000000000728,
       "own_resume_gap_ms": 71870.00000000012,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003d.B.1750.32.flac",
+      "seg_start_s": 1749.82,
+      "seg_duration_ms": 5010.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2510.0,
+      "true_end_ms": 2656.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.B.1857.76",
@@ -244,7 +349,14 @@
       "text": "Probably the people technologically They're usually the ones that buy pointless stuff",
       "next_speaker_gap_ms": 120.00000000011823,
       "own_resume_gap_ms": 22259.999999999993,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003d.B.1857.76.flac",
+      "seg_start_s": 1857.26,
+      "seg_duration_ms": 6290.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3790.0,
+      "true_end_ms": 4288.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.B.2130.57",
@@ -259,7 +371,14 @@
       "text": "we've got a a prototype",
       "next_speaker_gap_ms": 1109.9999999996726,
       "own_resume_gap_ms": 3699.999999999818,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003d.B.2130.57.flac",
+      "seg_start_s": 2130.07,
+      "seg_duration_ms": 5190.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2690.0,
+      "true_end_ms": 2592.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.C.1243.22",
@@ -274,7 +393,14 @@
       "text": "Okay okay",
       "next_speaker_gap_ms": 1720.0000000000273,
       "own_resume_gap_ms": 6289.999999999964,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2003d.C.1243.22.flac",
+      "seg_start_s": 1242.72,
+      "seg_duration_ms": 4350.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1850.0,
+      "true_end_ms": 1760.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.C.1263.80",
@@ -289,7 +415,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 130.00000000010914,
       "own_resume_gap_ms": 31370.000000000116,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003d.C.1263.80.flac",
+      "seg_start_s": 1263.3,
+      "seg_duration_ms": 3490.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 990.0,
+      "true_end_ms": 992.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.C.1480.61",
@@ -304,7 +437,14 @@
       "text": "You say three I might go as far as two on that Three",
       "next_speaker_gap_ms": 779.9999999999727,
       "own_resume_gap_ms": 2660.000000000082,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2003d.C.1480.61.flac",
+      "seg_start_s": 1480.11,
+      "seg_duration_ms": 6220.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3720.0,
+      "true_end_ms": 3744.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.C.1673.67",
@@ -319,7 +459,14 @@
       "text": "Right five Is that sound reasonable",
       "next_speaker_gap_ms": 1440.0000000000546,
       "own_resume_gap_ms": 2929.9999999998363,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003d.C.1673.67.flac",
+      "seg_start_s": 1673.17,
+      "seg_duration_ms": 5520.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3020.0,
+      "true_end_ms": 3104.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.C.1967.32",
@@ -334,7 +481,14 @@
       "text": "Wrote nearly a page but not",
       "next_speaker_gap_ms": 950.0000000000455,
       "own_resume_gap_ms": 5860.000000000127,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003d.C.1967.32.flac",
+      "seg_start_s": 1966.82,
+      "seg_duration_ms": 5760.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3260.0,
+      "true_end_ms": 3552.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.C.2063.46",
@@ -349,7 +503,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 380.00000000010914,
       "own_resume_gap_ms": 80120.00000000035,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003d.C.2063.46.flac",
+      "seg_start_s": 2062.96,
+      "seg_duration_ms": 3259.9,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 760.0,
+      "true_end_ms": 768.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.C.308.07",
@@ -364,7 +525,14 @@
       "text": "Mm",
       "next_speaker_gap_ms": 4649.999999999977,
       "own_resume_gap_ms": 13889.999999999985,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2003d.C.308.07.flac",
+      "seg_start_s": 307.57,
+      "seg_duration_ms": 3160.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 660.0,
+      "true_end_ms": 672.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.C.765.41",
@@ -379,7 +547,14 @@
       "text": "Do you have any data on how much um different prints cost I mean can you get the entire thing printed with a design um",
       "next_speaker_gap_ms": 1219.9999999999136,
       "own_resume_gap_ms": 8889.999999999985,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003d.C.765.41.flac",
+      "seg_start_s": 764.91,
+      "seg_duration_ms": 10420.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 7920.0,
+      "true_end_ms": 7968.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.D.1293.51",
@@ -394,7 +569,14 @@
       "text": "Or had you already incorporated that",
       "next_speaker_gap_ms": 170.00000000007276,
       "own_resume_gap_ms": 66329.99999999993,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003d.D.1293.51.flac",
+      "seg_start_s": 1293.01,
+      "seg_duration_ms": 4980.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2480.0,
+      "true_end_ms": 2240.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2003d.D.1361.82",
@@ -409,7 +591,14 @@
       "text": "Think it's ten minutes left",
       "next_speaker_gap_ms": 89.99999999991815,
       "own_resume_gap_ms": 7069.999999999936,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2003d.D.1361.82.flac",
+      "seg_start_s": 1361.32,
+      "seg_duration_ms": 4600.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2100.0,
+      "true_end_ms": 1600.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011a.A.58.56",
@@ -424,7 +613,14 @@
       "text": "and I guess we should all get acquainted Let's shall we all introduce ourselves",
       "next_speaker_gap_ms": 719.9999999999989,
       "own_resume_gap_ms": 12760.000000000005,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011a.A.58.56.flac",
+      "seg_start_s": 58.06,
+      "seg_duration_ms": 8720.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6220.0,
+      "true_end_ms": 6304.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011a.A.777.62",
@@ -439,7 +635,14 @@
       "text": "Not not huge but",
       "next_speaker_gap_ms": 149.99999999997726,
       "own_resume_gap_ms": 6889.999999999986,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2011a.A.777.62.flac",
+      "seg_start_s": 777.12,
+      "seg_duration_ms": 4710.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2210.0,
+      "true_end_ms": 2272.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011a.C.1060.88",
@@ -454,7 +657,14 @@
       "text": "What is technical functions exactl I I don't really know what",
       "next_speaker_gap_ms": 150.00000000009095,
       "own_resume_gap_ms": 5049.9999999999545,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2011a.C.1060.88.flac",
+      "seg_start_s": 1060.38,
+      "seg_duration_ms": 5860.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3360.0,
+      "true_end_ms": 3360.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011a.D.425.91",
@@ -469,7 +679,14 @@
       "text": "Um and the main reason is they're pretty I think they're very pretty and they go well with the environment and I like the way they run and I used to do horse riding and they're just very sort of sturdy and nice animals And I like the way um they feel sort of under under the hand I think that's pretty much it Um",
       "next_speaker_gap_ms": 1129.9999999999955,
       "own_resume_gap_ms": 118620.0,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2011a.D.425.91.flac",
+      "seg_start_s": 425.41,
+      "seg_duration_ms": 26360.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 23860.0,
+      "true_end_ms": 23904.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011a.D.779.48",
@@ -484,7 +701,14 @@
       "text": "But definitely not well I don't know",
       "next_speaker_gap_ms": 9.999999999990905,
       "own_resume_gap_ms": 3269.999999999982,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011a.D.779.48.flac",
+      "seg_start_s": 778.98,
+      "seg_duration_ms": 5180.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2680.0,
+      "true_end_ms": 2848.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011c.A.1392.42",
@@ -499,7 +723,14 @@
       "text": "Mm-hmm",
       "next_speaker_gap_ms": 1240.000000000009,
       "own_resume_gap_ms": 30670.000000000073,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011c.A.1392.42.flac",
+      "seg_start_s": 1391.92,
+      "seg_duration_ms": 3290.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 790.0,
+      "true_end_ms": 864.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011c.A.1499.83",
@@ -514,7 +745,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 2130.000000000109,
       "own_resume_gap_ms": 28170.000000000073,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2011c.A.1499.83.flac",
+      "seg_start_s": 1499.33,
+      "seg_duration_ms": 3280.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 780.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011c.A.1528.28",
@@ -529,7 +767,14 @@
       "text": "What does chip on print mean",
       "next_speaker_gap_ms": 610.0000000001273,
       "own_resume_gap_ms": 5920.000000000073,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2011c.A.1528.28.flac",
+      "seg_start_s": 1527.78,
+      "seg_duration_ms": 4530.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2030.0,
+      "true_end_ms": 2112.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011c.C.514.54",
@@ -544,7 +789,14 @@
       "text": "Okay alright anyway Um here we go Conceptual User Interface Trying we're gonna try to talk about um what kind of uh how people are actually going to be using this iPod-ish remote control based on fruit vegetable design And um basically so this is a touched ba a touch-based graphical interface system Uh so people are going to be looking at this little screen Um kind of I mean I assume are we still on the screen idea",
       "next_speaker_gap_ms": 799.9999999999545,
       "own_resume_gap_ms": 3389.9999999999864,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011c.C.514.54.flac",
+      "seg_start_s": 514.04,
+      "seg_duration_ms": 34050.1,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 31550.0,
+      "true_end_ms": 31584.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.A.121.45",
@@ -559,7 +811,14 @@
       "text": "Yeah um f you guys wanna give a prototype presentation of",
       "next_speaker_gap_ms": 1659.9999999999966,
       "own_resume_gap_ms": 34460.00000000001,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011d.A.121.45.flac",
+      "seg_start_s": 120.95,
+      "seg_duration_ms": 9200.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6700.0,
+      "true_end_ms": 6656.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.A.1493.40",
@@ -574,7 +833,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 1680.0000000000637,
       "own_resume_gap_ms": 3420.0000000000728,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011d.A.1493.40.flac",
+      "seg_start_s": 1492.9,
+      "seg_duration_ms": 3560.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1060.0,
+      "true_end_ms": 832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.A.1515.20",
@@ -589,7 +855,14 @@
       "text": "And how was our leadership and teamwork",
       "next_speaker_gap_ms": 110.00000000012733,
       "own_resume_gap_ms": 7259.999999999991,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/ES2011d.A.1515.20.flac",
+      "seg_start_s": 1514.7,
+      "seg_duration_ms": 6410.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3910.0,
+      "true_end_ms": 3584.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.A.1859.64",
@@ -604,7 +877,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 920.0000000000728,
       "own_resume_gap_ms": 28660.00000000008,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2011d.A.1859.64.flac",
+      "seg_start_s": 1859.14,
+      "seg_duration_ms": 3380.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 880.0,
+      "true_end_ms": 832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.A.977.99",
@@ -619,7 +899,14 @@
       "text": "One",
       "next_speaker_gap_ms": 1049.9999999999545,
       "own_resume_gap_ms": 10199.99999999993,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2011d.A.977.99.flac",
+      "seg_start_s": 977.49,
+      "seg_duration_ms": 3340.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 840.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.C.1180.61",
@@ -634,7 +921,14 @@
       "text": "Uh",
       "next_speaker_gap_ms": 1569.9999999999363,
       "own_resume_gap_ms": 4589.999999999918,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011d.C.1180.61.flac",
+      "seg_start_s": 1180.11,
+      "seg_duration_ms": 3670.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1170.0,
+      "true_end_ms": 608.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.C.1380.46",
@@ -649,7 +943,14 @@
       "text": "Yeah the broccoli I guess wins",
       "next_speaker_gap_ms": 299.9999999999545,
       "own_resume_gap_ms": 6200.0000000000455,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011d.C.1380.46.flac",
+      "seg_start_s": 1379.96,
+      "seg_duration_ms": 6000.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3500.0,
+      "true_end_ms": 3456.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.C.546.32",
@@ -664,7 +965,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 1389.9999999999864,
       "own_resume_gap_ms": 8169.999999999959,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2011d.C.546.32.flac",
+      "seg_start_s": 545.82,
+      "seg_duration_ms": 3550.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1050.0,
+      "true_end_ms": 1050.0,
+      "boundary_source": "annotation"
     },
     {
       "turn_id": "ES2011d.C.949.47",
@@ -679,7 +987,14 @@
       "text": "One",
       "next_speaker_gap_ms": 860.0000000000136,
       "own_resume_gap_ms": 7170.000000000073,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2011d.C.949.47.flac",
+      "seg_start_s": 948.97,
+      "seg_duration_ms": 3310.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 810.0,
+      "true_end_ms": 832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.D.1013.40",
@@ -694,7 +1009,14 @@
       "text": "Four point one",
       "next_speaker_gap_ms": 480.0000000000182,
       "own_resume_gap_ms": 4830.000000000041,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2011d.D.1013.40.flac",
+      "seg_start_s": 1012.9,
+      "seg_duration_ms": 4120.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1620.0,
+      "true_end_ms": 1440.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.D.1214.45",
@@ -709,7 +1031,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 320.0000000001637,
       "own_resume_gap_ms": 7880.000000000109,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011d.D.1214.45.flac",
+      "seg_start_s": 1213.95,
+      "seg_duration_ms": 4170.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1670.0,
+      "true_end_ms": 1760.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.D.1472.91",
@@ -724,7 +1053,14 @@
       "text": "No",
       "next_speaker_gap_ms": 69.99999999993634,
       "own_resume_gap_ms": 11319.999999999936,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011d.D.1472.91.flac",
+      "seg_start_s": 1472.41,
+      "seg_duration_ms": 3270.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 770.0,
+      "true_end_ms": 770.0,
+      "boundary_source": "annotation"
     },
     {
       "turn_id": "ES2011d.D.539.95",
@@ -739,7 +1075,14 @@
       "text": "it's in the project documents",
       "next_speaker_gap_ms": 310.0000000000591,
       "own_resume_gap_ms": 2300.000000000068,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011d.D.539.95.flac",
+      "seg_start_s": 539.45,
+      "seg_duration_ms": 4480.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1980.0,
+      "true_end_ms": 2048.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.D.550.93",
@@ -754,7 +1097,14 @@
       "text": "under evaluation",
       "next_speaker_gap_ms": 569.9999999999363,
       "own_resume_gap_ms": 2480.000000000018,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/ES2011d.D.550.93.flac",
+      "seg_start_s": 550.43,
+      "seg_duration_ms": 4310.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1810.0,
+      "true_end_ms": 1888.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "ES2011d.D.847.37",
@@ -769,7 +1119,14 @@
       "text": "One five five two is thirteen over four for now I think that's um next",
       "next_speaker_gap_ms": 899.9999999999773,
       "own_resume_gap_ms": 5899.999999999977,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/ES2011d.D.847.37.flac",
+      "seg_start_s": 846.87,
+      "seg_duration_ms": 9020.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6520.0,
+      "true_end_ms": 6560.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008a.A.200.56",
@@ -784,7 +1141,14 @@
       "text": "Okay so there's any questions or uh first of all about uh this project",
       "next_speaker_gap_ms": 629.9999999999955,
       "own_resume_gap_ms": 3209.9999999999795,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008a.A.200.56.flac",
+      "seg_start_s": 200.06,
+      "seg_duration_ms": 8770.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6270.0,
+      "true_end_ms": 6336.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008a.A.825.75",
@@ -799,7 +1163,14 @@
       "text": "So any questions for uh time being",
       "next_speaker_gap_ms": 5509.999999999991,
       "own_resume_gap_ms": 11559.999999999945,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008a.A.825.75.flac",
+      "seg_start_s": 825.25,
+      "seg_duration_ms": 5230.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2730.0,
+      "true_end_ms": 2816.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008b.A.1162.88",
@@ -814,7 +1185,14 @@
       "text": "Yep",
       "next_speaker_gap_ms": 1289.9999999999636,
       "own_resume_gap_ms": 4980.000000000018,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/IS1008b.A.1162.88.flac",
+      "seg_start_s": 1162.38,
+      "seg_duration_ms": 3160.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 660.0,
+      "true_end_ms": 660.0,
+      "boundary_source": "annotation"
     },
     {
       "turn_id": "IS1008b.A.1261.53",
@@ -829,7 +1207,14 @@
       "text": "And uh what's your comments about uh",
       "next_speaker_gap_ms": 2089.999999999918,
       "own_resume_gap_ms": 10870.000000000118,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008b.A.1261.53.flac",
+      "seg_start_s": 1261.03,
+      "seg_duration_ms": 5500.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3000.0,
+      "true_end_ms": 3072.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008b.B.1613.78",
@@ -844,7 +1229,14 @@
       "text": "Do you wanna go back and look at the closing slide maybe that would provide some guidance",
       "next_speaker_gap_ms": 969.9999999997999,
       "own_resume_gap_ms": 16259.99999999999,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008b.B.1613.78.flac",
+      "seg_start_s": 1613.28,
+      "seg_duration_ms": 6870.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 4370.0,
+      "true_end_ms": 4416.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008b.B.1633.91",
@@ -859,7 +1251,14 @@
       "text": "Doesn't really tell us",
       "next_speaker_gap_ms": 89.99999999991815,
       "own_resume_gap_ms": 2869.999999999891,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008b.B.1633.91.flac",
+      "seg_start_s": 1633.41,
+      "seg_duration_ms": 3970.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1470.0,
+      "true_end_ms": 1568.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008b.B.488.45",
@@ -874,7 +1273,14 @@
       "text": "Yes very good",
       "next_speaker_gap_ms": 10860.000000000015,
       "own_resume_gap_ms": 32110.000000000015,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/IS1008b.B.488.45.flac",
+      "seg_start_s": 487.95,
+      "seg_duration_ms": 3820.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1320.0,
+      "true_end_ms": 1312.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008b.B.711.96",
@@ -889,7 +1295,14 @@
       "text": "Might be hard to find though",
       "next_speaker_gap_ms": 610.0000000000136,
       "own_resume_gap_ms": 3509.999999999991,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008b.B.711.96.flac",
+      "seg_start_s": 711.46,
+      "seg_duration_ms": 4250.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1750.0,
+      "true_end_ms": 1824.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008b.C.546.09",
@@ -904,7 +1317,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 389.99999999998636,
       "own_resume_gap_ms": 2909.999999999968,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/IS1008b.C.546.09.flac",
+      "seg_start_s": 545.59,
+      "seg_duration_ms": 3250.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 750.0,
+      "true_end_ms": 832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008c.A.1150.61",
@@ -919,7 +1339,14 @@
       "text": "I hope so",
       "next_speaker_gap_ms": 240.0000000000091,
       "own_resume_gap_ms": 57925.99999999993,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/IS1008c.A.1150.61.flac",
+      "seg_start_s": 1150.11,
+      "seg_duration_ms": 3430.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 930.0,
+      "true_end_ms": 1408.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008c.A.117.46",
@@ -934,7 +1361,14 @@
       "text": "'Kay",
       "next_speaker_gap_ms": 3780.000000000001,
       "own_resume_gap_ms": 13269.999999999996,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/IS1008c.A.117.46.flac",
+      "seg_start_s": 116.96,
+      "seg_duration_ms": 3280.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 780.0,
+      "true_end_ms": 928.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008c.A.97.17",
@@ -949,7 +1383,14 @@
       "text": "the functional team to the Christine okay to discuss about uh the components concept",
       "next_speaker_gap_ms": 1089.999999999989,
       "own_resume_gap_ms": 8569.999999999993,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008c.A.97.17.flac",
+      "seg_start_s": 96.67,
+      "seg_duration_ms": 8950.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6450.0,
+      "true_end_ms": 6496.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008c.B.1342.36",
@@ -964,7 +1405,14 @@
       "text": "that's just sort of speculation I mean",
       "next_speaker_gap_ms": 1099.999999999909,
       "own_resume_gap_ms": 55129.99999999988,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008c.B.1342.36.flac",
+      "seg_start_s": 1341.86,
+      "seg_duration_ms": 4800.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2300.0,
+      "true_end_ms": 2368.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008c.B.895.14",
@@ -979,7 +1427,14 @@
       "text": "So once we decide exactly what we want then we can figure out the exact positioning but more or less I think it should go along those lines",
       "next_speaker_gap_ms": 2839.999999999918,
       "own_resume_gap_ms": 19689.99999999994,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008c.B.895.14.flac",
+      "seg_start_s": 894.64,
+      "seg_duration_ms": 9680.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 7180.0,
+      "true_end_ms": 7264.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008c.C.1384.76",
@@ -994,7 +1449,14 @@
       "text": "we've deci we've determined and the uh engineering industrial design is the recommendation and um I think we've kinda come to some agreement regarding um this concept of a wooden case",
       "next_speaker_gap_ms": 200.00000000004547,
       "own_resume_gap_ms": 2100.0000000001364,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008c.C.1384.76.flac",
+      "seg_start_s": 1384.26,
+      "seg_duration_ms": 17330.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 14830.0,
+      "true_end_ms": 14944.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008c.C.1450.58",
@@ -1009,7 +1471,14 @@
       "text": "So um are we done with this meeting",
       "next_speaker_gap_ms": 1619.9999999998909,
       "own_resume_gap_ms": 19899.99999999986,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/IS1008c.C.1450.58.flac",
+      "seg_start_s": 1450.08,
+      "seg_duration_ms": 5800.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3300.0,
+      "true_end_ms": 3424.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008c.D.866.73",
@@ -1024,7 +1493,14 @@
       "text": "Hmm",
       "next_speaker_gap_ms": 500.0,
       "own_resume_gap_ms": 42789.99999999996,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/IS1008c.D.866.73.flac",
+      "seg_start_s": 866.23,
+      "seg_duration_ms": 3150.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 650.0,
+      "true_end_ms": 672.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008d.A.1308.23",
@@ -1039,7 +1515,14 @@
       "text": "Yes the that of course uh I will convince the management to do that okay",
       "next_speaker_gap_ms": 2019.9999999999818,
       "own_resume_gap_ms": 7299.9999999999545,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/IS1008d.A.1308.23.flac",
+      "seg_start_s": 1307.73,
+      "seg_duration_ms": 7150.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 4650.0,
+      "true_end_ms": 4768.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008d.A.247.02",
@@ -1054,7 +1537,14 @@
       "text": "Mm-hmm",
       "next_speaker_gap_ms": 2659.9999999999964,
       "own_resume_gap_ms": 34240.00000000001,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/IS1008d.A.247.02.flac",
+      "seg_start_s": 246.52,
+      "seg_duration_ms": 3090.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 590.0,
+      "true_end_ms": 576.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008d.A.530.37",
@@ -1069,7 +1559,14 @@
       "text": "So maybe it's for some money we can utilise for our uh marketing for the sales okay and uh",
       "next_speaker_gap_ms": 3330.000000000041,
       "own_resume_gap_ms": 19560.00000000006,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/IS1008d.A.530.37.flac",
+      "seg_start_s": 529.87,
+      "seg_duration_ms": 9150.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6650.0,
+      "true_end_ms": 6720.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008d.A.660.19",
@@ -1084,7 +1581,14 @@
       "text": "But anyhow still we are under control okay so what uh I will do is I will try to negotiate with the vendors okay to get uh the production cost less okay so then we can save some money okay to put into th our marketing or uh you know the promotions whatever okay so that uh I will look after I will speak to the management and how to get uh you know some more uh cost down",
       "next_speaker_gap_ms": 5309.999999999945,
       "own_resume_gap_ms": 10399.999999999978,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/IS1008d.A.660.19.flac",
+      "seg_start_s": 659.69,
+      "seg_duration_ms": 27540.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 25040.0,
+      "true_end_ms": 24480.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "IS1008d.C.190.07",
@@ -1099,7 +1603,14 @@
       "text": "This is our remote control with the flip panel as you can see So if you lift up the panel you can see the lovely yellow L_C_D_ display Um this is actually hard to do The yellow button you have is the on off button so it's really big hard to miss You have the the red um triangles are the toggles for changing the volume So up volume up down volume down The green are the channel changing S And it's one of those very light very touchable displays And then you have the numeric pad in the dark blue at the bottom and on the right-hand side you have the access to the menu on the T_V_ and on the left-hand side you have the the the ability to turn off the voice recognition So this is pretty much what we had on the white board the last time",
       "next_speaker_gap_ms": 1370.0000000000045,
       "own_resume_gap_ms": 4120.000000000005,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/IS1008d.C.190.07.flac",
+      "seg_start_s": 189.57,
+      "seg_duration_ms": 58580.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 56080.0,
+      "true_end_ms": 56128.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.A.1242.04",
@@ -1114,7 +1625,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 259.9999999999909,
       "own_resume_gap_ms": 11509.99999999999,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004a.A.1242.04.flac",
+      "seg_start_s": 1241.54,
+      "seg_duration_ms": 3260.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 760.0,
+      "true_end_ms": 864.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.A.1298.49",
@@ -1129,7 +1647,14 @@
       "text": "So see you in thirty minutes",
       "next_speaker_gap_ms": 440.00000000005457,
       "own_resume_gap_ms": 2369.999999999891,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004a.A.1298.49.flac",
+      "seg_start_s": 1297.99,
+      "seg_duration_ms": 4220.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1720.0,
+      "true_end_ms": 1856.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.A.1302.08",
@@ -1144,7 +1669,14 @@
       "text": "For the next time you have to uh put it exactly on the square so your laptop",
       "next_speaker_gap_ms": 139.99999999987267,
       "own_resume_gap_ms": 5349.999999999909,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004a.A.1302.08.flac",
+      "seg_start_s": 1301.58,
+      "seg_duration_ms": 8550.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6050.0,
+      "true_end_ms": 5600.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.A.344.16",
@@ -1159,7 +1691,14 @@
       "text": "I dunno what it looks but it doesn't matter",
       "next_speaker_gap_ms": 2200.0000000000455,
       "own_resume_gap_ms": 3990.000000000009,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004a.A.344.16.flac",
+      "seg_start_s": 343.66,
+      "seg_duration_ms": 5240.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2740.0,
+      "true_end_ms": 2432.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.A.489.14",
@@ -1174,7 +1713,14 @@
       "text": "Hmm yeah that's nice",
       "next_speaker_gap_ms": 329.9999999999841,
       "own_resume_gap_ms": 2409.999999999968,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004a.A.489.14.flac",
+      "seg_start_s": 488.64,
+      "seg_duration_ms": 4160.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1660.0,
+      "true_end_ms": 1760.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.A.701.65",
@@ -1189,7 +1735,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 7859.9999999999,
       "own_resume_gap_ms": 8759.99999999999,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004a.A.701.65.flac",
+      "seg_start_s": 701.15,
+      "seg_duration_ms": 3290.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 790.0,
+      "true_end_ms": 960.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.B.48.22",
@@ -1204,7 +1757,14 @@
       "text": "Come on There we are",
       "next_speaker_gap_ms": 8460.0,
       "own_resume_gap_ms": 27530.0,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004a.B.48.22.flac",
+      "seg_start_s": 47.72,
+      "seg_duration_ms": 4950.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2450.0,
+      "true_end_ms": 2528.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.B.619.70",
@@ -1219,7 +1779,14 @@
       "text": "It's just to get used to it",
       "next_speaker_gap_ms": 1029.9999999999727,
       "own_resume_gap_ms": 26830.00000000004,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004a.B.619.70.flac",
+      "seg_start_s": 619.2,
+      "seg_duration_ms": 4190.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1690.0,
+      "true_end_ms": 1920.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.B.697.05",
@@ -1234,7 +1801,14 @@
       "text": "Uh I think it was uh",
       "next_speaker_gap_ms": 549.9999999999545,
       "own_resume_gap_ms": 2629.9999999999955,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004a.B.697.05.flac",
+      "seg_start_s": 696.55,
+      "seg_duration_ms": 4200.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1700.0,
+      "true_end_ms": 1888.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.B.700.88",
@@ -1249,7 +1823,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 629.9999999999955,
       "own_resume_gap_ms": 53019.999999999985,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004a.B.700.88.flac",
+      "seg_start_s": 700.38,
+      "seg_duration_ms": 3140.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 640.0,
+      "true_end_ms": 640.0,
+      "boundary_source": "annotation"
     },
     {
       "turn_id": "TS3004a.C.1301.10",
@@ -1264,7 +1845,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 269.9999999999818,
       "own_resume_gap_ms": -1.0,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004a.C.1301.10.flac",
+      "seg_start_s": 1300.6,
+      "seg_duration_ms": 3710.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1210.0,
+      "true_end_ms": 1210.0,
+      "boundary_source": "annotation"
     },
     {
       "turn_id": "TS3004a.C.23.97",
@@ -1279,7 +1867,14 @@
       "text": "Good morning",
       "next_speaker_gap_ms": 7640.000000000005,
       "own_resume_gap_ms": 7820.000000000004,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004a.C.23.97.flac",
+      "seg_start_s": 23.47,
+      "seg_duration_ms": 3910.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1410.0,
+      "true_end_ms": 1376.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.C.44.80",
@@ -1294,7 +1889,14 @@
       "text": "I do",
       "next_speaker_gap_ms": 509.999999999998,
       "own_resume_gap_ms": 13390.0,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004a.C.44.80.flac",
+      "seg_start_s": 44.3,
+      "seg_duration_ms": 3440.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 940.0,
+      "true_end_ms": 1152.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.C.490.63",
@@ -1309,7 +1911,14 @@
       "text": "Wow",
       "next_speaker_gap_ms": 120.00000000000455,
       "own_resume_gap_ms": 98950.00000000004,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004a.C.490.63.flac",
+      "seg_start_s": 490.13,
+      "seg_duration_ms": 3640.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1140.0,
+      "true_end_ms": 1216.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.C.590.22",
@@ -1324,7 +1933,14 @@
       "text": "Take it easy",
       "next_speaker_gap_ms": 460.0000000000364,
       "own_resume_gap_ms": 5019.999999999982,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004a.C.590.22.flac",
+      "seg_start_s": 589.72,
+      "seg_duration_ms": 4190.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1690.0,
+      "true_end_ms": 1504.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.C.981.49",
@@ -1339,7 +1955,14 @@
       "text": "Yeah or um maybe to keep it uh easy and uh small",
       "next_speaker_gap_ms": 779.9999999999727,
       "own_resume_gap_ms": 2519.999999999982,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004a.C.981.49.flac",
+      "seg_start_s": 980.99,
+      "seg_duration_ms": 7960.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 5460.0,
+      "true_end_ms": 5504.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004a.D.699.90",
@@ -1354,7 +1977,14 @@
       "text": "Half past ten",
       "next_speaker_gap_ms": 279.9999999999727,
       "own_resume_gap_ms": 9199.99999999993,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004a.D.699.90.flac",
+      "seg_start_s": 699.4,
+      "seg_duration_ms": 3700.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1200.0,
+      "true_end_ms": 1280.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004b.A.1559.98",
@@ -1369,7 +1999,14 @@
       "text": "Maybe you have to uh put uh a small light around the button you push So you see green if you push that button",
       "next_speaker_gap_ms": 759.9999999999909,
       "own_resume_gap_ms": 4139.999999999873,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004b.A.1559.98.flac",
+      "seg_start_s": 1559.48,
+      "seg_duration_ms": 9180.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6680.0,
+      "true_end_ms": 6816.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004b.A.87.86",
@@ -1384,7 +2021,14 @@
       "text": "Your surname",
       "next_speaker_gap_ms": 590.0000000000034,
       "own_resume_gap_ms": 4420.000000000002,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004b.A.87.86.flac",
+      "seg_start_s": 87.36,
+      "seg_duration_ms": 3560.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1060.0,
+      "true_end_ms": 1120.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004b.C.1315.01",
@@ -1399,7 +2043,14 @@
       "text": "And uh the receptor in the T_V_ senses the pattern So we have to understand what patterns are used to you know to make it universal So that it can be used with all the T_V_s We have to really understand what patterns are used so we can uh o On the Otherwise it won't work",
       "next_speaker_gap_ms": 1159.9999999998545,
       "own_resume_gap_ms": 5779.999999999973,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004b.C.1315.01.flac",
+      "seg_start_s": 1314.51,
+      "seg_duration_ms": 20880.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 18380.0,
+      "true_end_ms": 18432.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004b.C.1372.12",
@@ -1414,7 +2065,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 0.0,
       "own_resume_gap_ms": 16349.999999999909,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004b.C.1372.12.flac",
+      "seg_start_s": 1371.62,
+      "seg_duration_ms": 3520.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1020.0,
+      "true_end_ms": 1024.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004b.C.2020.61",
@@ -1429,7 +2087,14 @@
       "text": "Yeah that's good",
       "next_speaker_gap_ms": 190.00000000005457,
       "own_resume_gap_ms": 39330.00000000015,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004b.C.2020.61.flac",
+      "seg_start_s": 2020.11,
+      "seg_duration_ms": 3610.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1110.0,
+      "true_end_ms": 1216.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004b.D.452.34",
@@ -1444,7 +2109,14 @@
       "text": "Uh next remote controls are bad for R_S_I_ Yeah but only if they zap a lot and they watch over five hours T_V_ or something I don't We we haven't Uh we mustn't look too much at uh the last point Okay last page Uh the last uh experiment uh was about gadgets like uh speech recognition We didn't uh think about that already And uh an L_C_D_ on the remote control We already thought about that Um uh they finally had a conclusion that younger people um uh under an age of f forty five are uh more interested in new features And but they're more critical And older people uh want to spend uh more money But uh they uh they don't want to uh have a lot of uh new features because they're in their old uh thinking way And they want to keep the old uh things the old things",
       "next_speaker_gap_ms": 180.00000000000682,
       "own_resume_gap_ms": 2629.9999999999955,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004b.D.452.34.flac",
+      "seg_start_s": 451.84,
+      "seg_duration_ms": 61640.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 59140.0,
+      "true_end_ms": 59360.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.A.1738.64",
@@ -1459,7 +2131,14 @@
       "text": "That's the numbers",
       "next_speaker_gap_ms": 650.000000000091,
       "own_resume_gap_ms": 7259.999999999991,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.A.1738.64.flac",
+      "seg_start_s": 1738.14,
+      "seg_duration_ms": 3940.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1440.0,
+      "true_end_ms": 1536.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.A.1840.50",
@@ -1474,7 +2153,14 @@
       "text": "What did What else we have to discuss about I dunno",
       "next_speaker_gap_ms": 1440.0000000000546,
       "own_resume_gap_ms": 18069.999999999935,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.A.1840.50.flac",
+      "seg_start_s": 1840.0,
+      "seg_duration_ms": 5440.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2940.0,
+      "true_end_ms": 3040.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.A.2038.29",
@@ -1489,7 +2175,14 @@
       "text": "It's a bit annoying isn't it",
       "next_speaker_gap_ms": 660.0000000000819,
       "own_resume_gap_ms": 81400.00000000032,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004c.A.2038.29.flac",
+      "seg_start_s": 2037.79,
+      "seg_duration_ms": 4070.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1570.0,
+      "true_end_ms": 1600.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.A.828.36",
@@ -1504,7 +2197,14 @@
       "text": "Except from the on-off button",
       "next_speaker_gap_ms": 969.9999999999136,
       "own_resume_gap_ms": 105579.99999999993,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004c.A.828.36.flac",
+      "seg_start_s": 827.86,
+      "seg_duration_ms": 4710.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2210.0,
+      "true_end_ms": 2176.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.B.1080.42",
@@ -1519,7 +2219,14 @@
       "text": "Yeah okay",
       "next_speaker_gap_ms": 129.99999999988177,
       "own_resume_gap_ms": 2359.9999999999,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.B.1080.42.flac",
+      "seg_start_s": 1079.92,
+      "seg_duration_ms": 3550.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1050.0,
+      "true_end_ms": 1152.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.B.1255.42",
@@ -1534,7 +2241,14 @@
       "text": "Or it runs the whole",
       "next_speaker_gap_ms": 529.9999999999727,
       "own_resume_gap_ms": 3349.999999999909,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004c.B.1255.42.flac",
+      "seg_start_s": 1254.92,
+      "seg_duration_ms": 4310.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1810.0,
+      "true_end_ms": 1920.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.B.1844.38",
@@ -1549,7 +2263,14 @@
       "text": "Think we need to work uh thirty minutes again",
       "next_speaker_gap_ms": 4309.999999999945,
       "own_resume_gap_ms": 22059.999999999945,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004c.B.1844.38.flac",
+      "seg_start_s": 1843.88,
+      "seg_duration_ms": 4870.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2370.0,
+      "true_end_ms": 2432.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.B.2056.12",
@@ -1564,7 +2285,14 @@
       "text": "Yeah I know we can do a lot more but",
       "next_speaker_gap_ms": 940.0000000000546,
       "own_resume_gap_ms": 20630.00000000011,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.B.2056.12.flac",
+      "seg_start_s": 2055.62,
+      "seg_duration_ms": 5039.9,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2540.0,
+      "true_end_ms": 2560.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.B.2252.10",
@@ -1579,7 +2307,14 @@
       "text": "Could",
       "next_speaker_gap_ms": 309.99999999994543,
       "own_resume_gap_ms": 5490.0000000002365,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.B.2252.10.flac",
+      "seg_start_s": 2251.6,
+      "seg_duration_ms": 3270.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 770.0,
+      "true_end_ms": 1216.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.B.771.34",
@@ -1594,7 +2329,14 @@
       "text": "Here uh Well we have volume",
       "next_speaker_gap_ms": 1359.9999999999,
       "own_resume_gap_ms": 4309.999999999945,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.B.771.34.flac",
+      "seg_start_s": 770.84,
+      "seg_duration_ms": 4860.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2360.0,
+      "true_end_ms": 2432.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.B.948.21",
@@ -1609,7 +2351,14 @@
       "text": "So that's something we have to decide on",
       "next_speaker_gap_ms": 379.99999999999545,
       "own_resume_gap_ms": 2350.0000000000227,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004c.B.948.21.flac",
+      "seg_start_s": 947.71,
+      "seg_duration_ms": 4840.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2340.0,
+      "true_end_ms": 2432.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.C.1576.27",
@@ -1624,7 +2373,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 289.9999999999636,
       "own_resume_gap_ms": 2210.0000000000364,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004c.C.1576.27.flac",
+      "seg_start_s": 1575.77,
+      "seg_duration_ms": 3240.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 740.0,
+      "true_end_ms": 800.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.C.1627.99",
@@ -1639,7 +2395,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 980.0000000000182,
       "own_resume_gap_ms": 4289.999999999964,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004c.C.1627.99.flac",
+      "seg_start_s": 1627.49,
+      "seg_duration_ms": 3520.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1020.0,
+      "true_end_ms": 1056.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.C.1698.69",
@@ -1654,7 +2417,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 779.9999999999727,
       "own_resume_gap_ms": 2570.0000000001637,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004c.C.1698.69.flac",
+      "seg_start_s": 1698.19,
+      "seg_duration_ms": 3650.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1150.0,
+      "true_end_ms": 992.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.C.1955.64",
@@ -1669,7 +2439,14 @@
       "text": "But we have to make contacts on the on the remote control and the recharger as well",
       "next_speaker_gap_ms": 1779.9999999999727,
       "own_resume_gap_ms": 12829.999999999927,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004c.C.1955.64.flac",
+      "seg_start_s": 1955.14,
+      "seg_duration_ms": 8890.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6390.0,
+      "true_end_ms": 6464.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.C.2110.18",
@@ -1684,7 +2461,14 @@
       "text": "Yeah okay",
       "next_speaker_gap_ms": 2129.9999999996544,
       "own_resume_gap_ms": 4989.999999999782,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004c.C.2110.18.flac",
+      "seg_start_s": 2109.68,
+      "seg_duration_ms": 3660.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1160.0,
+      "true_end_ms": 1184.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.C.879.96",
@@ -1699,7 +2483,14 @@
       "text": "Yeah okay",
       "next_speaker_gap_ms": 1650.000000000091,
       "own_resume_gap_ms": 7070.00000000005,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.C.879.96.flac",
+      "seg_start_s": 879.46,
+      "seg_duration_ms": 3470.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 970.0,
+      "true_end_ms": 1024.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.D.1984.00",
@@ -1714,7 +2505,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 910.0000000000819,
       "own_resume_gap_ms": 55680.000000000065,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004c.D.1984.00.flac",
+      "seg_start_s": 1983.5,
+      "seg_duration_ms": 3340.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 840.0,
+      "true_end_ms": 928.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.D.2069.14",
@@ -1729,7 +2527,14 @@
       "text": "Uh it's very annoying Okay",
       "next_speaker_gap_ms": 59.99999999994543,
       "own_resume_gap_ms": 7469.9999999998,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.D.2069.14.flac",
+      "seg_start_s": 2068.64,
+      "seg_duration_ms": 6010.1,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3510.0,
+      "true_end_ms": 3584.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.D.226.23",
@@ -1744,7 +2549,14 @@
       "text": "Shall I start",
       "next_speaker_gap_ms": 290.00000000002046,
       "own_resume_gap_ms": 9620.000000000004,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004c.D.226.23.flac",
+      "seg_start_s": 225.73,
+      "seg_duration_ms": 3750.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1250.0,
+      "true_end_ms": 1312.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004c.D.408.77",
@@ -1759,7 +2571,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 9.999999999990905,
       "own_resume_gap_ms": 10199.999999999989,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004c.D.408.77.flac",
+      "seg_start_s": 408.27,
+      "seg_duration_ms": 3910.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1410.0,
+      "true_end_ms": 1312.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.A.1361.34",
@@ -1774,7 +2593,14 @@
       "text": "This one is not yet in the Oh oh",
       "next_speaker_gap_ms": 960.0000000000364,
       "own_resume_gap_ms": 13720.000000000027,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.A.1361.34.flac",
+      "seg_start_s": 1360.84,
+      "seg_duration_ms": 5110.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2610.0,
+      "true_end_ms": 2688.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.A.1582.40",
@@ -1789,7 +2615,14 @@
       "text": "So that's both",
       "next_speaker_gap_ms": 110.00000000012733,
       "own_resume_gap_ms": 2590.0000000001455,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.A.1582.40.flac",
+      "seg_start_s": 1581.9,
+      "seg_duration_ms": 3690.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1190.0,
+      "true_end_ms": 1312.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.A.1740.56",
@@ -1804,7 +2637,14 @@
       "text": "Was there a leadership and",
       "next_speaker_gap_ms": 1420.0000000000728,
       "own_resume_gap_ms": 2700.0000000000455,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.A.1740.56.flac",
+      "seg_start_s": 1740.06,
+      "seg_duration_ms": 4230.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1730.0,
+      "true_end_ms": 1824.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.A.1936.09",
@@ -1819,7 +2659,14 @@
       "text": "In the budget yeah",
       "next_speaker_gap_ms": 1750.0,
       "own_resume_gap_ms": 8540.000000000191,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004d.A.1936.09.flac",
+      "seg_start_s": 1935.59,
+      "seg_duration_ms": 4270.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1770.0,
+      "true_end_ms": 1696.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.A.235.62",
@@ -1834,7 +2681,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 1230.0000000000182,
       "own_resume_gap_ms": 8410.000000000025,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.A.235.62.flac",
+      "seg_start_s": 235.12,
+      "seg_duration_ms": 3270.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 770.0,
+      "true_end_ms": 928.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.A.559.37",
@@ -1849,7 +2703,14 @@
       "text": "The drawing",
       "next_speaker_gap_ms": 3439.999999999941,
       "own_resume_gap_ms": 8199.99999999993,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.A.559.37.flac",
+      "seg_start_s": 558.87,
+      "seg_duration_ms": 3730.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1230.0,
+      "true_end_ms": 1088.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.1113.47",
@@ -1864,7 +2725,14 @@
       "text": "Of course it's reachable",
       "next_speaker_gap_ms": 1440.0000000000546,
       "own_resume_gap_ms": 3230.000000000018,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004d.B.1113.47.flac",
+      "seg_start_s": 1112.97,
+      "seg_duration_ms": 3980.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1480.0,
+      "true_end_ms": 1568.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.1335.06",
@@ -1879,7 +2747,14 @@
       "text": "But that's more like uh now",
       "next_speaker_gap_ms": 240.0000000000091,
       "own_resume_gap_ms": 3370.0000000001182,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004d.B.1335.06.flac",
+      "seg_start_s": 1334.56,
+      "seg_duration_ms": 4200.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1700.0,
+      "true_end_ms": 1792.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.1631.35",
@@ -1894,7 +2769,14 @@
       "text": "This",
       "next_speaker_gap_ms": 740.0000000000091,
       "own_resume_gap_ms": 4170.000000000073,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.B.1631.35.flac",
+      "seg_start_s": 1630.85,
+      "seg_duration_ms": 3270.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 770.0,
+      "true_end_ms": 800.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.1694.01",
@@ -1909,7 +2791,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 3620.0000000001182,
       "own_resume_gap_ms": 5870.000000000118,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.B.1694.01.flac",
+      "seg_start_s": 1693.51,
+      "seg_duration_ms": 3320.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 820.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.1743.21",
@@ -1924,7 +2813,14 @@
       "text": "Of course there was",
       "next_speaker_gap_ms": 390.00000000010004,
       "own_resume_gap_ms": 11990.00000000001,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.B.1743.21.flac",
+      "seg_start_s": 1742.71,
+      "seg_duration_ms": 3890.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1390.0,
+      "true_end_ms": 1472.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.2039.03",
@@ -1939,7 +2835,14 @@
       "text": "I thought we were done at four o'clock",
       "next_speaker_gap_ms": 1009.9999999999909,
       "own_resume_gap_ms": 4009.999999999991,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.B.2039.03.flac",
+      "seg_start_s": 2038.53,
+      "seg_duration_ms": 4940.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2440.0,
+      "true_end_ms": 2560.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.2061.25",
@@ -1954,7 +2857,14 @@
       "text": "Yeah I found it as well",
       "next_speaker_gap_ms": 2679.9999999998363,
       "own_resume_gap_ms": 23039.999999999964,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.B.2061.25.flac",
+      "seg_start_s": 2060.75,
+      "seg_duration_ms": 4800.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2300.0,
+      "true_end_ms": 2368.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.2276.43",
@@ -1969,7 +2879,14 @@
       "text": "Well leader",
       "next_speaker_gap_ms": 4179.999999999836,
       "own_resume_gap_ms": 4190.000000000055,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.B.2276.43.flac",
+      "seg_start_s": 2275.93,
+      "seg_duration_ms": 3630.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1130.0,
+      "true_end_ms": 1216.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.2449.59",
@@ -1984,7 +2901,14 @@
       "text": "Ugly",
       "next_speaker_gap_ms": 1039.9999999999636,
       "own_resume_gap_ms": 3689.9999999996,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.B.2449.59.flac",
+      "seg_start_s": 2449.09,
+      "seg_duration_ms": 3440.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 940.0,
+      "true_end_ms": 1024.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.2459.27",
@@ -1999,7 +2923,14 @@
       "text": "Then do it correctly",
       "next_speaker_gap_ms": 2820.0000000001637,
       "own_resume_gap_ms": 4159.9999999998545,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.B.2459.27.flac",
+      "seg_start_s": 2458.77,
+      "seg_duration_ms": 4210.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1710.0,
+      "true_end_ms": 1792.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.2621.54",
@@ -2014,7 +2945,14 @@
       "text": "Yeah but I think Oh no you made another mistake",
       "next_speaker_gap_ms": 1339.9999999996908,
       "own_resume_gap_ms": 6599.999999999909,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.B.2621.54.flac",
+      "seg_start_s": 2621.04,
+      "seg_duration_ms": 8070.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 5570.0,
+      "true_end_ms": 5856.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.2678.59",
@@ -2029,7 +2967,14 @@
       "text": "Come on",
       "next_speaker_gap_ms": 8160.000000000309,
       "own_resume_gap_ms": 9090.000000000146,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.B.2678.59.flac",
+      "seg_start_s": 2678.09,
+      "seg_duration_ms": 3650.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1150.0,
+      "true_end_ms": 1216.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.500.97",
@@ -2044,7 +2989,14 @@
       "text": "Uh i the the speech functions buttons",
       "next_speaker_gap_ms": 509.9999999999909,
       "own_resume_gap_ms": 5409.999999999968,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.B.500.97.flac",
+      "seg_start_s": 500.47,
+      "seg_duration_ms": 5710.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3210.0,
+      "true_end_ms": 3232.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.762.01",
@@ -2059,7 +3011,14 @@
       "text": "So yeah Um do we need to fix that or",
       "next_speaker_gap_ms": 230.0000000000182,
       "own_resume_gap_ms": 29970.00000000003,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004d.B.762.01.flac",
+      "seg_start_s": 761.51,
+      "seg_duration_ms": 5960.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3460.0,
+      "true_end_ms": 3552.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.B.78.53",
@@ -2074,7 +3033,14 @@
       "text": "Are we doing the the speech recognition Because we didn't have enough time to uh de um design the inside as well",
       "next_speaker_gap_ms": 149.99999999999147,
       "own_resume_gap_ms": 4899.999999999992,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004d.B.78.53.flac",
+      "seg_start_s": 78.03,
+      "seg_duration_ms": 10280.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 7780.0,
+      "true_end_ms": 7872.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.C.1376.47",
@@ -2089,7 +3055,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 20.000000000209184,
       "own_resume_gap_ms": 12820.000000000164,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.C.1376.47.flac",
+      "seg_start_s": 1375.97,
+      "seg_duration_ms": 3400.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 900.0,
+      "true_end_ms": 736.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.C.1757.67",
@@ -2104,7 +3077,14 @@
       "text": "one leader or something",
       "next_speaker_gap_ms": 370.00000000011823,
       "own_resume_gap_ms": 5400.000000000091,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004d.C.1757.67.flac",
+      "seg_start_s": 1757.17,
+      "seg_duration_ms": 4380.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1880.0,
+      "true_end_ms": 1952.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.C.1920.32",
@@ -2119,7 +3099,14 @@
       "text": "No",
       "next_speaker_gap_ms": 700.0000000000455,
       "own_resume_gap_ms": 23980.00000000002,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.C.1920.32.flac",
+      "seg_start_s": 1919.82,
+      "seg_duration_ms": 3260.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 760.0,
+      "true_end_ms": 864.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.C.2186.90",
@@ -2134,7 +3121,14 @@
       "text": "Yeah Now we can look at this",
       "next_speaker_gap_ms": 10319.999999999709,
       "own_resume_gap_ms": 11569.999999999709,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.C.2186.90.flac",
+      "seg_start_s": 2186.4,
+      "seg_duration_ms": 5210.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2710.0,
+      "true_end_ms": 2848.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.C.2225.96",
@@ -2149,7 +3143,14 @@
       "text": "basic functions in here the selecting dev devices",
       "next_speaker_gap_ms": 399.9999999996362,
       "own_resume_gap_ms": 3170.0000000000728,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004d.C.2225.96.flac",
+      "seg_start_s": 2225.46,
+      "seg_duration_ms": 5880.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3380.0,
+      "true_end_ms": 3360.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.C.2512.92",
@@ -2164,7 +3165,14 @@
       "text": "It wants to know what we do in our spare time",
       "next_speaker_gap_ms": 930.000000000291,
       "own_resume_gap_ms": 89800.00000000017,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3004d.C.2512.92.flac",
+      "seg_start_s": 2512.42,
+      "seg_duration_ms": 5030.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2530.0,
+      "true_end_ms": 2656.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.C.62.03",
@@ -2179,7 +3187,14 @@
       "text": "Oh okay Yeah",
       "next_speaker_gap_ms": 1329.9999999999911,
       "own_resume_gap_ms": 34049.99999999999,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.C.62.03.flac",
+      "seg_start_s": 61.53,
+      "seg_duration_ms": 4240.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1740.0,
+      "true_end_ms": 1760.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.C.666.01",
@@ -2194,7 +3209,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 100.00000000002274,
       "own_resume_gap_ms": 4840.000000000032,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.C.666.01.flac",
+      "seg_start_s": 665.51,
+      "seg_duration_ms": 3360.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 860.0,
+      "true_end_ms": 832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.D.1011.90",
@@ -2209,7 +3231,14 @@
       "text": "Black white maybe",
       "next_speaker_gap_ms": 679.99999999995,
       "own_resume_gap_ms": 3940.0000000000546,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.D.1011.90.flac",
+      "seg_start_s": 1011.4,
+      "seg_duration_ms": 3980.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1480.0,
+      "true_end_ms": 1536.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.D.2377.81",
@@ -2224,7 +3253,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 5230.000000000018,
       "own_resume_gap_ms": 11250.0,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3004d.D.2377.81.flac",
+      "seg_start_s": 2377.31,
+      "seg_duration_ms": 3400.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 900.0,
+      "true_end_ms": 992.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.D.2496.63",
@@ -2239,7 +3275,14 @@
       "text": "I know uh",
       "next_speaker_gap_ms": 1490.0000000002365,
       "own_resume_gap_ms": 11120.000000000346,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.D.2496.63.flac",
+      "seg_start_s": 2496.13,
+      "seg_duration_ms": 3820.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1320.0,
+      "true_end_ms": 1056.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3004d.D.2710.78",
@@ -2254,7 +3297,14 @@
       "text": "This is That's my new interface",
       "next_speaker_gap_ms": 1000.0,
       "own_resume_gap_ms": 3079.9999999999272,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3004d.D.2710.78.flac",
+      "seg_start_s": 2710.28,
+      "seg_duration_ms": 4700.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2200.0,
+      "true_end_ms": 2176.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006a.A.1150.43",
@@ -2269,7 +3319,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 190.00000000005457,
       "own_resume_gap_ms": 3660.000000000082,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006a.A.1150.43.flac",
+      "seg_start_s": 1149.93,
+      "seg_duration_ms": 3310.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 810.0,
+      "true_end_ms": 864.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006a.A.239.81",
@@ -2284,7 +3341,14 @@
       "text": "Uh with different colours and with different pen widths And you should explain why you draw that particular animal So Julian",
       "next_speaker_gap_ms": 440.00000000002615,
       "own_resume_gap_ms": 9599.999999999995,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006a.A.239.81.flac",
+      "seg_start_s": 239.31,
+      "seg_duration_ms": 10610.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 8110.0,
+      "true_end_ms": 8192.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006a.A.261.47",
@@ -2299,7 +3363,14 @@
       "text": "And use different colours etcetera",
       "next_speaker_gap_ms": 3009.999999999991,
       "own_resume_gap_ms": 3100.0000000000227,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006a.A.261.47.flac",
+      "seg_start_s": 260.97,
+      "seg_duration_ms": 4790.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2290.0,
+      "true_end_ms": 2400.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006a.A.375.02",
@@ -2314,7 +3385,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 430.0000000000068,
       "own_resume_gap_ms": 3870.0000000000045,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006a.A.375.02.flac",
+      "seg_start_s": 374.52,
+      "seg_duration_ms": 3860.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1360.0,
+      "true_end_ms": 1152.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006a.B.280.76",
@@ -2329,7 +3407,14 @@
       "text": "Oh format",
       "next_speaker_gap_ms": 850.0000000000227,
       "own_resume_gap_ms": 10400.000000000035,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006a.B.280.76.flac",
+      "seg_start_s": 280.26,
+      "seg_duration_ms": 3750.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1250.0,
+      "true_end_ms": 1312.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006a.D.123.28",
@@ -2344,7 +3429,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 1450.0000000000027,
       "own_resume_gap_ms": 11030.000000000015,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006a.D.123.28.flac",
+      "seg_start_s": 122.78,
+      "seg_duration_ms": 3270.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 770.0,
+      "true_end_ms": 800.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006a.D.647.73",
@@ -2359,7 +3451,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 99.99999999990905,
       "own_resume_gap_ms": 4629.999999999995,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006a.D.647.73.flac",
+      "seg_start_s": 647.23,
+      "seg_duration_ms": 3340.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 840.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006b.A.1105.41",
@@ -2374,7 +3473,14 @@
       "text": "Yeah we get the",
       "next_speaker_gap_ms": 669.9999999998454,
       "own_resume_gap_ms": 4569.999999999936,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006b.A.1105.41.flac",
+      "seg_start_s": 1104.91,
+      "seg_duration_ms": 4280.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1780.0,
+      "true_end_ms": 1728.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006b.A.139.59",
@@ -2389,7 +3495,14 @@
       "text": "Format save",
       "next_speaker_gap_ms": 5580.000000000013,
       "own_resume_gap_ms": 7449.999999999989,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006b.A.139.59.flac",
+      "seg_start_s": 139.09,
+      "seg_duration_ms": 3910.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1410.0,
+      "true_end_ms": 1344.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006b.A.779.71",
@@ -2404,7 +3517,14 @@
       "text": "Uh kick off Oh working design I got it",
       "next_speaker_gap_ms": 440.00000000005457,
       "own_resume_gap_ms": 9560.000000000058,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006b.A.779.71.flac",
+      "seg_start_s": 779.21,
+      "seg_duration_ms": 6090.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3590.0,
+      "true_end_ms": 3488.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006b.B.663.20",
@@ -2419,7 +3539,14 @@
       "text": "Uh yeah the basic functions Um yeah only use a extra function if they are really needed",
       "next_speaker_gap_ms": 210.00000000003638,
       "own_resume_gap_ms": 2279.9999999999727,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006b.B.663.20.flac",
+      "seg_start_s": 662.7,
+      "seg_duration_ms": 8290.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 5790.0,
+      "true_end_ms": 6272.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006b.C.1812.80",
@@ -2434,7 +3561,14 @@
       "text": "Thank god",
       "next_speaker_gap_ms": 130.00000000010914,
       "own_resume_gap_ms": 78830.00000000016,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006b.C.1812.80.flac",
+      "seg_start_s": 1812.3,
+      "seg_duration_ms": 3500.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1000.0,
+      "true_end_ms": 1280.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006b.D.1085.75",
@@ -2449,7 +3583,14 @@
       "text": "Uh",
       "next_speaker_gap_ms": 109.99999999989996,
       "own_resume_gap_ms": 2809.9999999999454,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006b.D.1085.75.flac",
+      "seg_start_s": 1085.25,
+      "seg_duration_ms": 4010.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1510.0,
+      "true_end_ms": 1632.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006b.D.1199.22",
@@ -2464,7 +3605,14 @@
       "text": "Right",
       "next_speaker_gap_ms": 4680.000000000064,
       "own_resume_gap_ms": 7860.000000000127,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006b.D.1199.22.flac",
+      "seg_start_s": 1198.72,
+      "seg_duration_ms": 3560.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1060.0,
+      "true_end_ms": 1120.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006b.D.2042.49",
@@ -2479,7 +3627,14 @@
       "text": "But we should place the screen on top right",
       "next_speaker_gap_ms": 1009.9999999999909,
       "own_resume_gap_ms": 4000.0,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006b.D.2042.49.flac",
+      "seg_start_s": 2041.99,
+      "seg_duration_ms": 5590.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3090.0,
+      "true_end_ms": 2944.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.A.1338.91",
@@ -2494,7 +3649,14 @@
       "text": "make this",
       "next_speaker_gap_ms": 1220.0000000000273,
       "own_resume_gap_ms": 19009.999999999993,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006c.A.1338.91.flac",
+      "seg_start_s": 1338.41,
+      "seg_duration_ms": 3670.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1170.0,
+      "true_end_ms": 1216.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.A.2194.51",
@@ -2509,7 +3671,14 @@
       "text": "I dunno Maybe just start typing",
       "next_speaker_gap_ms": 3769.999999999982,
       "own_resume_gap_ms": 12730.000000000018,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006c.A.2194.51.flac",
+      "seg_start_s": 2194.01,
+      "seg_duration_ms": 4760.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2260.0,
+      "true_end_ms": 2336.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.B.1943.37",
@@ -2524,7 +3693,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 639.9999999998727,
       "own_resume_gap_ms": 4279.999999999973,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006c.B.1943.37.flac",
+      "seg_start_s": 1942.87,
+      "seg_duration_ms": 3300.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 800.0,
+      "true_end_ms": 832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.B.2287.54",
@@ -2539,7 +3715,14 @@
       "text": "You can make it m larger Maybe it's easier to to draw uh",
       "next_speaker_gap_ms": 460.0000000000364,
       "own_resume_gap_ms": 15720.000000000255,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006c.B.2287.54.flac",
+      "seg_start_s": 2287.04,
+      "seg_duration_ms": 7250.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 4750.0,
+      "true_end_ms": 4832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.B.2538.90",
@@ -2554,7 +3737,14 @@
       "text": "Ah it's it's okay But do we want uh options on the on the side with the with the buttons",
       "next_speaker_gap_ms": 1679.9999999998363,
       "own_resume_gap_ms": 2929.9999999998363,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006c.B.2538.90.flac",
+      "seg_start_s": 2538.4,
+      "seg_duration_ms": 8630.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 6130.0,
+      "true_end_ms": 6144.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.B.2577.16",
@@ -2569,7 +3759,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 1329.9999999999272,
       "own_resume_gap_ms": 2780.0000000002,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006c.B.2577.16.flac",
+      "seg_start_s": 2576.66,
+      "seg_duration_ms": 3190.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 690.0,
+      "true_end_ms": 768.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.B.633.33",
@@ -2584,7 +3781,14 @@
       "text": "Or combine uh both with a with one uh",
       "next_speaker_gap_ms": 400.00000000009095,
       "own_resume_gap_ms": 3980.000000000018,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006c.B.633.33.flac",
+      "seg_start_s": 632.83,
+      "seg_duration_ms": 5600.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3100.0,
+      "true_end_ms": 3168.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.C.2177.11",
@@ -2599,7 +3803,14 @@
       "text": "No uh uh",
       "next_speaker_gap_ms": 1600.0000000003638,
       "own_resume_gap_ms": 8880.00000000011,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006c.C.2177.11.flac",
+      "seg_start_s": 2176.61,
+      "seg_duration_ms": 3880.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1380.0,
+      "true_end_ms": 1248.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.D.1155.18",
@@ -2614,7 +3825,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 200.00000000004547,
       "own_resume_gap_ms": 4970.000000000027,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006c.D.1155.18.flac",
+      "seg_start_s": 1154.68,
+      "seg_duration_ms": 3320.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 820.0,
+      "true_end_ms": 832.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.D.1486.24",
@@ -2629,7 +3847,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 519.9999999999818,
       "own_resume_gap_ms": 7939.999999999827,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006c.D.1486.24.flac",
+      "seg_start_s": 1485.74,
+      "seg_duration_ms": 3410.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 910.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.D.1762.36",
@@ -2644,7 +3869,14 @@
       "text": "White backlight and dark",
       "next_speaker_gap_ms": 630.0000000001091,
       "own_resume_gap_ms": 2110.0000000001273,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006c.D.1762.36.flac",
+      "seg_start_s": 1761.86,
+      "seg_duration_ms": 4250.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1750.0,
+      "true_end_ms": 1760.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.D.2064.75",
@@ -2659,7 +3891,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 230.0000000000182,
       "own_resume_gap_ms": 9909.999999999854,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006c.D.2064.75.flac",
+      "seg_start_s": 2064.25,
+      "seg_duration_ms": 3590.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1090.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006c.D.92.86",
@@ -2674,7 +3913,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 2409.9999999999964,
       "own_resume_gap_ms": 13159.999999999996,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006c.D.92.86.flac",
+      "seg_start_s": 92.36,
+      "seg_duration_ms": 3390.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 890.0,
+      "true_end_ms": 960.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.A.2637.36",
@@ -2689,7 +3935,14 @@
       "text": "Yeah next",
       "next_speaker_gap_ms": 219.9999999997999,
       "own_resume_gap_ms": 2599.999999999909,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006d.A.2637.36.flac",
+      "seg_start_s": 2636.86,
+      "seg_duration_ms": 3870.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1370.0,
+      "true_end_ms": 1472.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.A.634.86",
@@ -2704,7 +3957,14 @@
       "text": "Yeah okay Uh if we dropped uh",
       "next_speaker_gap_ms": 219.9999999999136,
       "own_resume_gap_ms": 3069.9999999999363,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006d.A.634.86.flac",
+      "seg_start_s": 634.36,
+      "seg_duration_ms": 5840.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3340.0,
+      "true_end_ms": 3456.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.A.950.34",
@@ -2719,7 +3979,14 @@
       "text": "Uh I just forgot to save this Just a minute",
       "next_speaker_gap_ms": 14720.000000000027,
       "own_resume_gap_ms": 16960.000000000036,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006d.A.950.34.flac",
+      "seg_start_s": 949.84,
+      "seg_duration_ms": 7300.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 4800.0,
+      "true_end_ms": 4928.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.B.2471.29",
@@ -2734,7 +4001,14 @@
       "text": "That's the detector uh for the",
       "next_speaker_gap_ms": 539.9999999999636,
       "own_resume_gap_ms": 2460.0000000000364,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006d.B.2471.29.flac",
+      "seg_start_s": 2470.79,
+      "seg_duration_ms": 5160.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2660.0,
+      "true_end_ms": 2784.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.B.2475.91",
@@ -2749,7 +4023,14 @@
       "text": "Okay",
       "next_speaker_gap_ms": 1130.0000000001091,
       "own_resume_gap_ms": 2889.9999999998727,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006d.B.2475.91.flac",
+      "seg_start_s": 2475.41,
+      "seg_duration_ms": 4260.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1760.0,
+      "true_end_ms": 1632.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.B.2517.31",
@@ -2764,7 +4045,14 @@
       "text": "ninety degrees",
       "next_speaker_gap_ms": 280.0000000002001,
       "own_resume_gap_ms": 13690.000000000055,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006d.B.2517.31.flac",
+      "seg_start_s": 2516.81,
+      "seg_duration_ms": 4140.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1640.0,
+      "true_end_ms": 2048.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.C.1466.26",
@@ -2779,7 +4067,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 450.0000000000455,
       "own_resume_gap_ms": 3759.999999999991,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006d.C.1466.26.flac",
+      "seg_start_s": 1465.76,
+      "seg_duration_ms": 3580.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1080.0,
+      "true_end_ms": 960.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.C.1586.73",
@@ -2794,7 +4089,14 @@
       "text": "Most votes count Um",
       "next_speaker_gap_ms": 2039.9999999999636,
       "own_resume_gap_ms": 8579.999999999927,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006d.C.1586.73.flac",
+      "seg_start_s": 1586.23,
+      "seg_duration_ms": 5310.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2810.0,
+      "true_end_ms": 2528.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.C.1723.84",
@@ -2809,7 +4111,14 @@
       "text": "Did you make this questionnaire or what",
       "next_speaker_gap_ms": 319.99999999993634,
       "own_resume_gap_ms": 4830.000000000155,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006d.C.1723.84.flac",
+      "seg_start_s": 1723.34,
+      "seg_duration_ms": 4460.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1960.0,
+      "true_end_ms": 2016.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.C.2150.71",
@@ -2824,7 +4133,14 @@
       "text": "Doh",
       "next_speaker_gap_ms": 720.0000000002547,
       "own_resume_gap_ms": 13360.000000000127,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006d.C.2150.71.flac",
+      "seg_start_s": 2150.21,
+      "seg_duration_ms": 3200.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 700.0,
+      "true_end_ms": 1184.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.C.2183.01",
@@ -2839,7 +4155,14 @@
       "text": "That doesn't respond also to the undo It looks like it's",
       "next_speaker_gap_ms": 530.0000000002001,
       "own_resume_gap_ms": 2349.999999999909,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006d.C.2183.01.flac",
+      "seg_start_s": 2182.51,
+      "seg_duration_ms": 7030.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 4530.0,
+      "true_end_ms": 4384.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.C.2601.56",
@@ -2854,7 +4177,14 @@
       "text": "Maybe we will",
       "next_speaker_gap_ms": 39.99999999996362,
       "own_resume_gap_ms": 6029.999999999745,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006d.C.2601.56.flac",
+      "seg_start_s": 2601.06,
+      "seg_duration_ms": 3720.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1220.0,
+      "true_end_ms": 1472.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.D.2042.89",
@@ -2869,7 +4199,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 700.0000000000455,
       "own_resume_gap_ms": 2950.0000000000455,
-      "stratum": "disfluent"
+      "stratum": "disfluent",
+      "audio": "audio/TS3006d.D.2042.89.flac",
+      "seg_start_s": 2042.39,
+      "seg_duration_ms": 3340.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 840.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.D.2064.12",
@@ -2884,7 +4221,14 @@
       "text": "Or twenty six Something like that",
       "next_speaker_gap_ms": 2190.0000000000546,
       "own_resume_gap_ms": 10199.999999999818,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006d.D.2064.12.flac",
+      "seg_start_s": 2063.62,
+      "seg_duration_ms": 6490.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3990.0,
+      "true_end_ms": 4064.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.D.2089.30",
@@ -2899,7 +4243,14 @@
       "text": "Speckles",
       "next_speaker_gap_ms": 880.0000000001091,
       "own_resume_gap_ms": 8420.000000000073,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006d.D.2089.30.flac",
+      "seg_start_s": 2088.8,
+      "seg_duration_ms": 3939.9,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1440.0,
+      "true_end_ms": 1408.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.D.2235.51",
@@ -2914,7 +4265,14 @@
       "text": "Maybe maybe it c it can say that The Real Remote",
       "next_speaker_gap_ms": 860.0000000001273,
       "own_resume_gap_ms": 4300.000000000182,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006d.D.2235.51.flac",
+      "seg_start_s": 2235.01,
+      "seg_duration_ms": 6090.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 3590.0,
+      "true_end_ms": 3456.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.D.577.17",
@@ -2929,7 +4287,14 @@
       "text": "Yeah",
       "next_speaker_gap_ms": 1300.0000000000682,
       "own_resume_gap_ms": 6170.000000000073,
-      "stratum": "short"
+      "stratum": "short",
+      "audio": "audio/TS3006d.D.577.17.flac",
+      "seg_start_s": 576.67,
+      "seg_duration_ms": 3360.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 860.0,
+      "true_end_ms": 896.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.D.604.51",
@@ -2944,7 +4309,14 @@
       "text": "Ah no hard plastic",
       "next_speaker_gap_ms": 860.0000000000136,
       "own_resume_gap_ms": 2809.9999999999454,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006d.D.604.51.flac",
+      "seg_start_s": 604.01,
+      "seg_duration_ms": 4980.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2480.0,
+      "true_end_ms": 1792.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.D.969.36",
@@ -2959,7 +4331,14 @@
       "text": "Yeah what's the next uh phase",
       "next_speaker_gap_ms": 190.00000000005457,
       "own_resume_gap_ms": 3280.0000000000864,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006d.D.969.36.flac",
+      "seg_start_s": 968.86,
+      "seg_duration_ms": 5050.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 2550.0,
+      "true_end_ms": 2528.0,
+      "boundary_source": "audio"
     },
     {
       "turn_id": "TS3006d.D.977.16",
@@ -2974,7 +4353,14 @@
       "text": "By your humble P_M_",
       "next_speaker_gap_ms": 389.99999999998636,
       "own_resume_gap_ms": 2329.9999999999272,
-      "stratum": "ordinary"
+      "stratum": "ordinary",
+      "audio": "audio/TS3006d.D.977.16.flac",
+      "seg_start_s": 976.66,
+      "seg_duration_ms": 4300.0,
+      "turn_start_ms": 500.0,
+      "annotated_end_ms": 1800.0,
+      "true_end_ms": 1760.0,
+      "boundary_source": "audio"
     }
   ]
 }
