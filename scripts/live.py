@@ -1,8 +1,10 @@
 """Talk to your laptop and have it talk back.
 
 Run:
-    uv run python scripts/live.py                      # fixed 800ms silence timer
-    uv run python scripts/live.py --eot text           # the text EOT model
+    uv run python scripts/live.py                        # fixed 800ms silence timer
+    uv run python scripts/live.py --eot text             # the text EOT model, bare
+    uv run python scripts/live.py --eot gated            # model + 200ms silence gate
+    uv run python scripts/live.py --eot punct-gated      # the best point on the chart
     uv run python scripts/live.py --timeout-ms 500 --seconds 45
 
 With --eot text the decision reads the transcript only. Two consequences you
@@ -28,9 +30,11 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "--eot",
-        choices=("timeout", "text"),
+        choices=("timeout", "text", "gated", "punct-gated"),
         default="timeout",
-        help="end-of-turn rule: fixed silence timer, or the text model",
+        help="end-of-turn rule: fixed silence timer; the text model bare; the "
+        "model behind a 200ms silence gate; or the punctuation heuristic behind "
+        "the same gate (the best measured point, results/tradeoff.md)",
     )
     ap.add_argument("--timeout-ms", type=float, default=800.0)
     ap.add_argument("--threshold", type=float, default=0.5)
@@ -38,12 +42,21 @@ def main() -> int:
     ap.add_argument("--reply", default=REPLY)
     args = ap.parse_args()
 
-    if args.eot == "text":
+    if args.eot == "timeout":
+        eot = FixedSilenceTimeout(args.timeout_ms)
+    elif args.eot == "punct-gated":
+        from src.baselines.punctuation import PunctuationHeuristic
+        from src.eot.gated import SilenceGated
+
+        eot = SilenceGated(PunctuationHeuristic())
+    else:
         from src.eot.model import TextEOT  # loads the ONNX; raises if untrained
 
         eot = TextEOT()
-    else:
-        eot = FixedSilenceTimeout(args.timeout_ms)
+        if args.eot == "gated":
+            from src.eot.gated import SilenceGated
+
+            eot = SilenceGated(eot)
 
     return run(
         eot=eot,
