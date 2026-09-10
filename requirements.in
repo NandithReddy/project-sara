@@ -3,7 +3,7 @@
 #
 # Tier A only. Runtime deps (numpy, soundfile, soxr, silero-vad) arrive with
 # the baselines phase; torch/transformers/onnxruntime with the model phase.
-# CLAUDE.md rule 5: ask before adding a dependency.
+# ENGINEERING.md rule 5: ask before adding a dependency.
 
 pytest   # test runner
 ruff     # linter + formatter in one binary (replaces flake8 + black + isort)

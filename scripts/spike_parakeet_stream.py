@@ -7,7 +7,7 @@ real numbers before Phase 1 commits to parakeet-mlx:
   2. Do partials get REVISED (earlier text rewritten), or only appended to?
   3. Are token timestamps STABLE across revisions, or do they move?
 
-Question 3 is the one that matters most. CLAUDE.md section 5 justifies choosing
+Question 3 is the one that matters most. ENGINEERING.md section 5 justifies choosing
 parakeet-mlx over whisper.cpp on "native word-level timestamps". If those
 timestamps shift every time a partial is revised, the justification is wrong and
 the fallback is Deepgram Nova-3.

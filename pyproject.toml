@@ -3,7 +3,7 @@
 # The [project] table exists only to declare requires-python; there is no
 # [build-system], so this is not a distributable package and uv will not try
 # to build it. Dependencies live in requirements.in / requirements.txt per
-# CLAUDE.md section 5, not here.
+# ENGINEERING.md section 5, not here.
 #
 # Note: uv.toml takes precedence over any [tool.uv] section here.
 
@@ -13,7 +13,7 @@ version = "0.0.0"
 description = "Semantic end-of-turn detection for voice agents"
 requires-python = ">=3.12"
 # Dependencies deliberately live in requirements.in / requirements.txt
-# (CLAUDE.md section 5), not here. No [build-system]: nothing to build.
+# (ENGINEERING.md section 5), not here. No [build-system]: nothing to build.
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

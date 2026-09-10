@@ -19,7 +19,7 @@ PACKAGES = [
 
 
 def test_python_is_312():
-    """CLAUDE.md section 5 pins the interpreter to 3.12."""
+    """ENGINEERING.md section 5 pins the interpreter to 3.12."""
     assert sys.version_info[:2] == (3, 12), f"expected 3.12, got {sys.version}"
 
 

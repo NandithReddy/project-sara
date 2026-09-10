@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-23 · **Script:** `scripts/spike_parakeet_stream.py`
 
-Ran before Phase 1 to check whether `parakeet-mlx` delivers what CLAUDE.md §5
+Ran before Phase 1 to check whether `parakeet-mlx` delivers what ENGINEERING.md §5
 assumed when it was chosen over `whisper.cpp`. **It does not, on two of three
 counts.** Every number below was produced by an actual run; nothing is estimated.
 

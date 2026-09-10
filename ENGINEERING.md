@@ -1,7 +1,8 @@
-# CLAUDE.md — Semantic End-of-Turn Detection for Voice Agents
+# Engineering Charter — Semantic End-of-Turn Detection for Voice Agents
 
-This file is read automatically by Claude Code at the start of every session.
-It defines what we are building, how we work, and what is forbidden.
+This document defines what we are building, how we work, and what is
+forbidden. It is the reference for every design decision in this repo:
+when a decision changes, it changes here first, in the same commit.
 
 ---
 
@@ -119,7 +120,7 @@ These exist because violating them silently invalidates the entire project.
 
 ```
 .
-├── CLAUDE.md
+├── ENGINEERING.md
 ├── README.md               # written LAST, from real numbers
 ├── requirements.txt
 ├── src/
@@ -140,18 +141,21 @@ These exist because violating them silently invalidates the entire project.
 └── results/                # metrics JSON + charts, committed
 ```
 
-## 7. How I Want You To Work
+## 7. Working Practices
 
-- **Explain the plan before writing code.** For any phase, state the approach
-  in 5 bullets and wait for my go-ahead.
-- **Small diffs.** I need to understand every file. If a change touches more
-  than ~3 files, stop and check with me.
-- **Teach as you go.** When you make a non-obvious technical choice, add one
-  sentence on *why* and what the alternative was. I need to be able to defend
-  every decision in an interview.
-- **Flag your own uncertainty.** If you are guessing at an API signature or a
-  corpus format, say so and verify rather than assuming.
-- **Push back on me.** If I ask for something that is a bad idea, say so.
+- **Plan before code.** Every phase gets its approach written down in 5 bullets
+  before anything is implemented. If it does not fit in 5 bullets, the phase is
+  too big and gets split.
+- **Small diffs.** Every file in a change should be reviewable in one sitting.
+  A change touching more than ~3 files is a signal to stop and split it.
+- **Record the why.** Every non-obvious technical choice carries one sentence on
+  why it was made and what the alternative was. A decision I cannot defend on
+  demand is a decision I have not actually made.
+- **Name uncertainty explicitly.** A guessed API signature or corpus format gets
+  verified against the real thing before anything is built on top of it, and
+  stays marked unverified until it is.
+- **Prefer the unwelcome answer.** When a measurement contradicts the plan, the
+  plan changes and the contradiction gets written down — not the reverse.
 
 ## 8. Known Prior Art (do not reinvent; do differentiate)
 

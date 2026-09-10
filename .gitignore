@@ -8,7 +8,7 @@ __pycache__/
 # Downloaded corpora — never committed (see data/README.md for licenses)
 data/raw/
 
-# uv project lockfile. NOT our pin source -- CLAUDE.md section 5 designates
+# uv project lockfile. NOT our pin source -- ENGINEERING.md section 5 designates
 # requirements.txt. Auto-created by `uv run`; ignored to avoid two sources of
 # truth that can disagree.
 uv.lock
@@ -19,3 +19,6 @@ uv.lock
 
 # macOS
 .DS_Store
+
+# Local phase-planning notes, not part of the deliverable
+PROMPT.md
