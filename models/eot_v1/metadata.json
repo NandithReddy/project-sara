@@ -1,0 +1,77 @@
+{
+  "base_model": "google/bert_uncased_L-4_H-256_A-4",
+  "params": 11171074,
+  "max_len": 64,
+  "truncation_side": "left",
+  "punctuated_input": false,
+  "hard_negative_weight": 2.0,
+  "class_weight_complete": 6.110208816705336,
+  "seed": 20260910,
+  "device": "mps",
+  "epochs": 3,
+  "batch": 64,
+  "lr": 5e-05,
+  "train_examples": 36774,
+  "val_examples": 4513,
+  "val_speakers": 10,
+  "train_seconds": 162.0,
+  "history": [
+    {
+      "average_precision": 0.5047435034039687,
+      "n": 4513,
+      "accuracy": 0.8043430090848659,
+      "majority_accuracy": 0.8725902947041879,
+      "precision_complete": 0.36298932384341637,
+      "recall_complete": 0.7095652173913043,
+      "f1_complete": 0.48028251912889935,
+      "log_loss": 0.40947669744491577,
+      "epoch": 1,
+      "train_loss": 1.0035245430987814
+    },
+    {
+      "average_precision": 0.5373437157769386,
+      "n": 4513,
+      "accuracy": 0.7881675160647019,
+      "majority_accuracy": 0.8725902947041879,
+      "precision_complete": 0.3494071146245059,
+      "recall_complete": 0.768695652173913,
+      "f1_complete": 0.4804347826086956,
+      "log_loss": 0.4282405972480774,
+      "epoch": 2,
+      "train_loss": 0.8722073403130407
+    },
+    {
+      "average_precision": 0.5389020915030132,
+      "n": 4513,
+      "accuracy": 0.7724351872368712,
+      "majority_accuracy": 0.8725902947041879,
+      "precision_complete": 0.33575581395348836,
+      "recall_complete": 0.8034782608695652,
+      "f1_complete": 0.4736032803690415,
+      "log_loss": 0.4504724442958832,
+      "epoch": 3,
+      "train_loss": 0.8250686562579611
+    }
+  ],
+  "best_epoch": 1,
+  "final_val": {
+    "average_precision": 0.5047435034039687,
+    "n": 4513,
+    "accuracy": 0.8043430090848659,
+    "majority_accuracy": 0.8725902947041879,
+    "precision_complete": 0.36298932384341637,
+    "recall_complete": 0.7095652173913043,
+    "f1_complete": 0.48028251912889935,
+    "log_loss": 0.40947669744491577,
+    "epoch": 1,
+    "train_loss": 1.0035245430987814
+  },
+  "onnx_vs_torch_max_abs_diff": 3.5762786865234375e-07,
+  "onnx_bytes": 44772796,
+  "cpu_latency_ms_single_example": {
+    "p50": 0.41370850522071123,
+    "p95": 0.8117670018691563,
+    "p99": 1.1115742556285109,
+    "budget_ms": 20.0
+  }
+}

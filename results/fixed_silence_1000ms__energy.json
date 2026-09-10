@@ -12,6 +12,13 @@
     "p95": 1760.0,
     "p99": 1952.0
   },
+  "added_latency_with_fallback_ms": {
+    "n": 196,
+    "p50": 1760.0,
+    "p95": 2000.0,
+    "p99": 2000.0,
+    "note": "false holds counted at horizon_ms, the fallback timeout"
+  },
   "update_latency_ms": {
     "n": 28245,
     "p50": 4.1996827349066734e-05,

@@ -1,0 +1,10 @@
+# Training-only dependencies. NEVER merged into requirements.txt: section 5
+# keeps torch off the runtime path, and inference runs on onnxruntime alone.
+#
+# Compile with the runtime pins as constraints so the two sets cannot disagree
+# on a shared package (tokenizers, numpy):
+#   uv pip compile requirements-train.in -c requirements.txt -o requirements-train.txt
+
+torch          # training the classifier; MPS on Apple Silicon
+transformers   # pretrained encoder + fine-tuning head
+onnx           # export target, consumed by onnxruntime at inference
