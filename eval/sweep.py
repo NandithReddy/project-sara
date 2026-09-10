@@ -28,10 +28,14 @@ from src.audio.vad import SileroVAD
 from src.baselines.energy import EnergyVAD
 from src.baselines.punctuation import PunctuationHeuristic
 from src.baselines.silence import FixedSilenceTimeout
+from src.eot.gated import DEFAULT_GATE_MS, SilenceGated
 from src.eot.model import TextEOT
 
 TIMEOUTS_MS = tuple(range(100, 2001, 100))
 THRESHOLDS = tuple(round(x * 0.05, 2) for x in range(1, 20))  # 0.05 .. 0.95
+GATES_MS = (100.0, 200.0, 300.0, 500.0)
+"""Gate values reported for sensitivity. Only DEFAULT_GATE_MS goes on the
+chart; the gate is chosen on principle, not by picking the best of these."""
 CSV_PATH = RESULTS / "tradeoff.csv"
 PNG_PATH = RESULTS / "tradeoff.png"
 READING_PATH = RESULTS / "tradeoff.md"
@@ -83,17 +87,29 @@ def sweep_timers(cache: FrameCache) -> list[dict]:
     return out
 
 
-def sweep_model(cache: FrameCache) -> list[dict]:
-    """The model emits a probability, so it sweeps on the fire threshold.
+def sweep_thresholds(det, cache: FrameCache) -> list[dict]:
+    """A detector that emits a probability sweeps on the fire threshold.
 
-    One evaluate() per threshold. The VAD frames are cached and the detector
+    One evaluate() per threshold. The VAD frames are cached and the model
     caches by text, so each pass costs only the few real inferences per turn.
     """
-    det = TextEOT()
     out = []
     for thr in THRESHOLDS:
-        s = evaluate(det, cache=cache, name=f"sweep_text_eot_v1_{thr}", threshold=thr)
-        out.append(row("text_eot_v1", "threshold", thr, s))
+        s = evaluate(det, cache=cache, name=f"sweep_{det.name}_{thr}", threshold=thr)
+        out.append(row(det.name, "threshold", thr, s))
+    return out
+
+
+def gate_sensitivity(cache: FrameCache) -> list[dict]:
+    """How much the gate value matters, at the default threshold. CSV only."""
+    out = []
+    for g in GATES_MS:
+        det = SilenceGated(TextEOT(), g)
+        s = evaluate(det, cache=cache, name=f"sweep_gate_sens_{int(g)}")
+        out.append(row("text_eot+gate_sensitivity", "gate_ms", g, s))
+        pg = SilenceGated(PunctuationHeuristic(), g)
+        s = evaluate(pg, cache=cache, name=f"sweep_punct_gate_{int(g)}")
+        out.append(row("punctuation+gate_sensitivity", "gate_ms", g, s))
     return out
 
 
@@ -107,8 +123,19 @@ def run_sweep() -> list[dict]:
     print("punctuation (single point) ...", flush=True)
     s = evaluate(PunctuationHeuristic(), cache=silero, name="sweep_punctuation")
     rows.append(row("punctuation", "none", 0.0, s))
-    print("sweeping text_eot_v1 on threshold ...", flush=True)
-    rows += sweep_model(silero)
+    model = TextEOT()
+    print(f"sweeping {model.name} on threshold ...", flush=True)
+    rows += sweep_thresholds(model, silero)
+    gated = SilenceGated(TextEOT(), DEFAULT_GATE_MS)
+    print(f"sweeping {gated.name} on threshold ...", flush=True)
+    rows += sweep_thresholds(gated, silero)
+    # The fair fight for the gated model: the same gate on the heuristic.
+    pg = SilenceGated(PunctuationHeuristic(), DEFAULT_GATE_MS)
+    print(f"{pg.name} (single point) ...", flush=True)
+    s = evaluate(pg, cache=silero, name=f"sweep_{pg.name}")
+    rows.append(row(pg.name, "none", 0.0, s))
+    print("gate sensitivity ...", flush=True)
+    rows += gate_sensitivity(silero)
     return rows
 
 
@@ -129,12 +156,28 @@ def plot(rows: list[dict]) -> None:
     # Validated categorical palette, fixed slot order. Aqua is below 3:1 on the
     # light surface, so every series is direct-labelled and marker shape carries
     # identity alongside colour.
-    style = {
-        "fixed_timeout+silero": ("#2a78d6", "o", "fixed timeout, Silero VAD"),
-        "fixed_timeout+energy": ("#eb6834", "s", "fixed timeout, energy VAD"),
-        "punctuation": ("#1baf7a", "D", "punctuation heuristic"),
-        "text_eot_v1": ("#eda100", "^", "text EOT model v1"),
-    }
+    def style_for(system: str):
+        # Validated 6-slot categorical palette, fixed order; colour follows the
+        # entity. Aqua, yellow and magenta sit under 3:1 on the light surface,
+        # so every series is direct-labelled and marker shape carries identity.
+        if system == "fixed_timeout+silero":
+            return "#2a78d6", "o", "fixed timeout, Silero VAD"
+        if system == "fixed_timeout+energy":
+            return "#eb6834", "s", "fixed timeout, energy VAD"
+        if system == "punctuation":
+            return "#1baf7a", "D", "punctuation heuristic"
+        if system.startswith("text_eot") and "+gate" in system:
+            g = system.split("+gate")[1]
+            return "#e87ba4", "v", f"text EOT model + {g}ms gate"
+        if system.startswith("text_eot"):
+            return "#eda100", "^", f"text EOT model {system.split('text_eot_')[1]}"
+        if system.startswith("punctuation+gate"):
+            g = system.split("+gate")[1]
+            return "#008300", "P", f"punctuation + {g}ms gate"
+        return None
+
+    charted = [s for s in dict.fromkeys(r["system"] for r in rows) if style_for(s)]
+    style = {s: style_for(s) for s in charted}
     surface, ink, ink2, grid = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1"
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 5.6), facecolor=surface)
@@ -204,13 +247,17 @@ def plot(rows: list[dict]) -> None:
             tags = {
                 "fixed_timeout+silero": ((300, 500, 1000), (6, 5)),
                 "fixed_timeout+energy": ((500, 1000), (6, -12)),
-                "text_eot_v1": ((0.3, 0.5, 0.7, 0.9), (-30, -12)),
             }
+            if system.startswith("text_eot"):
+                tags[system] = (
+                    (0.3, 0.5, 0.7, 0.9),
+                    (-30, -12) if "+gate" not in system else (6, 5),
+                )
             if system in tags:
                 values, offset = tags[system]
                 for r in pts:
                     if r["knob_value"] in values and r[xkey] < 1900:
-                        is_thr = system == "text_eot_v1"
+                        is_thr = system.startswith("text_eot")
                         ax.annotate(
                             f"p≥{r['knob_value']}"
                             if is_thr

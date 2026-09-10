@@ -22,3 +22,6 @@ uv.lock
 
 # Local phase-planning notes, not part of the deliverable
 PROMPT.md
+
+# fp32 export kept beside the shipped INT8 model; 4x the size, same ranking
+models/*/model_fp32.onnx

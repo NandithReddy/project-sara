@@ -48,16 +48,17 @@ def test_every_system_has_the_expected_number_of_points():
     by_system = {}
     for r in rows:
         by_system.setdefault(r["system"], []).append(r)
-    assert set(by_system) == {
-        "fixed_timeout+silero",
-        "fixed_timeout+energy",
-        "punctuation",
-        "text_eot_v1",
-    }
     assert len(by_system["fixed_timeout+silero"]) == len(TIMEOUTS_MS)
     assert len(by_system["fixed_timeout+energy"]) == len(TIMEOUTS_MS)
     assert len(by_system["punctuation"]) == 1, "no knob, so exactly one point"
-    assert len(by_system["text_eot_v1"]) == len(THRESHOLDS), "sweeps on threshold"
+    bare = [s for s in by_system if s.startswith("text_eot_v") and "+gate" not in s]
+    gated = [s for s in by_system if s.startswith("text_eot_v") and "+gate" in s]
+    assert len(bare) == 1 and len(gated) == 1, (
+        f"one model, bare and gated: {by_system.keys()}"
+    )
+    assert len(by_system[bare[0]]) == len(THRESHOLDS), "sweeps on threshold"
+    assert len(by_system[gated[0]]) == len(THRESHOLDS), "sweeps on threshold"
+    assert any(s.startswith("punctuation+gate") for s in by_system), "the fair fight"
 
 
 @needs_csv
