@@ -41,6 +41,32 @@ threshold is insensitive -- it is a round number, not a tuned one."""
 
 EVAL_SPLIT = "development"
 
+HORIZON_MS = 2000.0
+"""How long after the true turn end the eval may keep observing.
+
+A turn is only usable if the speaker stays silent for at least this long after
+finishing -- otherwise the tail would capture them resuming, and a false_hold
+would be scored against audio in which the turn had not actually ended.
+
+2000ms is twice the slowest baseline section 3 requires (1000ms). Pushing it
+higher costs turns quickly (164 at 2000ms, 142 at 3000ms of 198) and biases the
+set toward turns followed by long silence -- which are the easy cases.
+"""
+
+BOUNDARY_SEARCH_MS = 500.0
+"""How far past the annotated end the audio boundary refinement may look.
+
+The refined boundary usually lands LATER than the annotated one (median +60ms),
+so the segment must carry this much extra tail or the horizon, measured from the
+refined boundary, comes up short. Capping the search at this value makes the
+full horizon guaranteed by construction rather than checked afterwards.
+"""
+
+TAIL_MARGIN_MS = 100.0
+"""Extra guard between the end of the tail and the speaker resuming."""
+
+REQUIRED_TAIL_MS = HORIZON_MS + BOUNDARY_SEARCH_MS + TAIL_MARGIN_MS
+
 
 @dataclass(frozen=True)
 class Turn:
@@ -55,6 +81,13 @@ class Turn:
     disfluent: bool
     text: str
     next_speaker_gap_ms: float
+    own_resume_gap_ms: float
+    """Silence until THIS speaker talks again, or inf if they never do.
+
+    Caps how much trailing audio the segment may include. Overrunning it would
+    capture the speaker resuming, and a false_hold measurement would then be
+    scored against audio in which the turn had not actually ended.
+    """
     stratum: str
 
 
@@ -151,6 +184,9 @@ def extract_turns(meeting: str, meta: dict) -> list[Turn]:
         ):
             continue  # someone talked over it
 
+        own_next = next((w["s"] for w in by_speaker[agent] if w["s"] > t1), None)
+        own_resume_gap_ms = float("inf") if own_next is None else (own_next - t1) * 1000
+
         channel, global_name = meta["speakers"][agent]
         n = len(ws)
         disfluent = any(w["disf"] for w in ws)
@@ -167,6 +203,7 @@ def extract_turns(meeting: str, meta: dict) -> list[Turn]:
                 disfluent=disfluent,
                 text=" ".join(w["t"] for w in ws),
                 next_speaker_gap_ms=(nxt[1][0]["s"] - t1) * 1000,
+                own_resume_gap_ms=own_resume_gap_ms,
                 stratum=(
                     "disfluent" if disfluent else "short" if n <= 3 else "ordinary"
                 ),
@@ -193,10 +230,17 @@ def main() -> int:
     eval_meetings = sorted(m for m, v in meetings.items() if v["split"] == EVAL_SPLIT)
     print(f"{EVAL_SPLIT} split: {len(eval_meetings)} meetings")
 
-    pool: list[Turn] = []
+    raw_pool: list[Turn] = []
     for m in eval_meetings:
-        pool.extend(extract_turns(m, meetings[m]))
-    print(f"clean turns available: {len(pool)}")
+        raw_pool.extend(extract_turns(m, meetings[m]))
+    print(f"clean turns available: {len(raw_pool)}")
+
+    # Filter BEFORE sampling, so every stratum still fills to the target count.
+    pool = [t for t in raw_pool if t.own_resume_gap_ms >= HORIZON_MS + TAIL_MARGIN_MS]
+    print(
+        f"with >={REQUIRED_TAIL_MS:.0f}ms of clean tail: {len(pool)} "
+        f"(dropped {len(raw_pool) - len(pool)})"
+    )
     print(f"  by stratum: {dict(Counter(t.stratum for t in pool))}")
 
     # Equal thirds, so section 3's disfluent and short-answer conditions are
@@ -225,6 +269,13 @@ def main() -> int:
     print(f"  turn duration p50={p50:.1f}s p90={p90:.1f}s")
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for t_ in chosen:
+        d = asdict(t_)
+        if d["own_resume_gap_ms"] == float("inf"):
+            d["own_resume_gap_ms"] = -1.0  # speaker never talks again
+        rows.append(d)
+
     args.out.write_text(
         json.dumps(
             {
@@ -232,7 +283,9 @@ def main() -> int:
                 "split": EVAL_SPLIT,
                 "seed": args.seed,
                 "split_gap_ms": SPLIT_MS,
-                "turns": [asdict(t) for t in chosen],
+                "horizon_ms": HORIZON_MS,
+                "boundary_search_ms": BOUNDARY_SEARCH_MS,
+                "turns": rows,
             },
             indent=2,
         )
