@@ -19,3 +19,6 @@ uv.lock
 
 # macOS
 .DS_Store
+
+# Local phase-planning notes, not part of the deliverable
+PROMPT.md
