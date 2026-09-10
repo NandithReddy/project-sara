@@ -11,7 +11,7 @@ import math
 
 import pytest
 
-from eval.sweep import CSV_PATH, FIELDS, PNG_PATH, TIMEOUTS_MS, row
+from eval.sweep import CSV_PATH, FIELDS, PNG_PATH, THRESHOLDS, TIMEOUTS_MS, row
 
 needs_csv = pytest.mark.skipif(not CSV_PATH.exists(), reason="sweep not run yet")
 
@@ -52,10 +52,12 @@ def test_every_system_has_the_expected_number_of_points():
         "fixed_timeout+silero",
         "fixed_timeout+energy",
         "punctuation",
+        "text_eot_v1",
     }
     assert len(by_system["fixed_timeout+silero"]) == len(TIMEOUTS_MS)
     assert len(by_system["fixed_timeout+energy"]) == len(TIMEOUTS_MS)
     assert len(by_system["punctuation"]) == 1, "no knob, so exactly one point"
+    assert len(by_system["text_eot_v1"]) == len(THRESHOLDS), "sweeps on threshold"
 
 
 @needs_csv
