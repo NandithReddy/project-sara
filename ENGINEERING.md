@@ -101,17 +101,25 @@ These exist because violating them silently invalidates the entire project.
 - **Sample rate:** develop at 16kHz, but the eval must include an 8kHz
   telephony-band condition. Phone audio is the real deployment target and it
   degrades linguistic cues that clean-audio models rely on.
-- **Streaming STT for the live path: `parakeet-mlx`.** Chosen for **native
-  word-level timestamps** from its TDT decoder. Our entire metric is *when* a
-  decision fired relative to the true turn end, so timestamp error propagates
-  directly into `added_latency_ms` — the measurement instrument must be more
-  precise than the effect being measured. Runs natively on Apple Silicon via
-  MLX/Metal, so local iteration is unmetered.
-  **`whisper.cpp` was rejected:** Whisper is a 30-second-window model whose
-  "streaming" is emulated with sliding windows, and its word timings are
-  *approximated* from cross-attention (DTW) rather than emitted by the decoder.
-  Approximate timings are disqualifying here, not merely inconvenient.
-  Not yet verified against the real API — that happens in Phase 1.
+- **Streaming STT for the live path: `parakeet-mlx`.** Runs natively on Apple
+  Silicon via MLX/Metal, so local iteration is unmetered, and it is
+  streaming-native rather than a sliding-window emulation. Measured operating
+  constraint: compute is a **fixed ~360ms per update regardless of chunk
+  size**, so it must be fed chunks of **≥640ms** — anything shorter falls
+  behind real time without bound.
+  **This bullet previously justified the choice on timestamp precision. That
+  justification was measured and is wrong**
+  (`results/spike-parakeet-mlx-streaming.md`): timings land on an 80ms grid,
+  mutate as context accumulates, and carry no `is_final` signal. The choice
+  stands on cost and streaming behaviour, not on precision.
+  **`whisper.cpp` remains rejected**, but only on the surviving half of the
+  original argument: it is a 30-second-window model whose "streaming" is
+  emulated with sliding windows. Its DTW-approximated timings are no longer the
+  deciding factor, because ours turned out not to be precise either.
+  **Consequence:** STT timing quality enters a reported number in exactly one
+  place — the Phase 6 real-ASR condition (§10). The Deepgram Nova-3 fallback is
+  decided there, on evidence. It is not a live-path blocker before then, because
+  no EOT decision up to Phase 5 reads an STT timestamp.
 - Training may use GPU (Colab / rented hour). Inference may not.
 - Prefer small encoder models (DistilBERT-class or smaller) over anything
   large. Latency budget dominates accuracy here.
