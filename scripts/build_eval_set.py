@@ -80,7 +80,7 @@ class Turn:
     n_words: int
     disfluent: bool
     text: str
-    words: tuple[tuple[str, float, float], ...]
+    words: tuple[tuple[str, float, float, str], ...]
     """(text, start_s, end_s) per word. The harness replays these at their own
     timings to imitate what a streaming recogniser would have emitted."""
     next_speaker_gap_ms: float
@@ -114,7 +114,13 @@ def load_meetings() -> dict:
 
 
 def load_words(path: Path) -> list[dict]:
-    """Word stream for one meeting-speaker, minus punctuation and non-speech."""
+    """Word stream for one meeting-speaker, minus non-speech elements.
+
+    Punctuation is a separate zero-duration <w punc="true"> element in AMI. It
+    is folded onto the preceding word as `punc_after` rather than kept as its
+    own token: it has no duration, so it cannot be "emitted" at a time of its
+    own, and baseline #3 only ever asks what the transcript currently ends with.
+    """
     root = ET.parse(path).getroot()
     out, disf, gap = [], False, False
     for el in root:
@@ -131,6 +137,10 @@ def load_words(path: Path) -> list[dict]:
         if s is None or e is None:
             continue
         if el.get("punc") == "true":
+            if out:
+                out[-1]["punc_after"] = (out[-1]["punc_after"] or "") + (
+                    el.text or ""
+                ).strip()
             continue
         out.append(
             {
@@ -139,6 +149,7 @@ def load_words(path: Path) -> list[dict]:
                 "t": (el.text or "").strip(),
                 "disf": disf,
                 "gap": gap,
+                "punc_after": None,
             }
         )
         disf = gap = False
@@ -205,7 +216,9 @@ def extract_turns(meeting: str, meta: dict) -> list[Turn]:
                 n_words=n,
                 disfluent=disfluent,
                 text=" ".join(w["t"] for w in ws),
-                words=tuple((w["t"], w["s"], w["e"]) for w in ws),
+                words=tuple(
+                    (w["t"], w["s"], w["e"], w["punc_after"] or "") for w in ws
+                ),
                 next_speaker_gap_ms=(nxt[1][0]["s"] - t1) * 1000,
                 own_resume_gap_ms=own_resume_gap_ms,
                 stratum=(

@@ -1,18 +1,20 @@
 {
-  "name": "fixed_silence_800ms",
+  "name": "fixed_silence_1000ms__silero",
   "n_turns": 198,
   "horizon_ms": 2000.0,
-  "cutoff_rate": 0.10606060606060606,
-  "false_hold_rate": 0.045454545454545456,
+  "cutoff_rate": 0.04040404040404041,
+  "cutoff_rate_at_tolerance": 0.04040404040404041,
+  "boundary_tolerance_ms": 150.0,
+  "false_hold_rate": 0.07575757575757576,
   "added_latency_ms": {
-    "n": 168,
-    "p50": 800.0,
-    "p95": 884.8000000000002,
-    "p99": 1631.3600000000024
+    "n": 175,
+    "p50": 1024.0,
+    "p95": 1088.0,
+    "p99": 1712.6399999999994
   },
   "update_latency_ms": {
-    "n": 18685,
-    "p50": 8.297502063214779e-05,
+    "n": 22382,
+    "p50": 8.300412446260452e-05,
     "p95": 0.00012500095181167126,
     "p99": 0.000166997779160738,
     "budget_ms": 20.0,
@@ -21,534 +23,590 @@
   "by_stratum": {
     "disfluent": {
       "n": 66,
-      "cutoff_rate": 0.18181818181818182,
-      "false_hold_rate": 0.030303030303030304,
-      "added_latency_p50": 832.0
+      "cutoff_rate": 0.06060606060606061,
+      "cutoff_rate_at_tolerance": 0.06060606060606061,
+      "false_hold_rate": 0.045454545454545456,
+      "added_latency_p50": 1056.0
     },
     "ordinary": {
       "n": 66,
-      "cutoff_rate": 0.13636363636363635,
-      "false_hold_rate": 0.030303030303030304,
-      "added_latency_p50": 800.0
+      "cutoff_rate": 0.06060606060606061,
+      "cutoff_rate_at_tolerance": 0.06060606060606061,
+      "false_hold_rate": 0.06060606060606061,
+      "added_latency_p50": 1024.0
     },
     "short": {
       "n": 66,
       "cutoff_rate": 0.0,
-      "false_hold_rate": 0.07575757575757576,
-      "added_latency_p50": 800.0
+      "cutoff_rate_at_tolerance": 0.0,
+      "false_hold_rate": 0.12121212121212122,
+      "added_latency_p50": 1024.0
     }
   },
+  "detector": "fixed_silence_1000ms",
+  "silence_source": "silero",
   "threshold": 0.5,
   "turns": [
     {
       "turn_id": "ES2003a.B.1033.18",
       "stratum": "ordinary",
-      "fired_at_ms": 5952.0,
+      "fired_at_ms": 6176.0,
       "true_end_ms": 5120.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 171
+      "n_updates": 178
     },
     {
       "turn_id": "ES2003a.B.2.13",
       "stratum": "ordinary",
-      "fired_at_ms": 3072.0,
+      "fired_at_ms": 3296.0,
       "true_end_ms": 12032.0,
       "cutoff": true,
+      "early_by_ms": 8736.0,
       "added_latency_ms": null,
       "false_hold": false,
-      "n_updates": 81
+      "n_updates": 88
     },
     {
       "turn_id": "ES2003a.B.730.78",
       "stratum": "ordinary",
-      "fired_at_ms": 5664.0,
+      "fired_at_ms": 5888.0,
       "true_end_ms": 4864.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 162
+      "n_updates": 169
     },
     {
       "turn_id": "ES2003a.C.266.00",
       "stratum": "disfluent",
-      "fired_at_ms": 5152.0,
+      "fired_at_ms": 5376.0,
       "true_end_ms": 4352.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 146
+      "n_updates": 153
     },
     {
       "turn_id": "ES2003a.C.274.37",
       "stratum": "disfluent",
-      "fired_at_ms": 2976.0,
+      "fired_at_ms": 3200.0,
       "true_end_ms": 2144.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 78
+      "n_updates": 85
     },
     {
       "turn_id": "ES2003b.B.316.90",
       "stratum": "short",
-      "fired_at_ms": 1664.0,
+      "fired_at_ms": 1888.0,
       "true_end_ms": 832.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 37
+      "n_updates": 44
     },
     {
       "turn_id": "ES2003b.D.807.14",
       "stratum": "disfluent",
-      "fired_at_ms": 2400.0,
+      "fired_at_ms": 4416.0,
       "true_end_ms": 3360.0,
-      "cutoff": true,
-      "added_latency_ms": null,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 60
+      "n_updates": 123
     },
     {
       "turn_id": "ES2003c.A.1869.68",
       "stratum": "ordinary",
-      "fired_at_ms": 11840.0,
+      "fired_at_ms": 12064.0,
       "true_end_ms": 42496.0,
       "cutoff": true,
+      "early_by_ms": 30432.0,
       "added_latency_ms": null,
       "false_hold": false,
-      "n_updates": 355
+      "n_updates": 362
     },
     {
       "turn_id": "ES2003c.B.1382.30",
       "stratum": "short",
-      "fired_at_ms": 1728.0,
+      "fired_at_ms": 1952.0,
       "true_end_ms": 896.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 39
+      "n_updates": 46
     },
     {
       "turn_id": "ES2003c.C.1992.85",
       "stratum": "short",
-      "fired_at_ms": 2176.0,
+      "fired_at_ms": 2400.0,
       "true_end_ms": 1376.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 53
+      "n_updates": 60
     },
     {
       "turn_id": "ES2003c.C.2203.11",
       "stratum": "short",
-      "fired_at_ms": 1600.0,
+      "fired_at_ms": 1824.0,
       "true_end_ms": 800.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 35
-    },
-    {
-      "turn_id": "ES2003c.D.2039.17",
-      "stratum": "ordinary",
-      "fired_at_ms": 2464.0,
-      "true_end_ms": 1632.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 62
-    },
-    {
-      "turn_id": "ES2003d.A.1479.86",
-      "stratum": "short",
-      "fired_at_ms": 1728.0,
-      "true_end_ms": 928.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 39
-    },
-    {
-      "turn_id": "ES2003d.A.2092.76",
-      "stratum": "short",
-      "fired_at_ms": 2720.0,
-      "true_end_ms": 1920.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 70
-    },
-    {
-      "turn_id": "ES2003d.B.1750.32",
-      "stratum": "ordinary",
-      "fired_at_ms": 3488.0,
-      "true_end_ms": 2656.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 94
-    },
-    {
-      "turn_id": "ES2003d.B.1857.76",
-      "stratum": "ordinary",
-      "fired_at_ms": 5408.0,
-      "true_end_ms": 4288.0,
-      "cutoff": false,
-      "added_latency_ms": 1120.0,
-      "false_hold": false,
-      "n_updates": 154
-    },
-    {
-      "turn_id": "ES2003d.B.2130.57",
-      "stratum": "ordinary",
-      "fired_at_ms": 3392.0,
-      "true_end_ms": 2592.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 91
-    },
-    {
-      "turn_id": "ES2003d.C.1243.22",
-      "stratum": "disfluent",
-      "fired_at_ms": 2560.0,
-      "true_end_ms": 1760.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 65
-    },
-    {
-      "turn_id": "ES2003d.C.1263.80",
-      "stratum": "short",
-      "fired_at_ms": 1824.0,
-      "true_end_ms": 992.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
       "n_updates": 42
     },
     {
-      "turn_id": "ES2003d.C.1480.61",
-      "stratum": "disfluent",
-      "fired_at_ms": 4544.0,
-      "true_end_ms": 3744.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 127
-    },
-    {
-      "turn_id": "ES2003d.C.1673.67",
+      "turn_id": "ES2003c.D.2039.17",
       "stratum": "ordinary",
-      "fired_at_ms": 3904.0,
-      "true_end_ms": 3104.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 107
-    },
-    {
-      "turn_id": "ES2003d.C.1967.32",
-      "stratum": "ordinary",
-      "fired_at_ms": 3136.0,
-      "true_end_ms": 3552.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 83
-    },
-    {
-      "turn_id": "ES2003d.C.2063.46",
-      "stratum": "short",
-      "fired_at_ms": 1568.0,
-      "true_end_ms": 768.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 34
-    },
-    {
-      "turn_id": "ES2003d.C.308.07",
-      "stratum": "short",
-      "fired_at_ms": 1472.0,
-      "true_end_ms": 672.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 31
-    },
-    {
-      "turn_id": "ES2003d.C.765.41",
-      "stratum": "ordinary",
-      "fired_at_ms": 8768.0,
-      "true_end_ms": 7968.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 259
-    },
-    {
-      "turn_id": "ES2003d.D.1293.51",
-      "stratum": "ordinary",
-      "fired_at_ms": 3040.0,
-      "true_end_ms": 2240.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 80
-    },
-    {
-      "turn_id": "ES2003d.D.1361.82",
-      "stratum": "ordinary",
-      "fired_at_ms": 2432.0,
-      "true_end_ms": 1600.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 61
-    },
-    {
-      "turn_id": "ES2011a.A.58.56",
-      "stratum": "disfluent",
-      "fired_at_ms": 7104.0,
-      "true_end_ms": 6304.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 207
-    },
-    {
-      "turn_id": "ES2011a.A.777.62",
-      "stratum": "ordinary",
-      "fired_at_ms": 3072.0,
-      "true_end_ms": 2272.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 81
-    },
-    {
-      "turn_id": "ES2011a.C.1060.88",
-      "stratum": "ordinary",
-      "fired_at_ms": 4192.0,
-      "true_end_ms": 3360.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 116
-    },
-    {
-      "turn_id": "ES2011a.D.425.91",
-      "stratum": "ordinary",
-      "fired_at_ms": 17056.0,
-      "true_end_ms": 23904.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 518
-    },
-    {
-      "turn_id": "ES2011a.D.779.48",
-      "stratum": "disfluent",
-      "fired_at_ms": 3744.0,
-      "true_end_ms": 2848.0,
-      "cutoff": false,
-      "added_latency_ms": 896.0,
-      "false_hold": false,
-      "n_updates": 102
-    },
-    {
-      "turn_id": "ES2011c.A.1392.42",
-      "stratum": "disfluent",
-      "fired_at_ms": 1696.0,
-      "true_end_ms": 864.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 38
-    },
-    {
-      "turn_id": "ES2011c.A.1499.83",
-      "stratum": "short",
-      "fired_at_ms": 1696.0,
-      "true_end_ms": 896.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 38
-    },
-    {
-      "turn_id": "ES2011c.A.1528.28",
-      "stratum": "ordinary",
-      "fired_at_ms": 2912.0,
-      "true_end_ms": 2112.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 76
-    },
-    {
-      "turn_id": "ES2011c.C.514.54",
-      "stratum": "disfluent",
-      "fired_at_ms": 8000.0,
-      "true_end_ms": 31584.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 235
-    },
-    {
-      "turn_id": "ES2011d.A.121.45",
-      "stratum": "disfluent",
-      "fired_at_ms": 2592.0,
-      "true_end_ms": 6656.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 66
-    },
-    {
-      "turn_id": "ES2011d.A.1493.40",
-      "stratum": "disfluent",
-      "fired_at_ms": 1664.0,
-      "true_end_ms": 832.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 37
-    },
-    {
-      "turn_id": "ES2011d.A.1515.20",
-      "stratum": "ordinary",
-      "fired_at_ms": 4384.0,
-      "true_end_ms": 3584.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 122
-    },
-    {
-      "turn_id": "ES2011d.A.1859.64",
-      "stratum": "short",
-      "fired_at_ms": 1664.0,
-      "true_end_ms": 832.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 37
-    },
-    {
-      "turn_id": "ES2011d.A.977.99",
-      "stratum": "short",
-      "fired_at_ms": 1728.0,
-      "true_end_ms": 896.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 39
-    },
-    {
-      "turn_id": "ES2011d.C.1180.61",
-      "stratum": "disfluent",
-      "fired_at_ms": 1440.0,
-      "true_end_ms": 608.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 30
-    },
-    {
-      "turn_id": "ES2011d.C.1380.46",
-      "stratum": "disfluent",
-      "fired_at_ms": 2464.0,
-      "true_end_ms": 3456.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 62
-    },
-    {
-      "turn_id": "ES2011d.C.546.32",
-      "stratum": "short",
-      "fired_at_ms": 1312.0,
-      "true_end_ms": 1050.0,
-      "cutoff": false,
-      "added_latency_ms": 262.0,
-      "false_hold": false,
-      "n_updates": 26
-    },
-    {
-      "turn_id": "ES2011d.C.949.47",
-      "stratum": "short",
-      "fired_at_ms": 1632.0,
-      "true_end_ms": 832.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 36
-    },
-    {
-      "turn_id": "ES2011d.D.1013.40",
-      "stratum": "short",
-      "fired_at_ms": 2272.0,
-      "true_end_ms": 1440.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 56
-    },
-    {
-      "turn_id": "ES2011d.D.1214.45",
-      "stratum": "disfluent",
-      "fired_at_ms": 2592.0,
-      "true_end_ms": 1760.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 66
-    },
-    {
-      "turn_id": "ES2011d.D.1472.91",
-      "stratum": "disfluent",
-      "fired_at_ms": 1312.0,
-      "true_end_ms": 770.0,
-      "cutoff": false,
-      "added_latency_ms": 542.0,
-      "false_hold": false,
-      "n_updates": 26
-    },
-    {
-      "turn_id": "ES2011d.D.539.95",
-      "stratum": "disfluent",
-      "fired_at_ms": 2848.0,
-      "true_end_ms": 2048.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 74
-    },
-    {
-      "turn_id": "ES2011d.D.550.93",
-      "stratum": "short",
       "fired_at_ms": 2688.0,
-      "true_end_ms": 1888.0,
+      "true_end_ms": 1632.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
       "n_updates": 69
     },
     {
+      "turn_id": "ES2003d.A.1479.86",
+      "stratum": "short",
+      "fired_at_ms": 1952.0,
+      "true_end_ms": 928.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 46
+    },
+    {
+      "turn_id": "ES2003d.A.2092.76",
+      "stratum": "short",
+      "fired_at_ms": 2944.0,
+      "true_end_ms": 1920.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 77
+    },
+    {
+      "turn_id": "ES2003d.B.1750.32",
+      "stratum": "ordinary",
+      "fired_at_ms": 3712.0,
+      "true_end_ms": 2656.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 101
+    },
+    {
+      "turn_id": "ES2003d.B.1857.76",
+      "stratum": "ordinary",
+      "fired_at_ms": 5632.0,
+      "true_end_ms": 4288.0,
+      "cutoff": false,
+      "early_by_ms": -1344.0,
+      "added_latency_ms": 1344.0,
+      "false_hold": false,
+      "n_updates": 161
+    },
+    {
+      "turn_id": "ES2003d.B.2130.57",
+      "stratum": "ordinary",
+      "fired_at_ms": 3616.0,
+      "true_end_ms": 2592.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 98
+    },
+    {
+      "turn_id": "ES2003d.C.1243.22",
+      "stratum": "disfluent",
+      "fired_at_ms": 2784.0,
+      "true_end_ms": 1760.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 72
+    },
+    {
+      "turn_id": "ES2003d.C.1263.80",
+      "stratum": "short",
+      "fired_at_ms": 2048.0,
+      "true_end_ms": 992.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 49
+    },
+    {
+      "turn_id": "ES2003d.C.1480.61",
+      "stratum": "disfluent",
+      "fired_at_ms": 4768.0,
+      "true_end_ms": 3744.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 134
+    },
+    {
+      "turn_id": "ES2003d.C.1673.67",
+      "stratum": "ordinary",
+      "fired_at_ms": 4128.0,
+      "true_end_ms": 3104.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 114
+    },
+    {
+      "turn_id": "ES2003d.C.1967.32",
+      "stratum": "ordinary",
+      "fired_at_ms": 4608.0,
+      "true_end_ms": 3552.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 129
+    },
+    {
+      "turn_id": "ES2003d.C.2063.46",
+      "stratum": "short",
+      "fired_at_ms": 1792.0,
+      "true_end_ms": 768.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 41
+    },
+    {
+      "turn_id": "ES2003d.C.308.07",
+      "stratum": "short",
+      "fired_at_ms": 1696.0,
+      "true_end_ms": 672.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 38
+    },
+    {
+      "turn_id": "ES2003d.C.765.41",
+      "stratum": "ordinary",
+      "fired_at_ms": 8992.0,
+      "true_end_ms": 7968.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 266
+    },
+    {
+      "turn_id": "ES2003d.D.1293.51",
+      "stratum": "ordinary",
+      "fired_at_ms": 3264.0,
+      "true_end_ms": 2240.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 87
+    },
+    {
+      "turn_id": "ES2003d.D.1361.82",
+      "stratum": "ordinary",
+      "fired_at_ms": 2656.0,
+      "true_end_ms": 1600.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 68
+    },
+    {
+      "turn_id": "ES2011a.A.58.56",
+      "stratum": "disfluent",
+      "fired_at_ms": 7328.0,
+      "true_end_ms": 6304.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 214
+    },
+    {
+      "turn_id": "ES2011a.A.777.62",
+      "stratum": "ordinary",
+      "fired_at_ms": 3296.0,
+      "true_end_ms": 2272.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 88
+    },
+    {
+      "turn_id": "ES2011a.C.1060.88",
+      "stratum": "ordinary",
+      "fired_at_ms": 4416.0,
+      "true_end_ms": 3360.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 123
+    },
+    {
+      "turn_id": "ES2011a.D.425.91",
+      "stratum": "ordinary",
+      "fired_at_ms": 17280.0,
+      "true_end_ms": 23904.0,
+      "cutoff": true,
+      "early_by_ms": 6624.0,
+      "added_latency_ms": null,
+      "false_hold": false,
+      "n_updates": 525
+    },
+    {
+      "turn_id": "ES2011a.D.779.48",
+      "stratum": "disfluent",
+      "fired_at_ms": 3968.0,
+      "true_end_ms": 2848.0,
+      "cutoff": false,
+      "early_by_ms": -1120.0,
+      "added_latency_ms": 1120.0,
+      "false_hold": false,
+      "n_updates": 109
+    },
+    {
+      "turn_id": "ES2011c.A.1392.42",
+      "stratum": "disfluent",
+      "fired_at_ms": 1920.0,
+      "true_end_ms": 864.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 45
+    },
+    {
+      "turn_id": "ES2011c.A.1499.83",
+      "stratum": "short",
+      "fired_at_ms": 1920.0,
+      "true_end_ms": 896.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 45
+    },
+    {
+      "turn_id": "ES2011c.A.1528.28",
+      "stratum": "ordinary",
+      "fired_at_ms": 3136.0,
+      "true_end_ms": 2112.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 83
+    },
+    {
+      "turn_id": "ES2011c.C.514.54",
+      "stratum": "disfluent",
+      "fired_at_ms": 8224.0,
+      "true_end_ms": 31584.0,
+      "cutoff": true,
+      "early_by_ms": 23360.0,
+      "added_latency_ms": null,
+      "false_hold": false,
+      "n_updates": 242
+    },
+    {
+      "turn_id": "ES2011d.A.121.45",
+      "stratum": "disfluent",
+      "fired_at_ms": 2816.0,
+      "true_end_ms": 6656.0,
+      "cutoff": true,
+      "early_by_ms": 3840.0,
+      "added_latency_ms": null,
+      "false_hold": false,
+      "n_updates": 73
+    },
+    {
+      "turn_id": "ES2011d.A.1493.40",
+      "stratum": "disfluent",
+      "fired_at_ms": 1888.0,
+      "true_end_ms": 832.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 44
+    },
+    {
+      "turn_id": "ES2011d.A.1515.20",
+      "stratum": "ordinary",
+      "fired_at_ms": 4608.0,
+      "true_end_ms": 3584.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 129
+    },
+    {
+      "turn_id": "ES2011d.A.1859.64",
+      "stratum": "short",
+      "fired_at_ms": 1888.0,
+      "true_end_ms": 832.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 44
+    },
+    {
+      "turn_id": "ES2011d.A.977.99",
+      "stratum": "short",
+      "fired_at_ms": 1952.0,
+      "true_end_ms": 896.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 46
+    },
+    {
+      "turn_id": "ES2011d.C.1180.61",
+      "stratum": "disfluent",
+      "fired_at_ms": 1664.0,
+      "true_end_ms": 608.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 37
+    },
+    {
+      "turn_id": "ES2011d.C.1380.46",
+      "stratum": "disfluent",
+      "fired_at_ms": 4512.0,
+      "true_end_ms": 3456.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 126
+    },
+    {
+      "turn_id": "ES2011d.C.546.32",
+      "stratum": "short",
+      "fired_at_ms": 1504.0,
+      "true_end_ms": 1050.0,
+      "cutoff": false,
+      "early_by_ms": -454.0,
+      "added_latency_ms": 454.0,
+      "false_hold": false,
+      "n_updates": 32
+    },
+    {
+      "turn_id": "ES2011d.C.949.47",
+      "stratum": "short",
+      "fired_at_ms": 1856.0,
+      "true_end_ms": 832.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 43
+    },
+    {
+      "turn_id": "ES2011d.D.1013.40",
+      "stratum": "short",
+      "fired_at_ms": 2496.0,
+      "true_end_ms": 1440.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 63
+    },
+    {
+      "turn_id": "ES2011d.D.1214.45",
+      "stratum": "disfluent",
+      "fired_at_ms": 2816.0,
+      "true_end_ms": 1760.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 73
+    },
+    {
+      "turn_id": "ES2011d.D.1472.91",
+      "stratum": "disfluent",
+      "fired_at_ms": 1504.0,
+      "true_end_ms": 770.0,
+      "cutoff": false,
+      "early_by_ms": -734.0,
+      "added_latency_ms": 734.0,
+      "false_hold": false,
+      "n_updates": 32
+    },
+    {
+      "turn_id": "ES2011d.D.539.95",
+      "stratum": "disfluent",
+      "fired_at_ms": 3072.0,
+      "true_end_ms": 2048.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 81
+    },
+    {
+      "turn_id": "ES2011d.D.550.93",
+      "stratum": "short",
+      "fired_at_ms": 2912.0,
+      "true_end_ms": 1888.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 76
+    },
+    {
       "turn_id": "ES2011d.D.847.37",
       "stratum": "disfluent",
-      "fired_at_ms": 7360.0,
+      "fired_at_ms": 7584.0,
       "true_end_ms": 6560.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 215
+      "n_updates": 222
     },
     {
       "turn_id": "IS1008a.A.200.56",
@@ -556,6 +614,7 @@
       "fired_at_ms": null,
       "true_end_ms": 6336.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 245
@@ -563,82 +622,90 @@
     {
       "turn_id": "IS1008a.A.825.75",
       "stratum": "ordinary",
-      "fired_at_ms": 3616.0,
+      "fired_at_ms": 3840.0,
       "true_end_ms": 2816.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 98
+      "n_updates": 105
     },
     {
       "turn_id": "IS1008b.A.1162.88",
       "stratum": "short",
-      "fired_at_ms": 1312.0,
+      "fired_at_ms": 1504.0,
       "true_end_ms": 660.0,
       "cutoff": false,
-      "added_latency_ms": 652.0,
+      "early_by_ms": -844.0,
+      "added_latency_ms": 844.0,
       "false_hold": false,
-      "n_updates": 26
+      "n_updates": 32
     },
     {
       "turn_id": "IS1008b.A.1261.53",
       "stratum": "ordinary",
-      "fired_at_ms": 3872.0,
+      "fired_at_ms": 4096.0,
       "true_end_ms": 3072.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 106
+      "n_updates": 113
     },
     {
       "turn_id": "IS1008b.B.1613.78",
       "stratum": "ordinary",
-      "fired_at_ms": 5216.0,
+      "fired_at_ms": 5440.0,
       "true_end_ms": 4416.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 148
+      "n_updates": 155
     },
     {
       "turn_id": "IS1008b.B.1633.91",
       "stratum": "ordinary",
-      "fired_at_ms": 3104.0,
+      "fired_at_ms": 3328.0,
       "true_end_ms": 1568.0,
       "cutoff": false,
-      "added_latency_ms": 1536.0,
+      "early_by_ms": -1760.0,
+      "added_latency_ms": 1760.0,
       "false_hold": false,
-      "n_updates": 82
+      "n_updates": 89
     },
     {
       "turn_id": "IS1008b.B.488.45",
       "stratum": "disfluent",
-      "fired_at_ms": 2112.0,
+      "fired_at_ms": 2336.0,
       "true_end_ms": 1312.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 51
+      "n_updates": 58
     },
     {
       "turn_id": "IS1008b.B.711.96",
       "stratum": "ordinary",
-      "fired_at_ms": 2624.0,
+      "fired_at_ms": 2848.0,
       "true_end_ms": 1824.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 67
+      "n_updates": 74
     },
     {
       "turn_id": "IS1008b.C.546.09",
       "stratum": "disfluent",
-      "fired_at_ms": 2592.0,
+      "fired_at_ms": null,
       "true_end_ms": 832.0,
       "cutoff": false,
-      "added_latency_ms": 1760.0,
-      "false_hold": false,
-      "n_updates": 66
+      "early_by_ms": null,
+      "added_latency_ms": null,
+      "false_hold": true,
+      "n_updates": 73
     },
     {
       "turn_id": "IS1008c.A.1150.61",
@@ -646,6 +713,7 @@
       "fired_at_ms": null,
       "true_end_ms": 1408.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 91
@@ -653,62 +721,68 @@
     {
       "turn_id": "IS1008c.A.117.46",
       "stratum": "short",
-      "fired_at_ms": 1728.0,
+      "fired_at_ms": 1952.0,
       "true_end_ms": 928.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 39
+      "n_updates": 46
     },
     {
       "turn_id": "IS1008c.A.97.17",
       "stratum": "ordinary",
-      "fired_at_ms": 7328.0,
+      "fired_at_ms": 7552.0,
       "true_end_ms": 6496.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 214
+      "n_updates": 221
     },
     {
       "turn_id": "IS1008c.B.1342.36",
       "stratum": "ordinary",
-      "fired_at_ms": 3200.0,
+      "fired_at_ms": 3424.0,
       "true_end_ms": 2368.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 85
+      "n_updates": 92
     },
     {
       "turn_id": "IS1008c.B.895.14",
       "stratum": "ordinary",
-      "fired_at_ms": 8064.0,
+      "fired_at_ms": 8288.0,
       "true_end_ms": 7264.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 237
+      "n_updates": 244
     },
     {
       "turn_id": "IS1008c.C.1384.76",
       "stratum": "ordinary",
-      "fired_at_ms": 15744.0,
+      "fired_at_ms": 15968.0,
       "true_end_ms": 14944.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 477
+      "n_updates": 484
     },
     {
       "turn_id": "IS1008c.C.1450.58",
       "stratum": "disfluent",
-      "fired_at_ms": 4256.0,
+      "fired_at_ms": 4480.0,
       "true_end_ms": 3424.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 118
+      "n_updates": 125
     },
     {
       "turn_id": "IS1008c.D.866.73",
@@ -716,6 +790,7 @@
       "fired_at_ms": null,
       "true_end_ms": 672.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 68
@@ -723,362 +798,398 @@
     {
       "turn_id": "IS1008d.A.1308.23",
       "stratum": "disfluent",
-      "fired_at_ms": 5600.0,
+      "fired_at_ms": 5824.0,
       "true_end_ms": 4768.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 160
+      "n_updates": 167
     },
     {
       "turn_id": "IS1008d.A.247.02",
       "stratum": "short",
-      "fired_at_ms": 1408.0,
+      "fired_at_ms": 1632.0,
       "true_end_ms": 576.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 29
+      "n_updates": 36
     },
     {
       "turn_id": "IS1008d.A.530.37",
       "stratum": "disfluent",
-      "fired_at_ms": 4896.0,
+      "fired_at_ms": 7744.0,
       "true_end_ms": 6720.0,
-      "cutoff": true,
-      "added_latency_ms": null,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 138
+      "n_updates": 227
     },
     {
       "turn_id": "IS1008d.A.660.19",
       "stratum": "ordinary",
-      "fired_at_ms": 12384.0,
+      "fired_at_ms": 25504.0,
       "true_end_ms": 24480.0,
-      "cutoff": true,
-      "added_latency_ms": null,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 372
+      "n_updates": 782
     },
     {
       "turn_id": "IS1008d.C.190.07",
       "stratum": "disfluent",
-      "fired_at_ms": 31488.0,
+      "fired_at_ms": 57184.0,
       "true_end_ms": 56128.0,
-      "cutoff": true,
-      "added_latency_ms": null,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 969
+      "n_updates": 1772
     },
     {
       "turn_id": "TS3004a.A.1242.04",
       "stratum": "short",
-      "fired_at_ms": 1664.0,
+      "fired_at_ms": 1888.0,
       "true_end_ms": 864.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 37
-    },
-    {
-      "turn_id": "TS3004a.A.1298.49",
-      "stratum": "ordinary",
-      "fired_at_ms": 2688.0,
-      "true_end_ms": 1856.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 69
-    },
-    {
-      "turn_id": "TS3004a.A.1302.08",
-      "stratum": "disfluent",
-      "fired_at_ms": 6432.0,
-      "true_end_ms": 5600.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 186
-    },
-    {
-      "turn_id": "TS3004a.A.344.16",
-      "stratum": "disfluent",
-      "fired_at_ms": 3264.0,
-      "true_end_ms": 2432.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 87
-    },
-    {
-      "turn_id": "TS3004a.A.489.14",
-      "stratum": "ordinary",
-      "fired_at_ms": 2560.0,
-      "true_end_ms": 1760.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 65
-    },
-    {
-      "turn_id": "TS3004a.A.701.65",
-      "stratum": "short",
-      "fired_at_ms": 1792.0,
-      "true_end_ms": 960.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 41
-    },
-    {
-      "turn_id": "TS3004a.B.48.22",
-      "stratum": "ordinary",
-      "fired_at_ms": 1888.0,
-      "true_end_ms": 2528.0,
-      "cutoff": true,
-      "added_latency_ms": null,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
       "n_updates": 44
     },
     {
-      "turn_id": "TS3004a.B.619.70",
+      "turn_id": "TS3004a.A.1298.49",
       "stratum": "ordinary",
-      "fired_at_ms": 2752.0,
-      "true_end_ms": 1920.0,
+      "fired_at_ms": 2912.0,
+      "true_end_ms": 1856.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 71
+      "n_updates": 76
     },
     {
-      "turn_id": "TS3004a.B.697.05",
+      "turn_id": "TS3004a.A.1302.08",
+      "stratum": "disfluent",
+      "fired_at_ms": 6656.0,
+      "true_end_ms": 5600.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 193
+    },
+    {
+      "turn_id": "TS3004a.A.344.16",
+      "stratum": "disfluent",
+      "fired_at_ms": 3488.0,
+      "true_end_ms": 2432.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 94
+    },
+    {
+      "turn_id": "TS3004a.A.489.14",
       "stratum": "ordinary",
-      "fired_at_ms": 2720.0,
-      "true_end_ms": 1888.0,
+      "fired_at_ms": 2784.0,
+      "true_end_ms": 1760.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 70
+      "n_updates": 72
     },
     {
-      "turn_id": "TS3004a.B.700.88",
-      "stratum": "disfluent",
-      "fired_at_ms": 1312.0,
-      "true_end_ms": 640.0,
-      "cutoff": false,
-      "added_latency_ms": 672.0,
-      "false_hold": false,
-      "n_updates": 26
-    },
-    {
-      "turn_id": "TS3004a.C.1301.10",
-      "stratum": "short",
-      "fired_at_ms": 1312.0,
-      "true_end_ms": 1210.0,
-      "cutoff": false,
-      "added_latency_ms": 102.0,
-      "false_hold": false,
-      "n_updates": 26
-    },
-    {
-      "turn_id": "TS3004a.C.23.97",
-      "stratum": "short",
-      "fired_at_ms": 2176.0,
-      "true_end_ms": 1376.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 53
-    },
-    {
-      "turn_id": "TS3004a.C.44.80",
-      "stratum": "short",
-      "fired_at_ms": 1984.0,
-      "true_end_ms": 1152.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 47
-    },
-    {
-      "turn_id": "TS3004a.C.490.63",
-      "stratum": "short",
-      "fired_at_ms": 2048.0,
-      "true_end_ms": 1216.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 49
-    },
-    {
-      "turn_id": "TS3004a.C.590.22",
-      "stratum": "short",
-      "fired_at_ms": 2336.0,
-      "true_end_ms": 1504.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 58
-    },
-    {
-      "turn_id": "TS3004a.C.981.49",
-      "stratum": "disfluent",
-      "fired_at_ms": 2464.0,
-      "true_end_ms": 5504.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 62
-    },
-    {
-      "turn_id": "TS3004a.D.699.90",
-      "stratum": "short",
-      "fired_at_ms": 2080.0,
-      "true_end_ms": 1280.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 50
-    },
-    {
-      "turn_id": "TS3004b.A.1559.98",
-      "stratum": "ordinary",
-      "fired_at_ms": 7616.0,
-      "true_end_ms": 6816.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 223
-    },
-    {
-      "turn_id": "TS3004b.A.87.86",
-      "stratum": "short",
-      "fired_at_ms": 1952.0,
-      "true_end_ms": 1120.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 46
-    },
-    {
-      "turn_id": "TS3004b.C.1315.01",
-      "stratum": "disfluent",
-      "fired_at_ms": 7360.0,
-      "true_end_ms": 18432.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 215
-    },
-    {
-      "turn_id": "TS3004b.C.1372.12",
-      "stratum": "short",
-      "fired_at_ms": 1824.0,
-      "true_end_ms": 1024.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 42
-    },
-    {
-      "turn_id": "TS3004b.C.2020.61",
+      "turn_id": "TS3004a.A.701.65",
       "stratum": "short",
       "fired_at_ms": 2016.0,
-      "true_end_ms": 1216.0,
+      "true_end_ms": 960.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
       "n_updates": 48
     },
     {
+      "turn_id": "TS3004a.B.48.22",
+      "stratum": "ordinary",
+      "fired_at_ms": 3552.0,
+      "true_end_ms": 2528.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 96
+    },
+    {
+      "turn_id": "TS3004a.B.619.70",
+      "stratum": "ordinary",
+      "fired_at_ms": 2976.0,
+      "true_end_ms": 1920.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 78
+    },
+    {
+      "turn_id": "TS3004a.B.697.05",
+      "stratum": "ordinary",
+      "fired_at_ms": 2944.0,
+      "true_end_ms": 1888.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 77
+    },
+    {
+      "turn_id": "TS3004a.B.700.88",
+      "stratum": "disfluent",
+      "fired_at_ms": 1504.0,
+      "true_end_ms": 640.0,
+      "cutoff": false,
+      "early_by_ms": -864.0,
+      "added_latency_ms": 864.0,
+      "false_hold": false,
+      "n_updates": 32
+    },
+    {
+      "turn_id": "TS3004a.C.1301.10",
+      "stratum": "short",
+      "fired_at_ms": 1504.0,
+      "true_end_ms": 1210.0,
+      "cutoff": false,
+      "early_by_ms": -294.0,
+      "added_latency_ms": 294.0,
+      "false_hold": false,
+      "n_updates": 32
+    },
+    {
+      "turn_id": "TS3004a.C.23.97",
+      "stratum": "short",
+      "fired_at_ms": 2400.0,
+      "true_end_ms": 1376.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 60
+    },
+    {
+      "turn_id": "TS3004a.C.44.80",
+      "stratum": "short",
+      "fired_at_ms": 2208.0,
+      "true_end_ms": 1152.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 54
+    },
+    {
+      "turn_id": "TS3004a.C.490.63",
+      "stratum": "short",
+      "fired_at_ms": 2272.0,
+      "true_end_ms": 1216.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 56
+    },
+    {
+      "turn_id": "TS3004a.C.590.22",
+      "stratum": "short",
+      "fired_at_ms": 2560.0,
+      "true_end_ms": 1504.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 65
+    },
+    {
+      "turn_id": "TS3004a.C.981.49",
+      "stratum": "disfluent",
+      "fired_at_ms": 6560.0,
+      "true_end_ms": 5504.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 190
+    },
+    {
+      "turn_id": "TS3004a.D.699.90",
+      "stratum": "short",
+      "fired_at_ms": 2304.0,
+      "true_end_ms": 1280.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 57
+    },
+    {
+      "turn_id": "TS3004b.A.1559.98",
+      "stratum": "ordinary",
+      "fired_at_ms": 7840.0,
+      "true_end_ms": 6816.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 230
+    },
+    {
+      "turn_id": "TS3004b.A.87.86",
+      "stratum": "short",
+      "fired_at_ms": 2176.0,
+      "true_end_ms": 1120.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 53
+    },
+    {
+      "turn_id": "TS3004b.C.1315.01",
+      "stratum": "disfluent",
+      "fired_at_ms": 19456.0,
+      "true_end_ms": 18432.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 593
+    },
+    {
+      "turn_id": "TS3004b.C.1372.12",
+      "stratum": "short",
+      "fired_at_ms": 2048.0,
+      "true_end_ms": 1024.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 49
+    },
+    {
+      "turn_id": "TS3004b.C.2020.61",
+      "stratum": "short",
+      "fired_at_ms": 2240.0,
+      "true_end_ms": 1216.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 55
+    },
+    {
       "turn_id": "TS3004b.D.452.34",
       "stratum": "disfluent",
-      "fired_at_ms": 16384.0,
+      "fired_at_ms": 16608.0,
       "true_end_ms": 59360.0,
       "cutoff": true,
+      "early_by_ms": 42752.0,
       "added_latency_ms": null,
       "false_hold": false,
-      "n_updates": 497
+      "n_updates": 504
     },
     {
       "turn_id": "TS3004c.A.1738.64",
       "stratum": "disfluent",
-      "fired_at_ms": 2336.0,
+      "fired_at_ms": 2560.0,
       "true_end_ms": 1536.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 58
+      "n_updates": 65
     },
     {
       "turn_id": "TS3004c.A.1840.50",
       "stratum": "disfluent",
-      "fired_at_ms": 3872.0,
+      "fired_at_ms": 4096.0,
       "true_end_ms": 3040.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 106
+      "n_updates": 113
     },
     {
       "turn_id": "TS3004c.A.2038.29",
       "stratum": "ordinary",
-      "fired_at_ms": 2432.0,
+      "fired_at_ms": 2656.0,
       "true_end_ms": 1600.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 61
+      "n_updates": 68
     },
     {
       "turn_id": "TS3004c.A.828.36",
       "stratum": "ordinary",
-      "fired_at_ms": 3008.0,
+      "fired_at_ms": 3232.0,
       "true_end_ms": 2176.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 79
-    },
-    {
-      "turn_id": "TS3004c.B.1080.42",
-      "stratum": "disfluent",
-      "fired_at_ms": 1952.0,
-      "true_end_ms": 1152.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 46
-    },
-    {
-      "turn_id": "TS3004c.B.1255.42",
-      "stratum": "ordinary",
-      "fired_at_ms": 2752.0,
-      "true_end_ms": 1920.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 71
-    },
-    {
-      "turn_id": "TS3004c.B.1844.38",
-      "stratum": "ordinary",
-      "fired_at_ms": 3232.0,
-      "true_end_ms": 2432.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
       "n_updates": 86
     },
     {
+      "turn_id": "TS3004c.B.1080.42",
+      "stratum": "disfluent",
+      "fired_at_ms": 2176.0,
+      "true_end_ms": 1152.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 53
+    },
+    {
+      "turn_id": "TS3004c.B.1255.42",
+      "stratum": "ordinary",
+      "fired_at_ms": 2976.0,
+      "true_end_ms": 1920.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 78
+    },
+    {
+      "turn_id": "TS3004c.B.1844.38",
+      "stratum": "ordinary",
+      "fired_at_ms": 3456.0,
+      "true_end_ms": 2432.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 93
+    },
+    {
       "turn_id": "TS3004c.B.2056.12",
       "stratum": "disfluent",
-      "fired_at_ms": 3392.0,
+      "fired_at_ms": 3616.0,
       "true_end_ms": 2560.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 91
+      "n_updates": 98
     },
     {
       "turn_id": "TS3004c.B.2252.10",
@@ -1086,6 +1197,7 @@
       "fired_at_ms": null,
       "true_end_ms": 1216.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 85
@@ -1093,552 +1205,607 @@
     {
       "turn_id": "TS3004c.B.771.34",
       "stratum": "disfluent",
-      "fired_at_ms": 3232.0,
-      "true_end_ms": 2432.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 86
-    },
-    {
-      "turn_id": "TS3004c.B.948.21",
-      "stratum": "ordinary",
-      "fired_at_ms": 3232.0,
-      "true_end_ms": 2432.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 86
-    },
-    {
-      "turn_id": "TS3004c.C.1576.27",
-      "stratum": "short",
-      "fired_at_ms": 1600.0,
-      "true_end_ms": 800.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 35
-    },
-    {
-      "turn_id": "TS3004c.C.1627.99",
-      "stratum": "short",
-      "fired_at_ms": 1856.0,
-      "true_end_ms": 1056.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 43
-    },
-    {
-      "turn_id": "TS3004c.C.1698.69",
-      "stratum": "short",
-      "fired_at_ms": 1856.0,
-      "true_end_ms": 992.0,
-      "cutoff": false,
-      "added_latency_ms": 864.0,
-      "false_hold": false,
-      "n_updates": 43
-    },
-    {
-      "turn_id": "TS3004c.C.1955.64",
-      "stratum": "ordinary",
-      "fired_at_ms": 4416.0,
-      "true_end_ms": 6464.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 123
-    },
-    {
-      "turn_id": "TS3004c.C.2110.18",
-      "stratum": "short",
-      "fired_at_ms": 1984.0,
-      "true_end_ms": 1184.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 47
-    },
-    {
-      "turn_id": "TS3004c.C.879.96",
-      "stratum": "disfluent",
-      "fired_at_ms": 1856.0,
-      "true_end_ms": 1024.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 43
-    },
-    {
-      "turn_id": "TS3004c.D.1984.00",
-      "stratum": "short",
-      "fired_at_ms": 1728.0,
-      "true_end_ms": 928.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 39
-    },
-    {
-      "turn_id": "TS3004c.D.2069.14",
-      "stratum": "disfluent",
-      "fired_at_ms": 2368.0,
-      "true_end_ms": 3584.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 59
-    },
-    {
-      "turn_id": "TS3004c.D.226.23",
-      "stratum": "disfluent",
-      "fired_at_ms": 2144.0,
-      "true_end_ms": 1312.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 52
-    },
-    {
-      "turn_id": "TS3004c.D.408.77",
-      "stratum": "short",
-      "fired_at_ms": 2144.0,
-      "true_end_ms": 1312.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 52
-    },
-    {
-      "turn_id": "TS3004d.A.1361.34",
-      "stratum": "disfluent",
-      "fired_at_ms": 3488.0,
-      "true_end_ms": 2688.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 94
-    },
-    {
-      "turn_id": "TS3004d.A.1582.40",
-      "stratum": "short",
-      "fired_at_ms": 2112.0,
-      "true_end_ms": 1312.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 51
-    },
-    {
-      "turn_id": "TS3004d.A.1740.56",
-      "stratum": "disfluent",
-      "fired_at_ms": 2688.0,
-      "true_end_ms": 1824.0,
-      "cutoff": false,
-      "added_latency_ms": 864.0,
-      "false_hold": false,
-      "n_updates": 69
-    },
-    {
-      "turn_id": "TS3004d.A.1936.09",
-      "stratum": "ordinary",
-      "fired_at_ms": 2496.0,
-      "true_end_ms": 1696.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 63
-    },
-    {
-      "turn_id": "TS3004d.A.235.62",
-      "stratum": "short",
-      "fired_at_ms": 1760.0,
-      "true_end_ms": 928.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 40
-    },
-    {
-      "turn_id": "TS3004d.A.559.37",
-      "stratum": "short",
-      "fired_at_ms": 1888.0,
-      "true_end_ms": 1088.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 44
-    },
-    {
-      "turn_id": "TS3004d.B.1113.47",
-      "stratum": "ordinary",
-      "fired_at_ms": 2368.0,
-      "true_end_ms": 1568.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 59
-    },
-    {
-      "turn_id": "TS3004d.B.1335.06",
-      "stratum": "ordinary",
-      "fired_at_ms": 2624.0,
-      "true_end_ms": 1792.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 67
-    },
-    {
-      "turn_id": "TS3004d.B.1631.35",
-      "stratum": "short",
-      "fired_at_ms": 1632.0,
-      "true_end_ms": 800.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 36
-    },
-    {
-      "turn_id": "TS3004d.B.1694.01",
-      "stratum": "short",
-      "fired_at_ms": 1728.0,
-      "true_end_ms": 896.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 39
-    },
-    {
-      "turn_id": "TS3004d.B.1743.21",
-      "stratum": "disfluent",
-      "fired_at_ms": 2304.0,
-      "true_end_ms": 1472.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 57
-    },
-    {
-      "turn_id": "TS3004d.B.2039.03",
-      "stratum": "disfluent",
-      "fired_at_ms": 3392.0,
-      "true_end_ms": 2560.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 91
-    },
-    {
-      "turn_id": "TS3004d.B.2061.25",
-      "stratum": "disfluent",
-      "fired_at_ms": 3168.0,
-      "true_end_ms": 2368.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 84
-    },
-    {
-      "turn_id": "TS3004d.B.2276.43",
-      "stratum": "short",
-      "fired_at_ms": 2048.0,
-      "true_end_ms": 1216.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 49
-    },
-    {
-      "turn_id": "TS3004d.B.2449.59",
-      "stratum": "short",
-      "fired_at_ms": 1824.0,
-      "true_end_ms": 1024.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 42
-    },
-    {
-      "turn_id": "TS3004d.B.2459.27",
-      "stratum": "disfluent",
-      "fired_at_ms": 2592.0,
-      "true_end_ms": 1792.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 66
-    },
-    {
-      "turn_id": "TS3004d.B.2621.54",
-      "stratum": "disfluent",
-      "fired_at_ms": 6976.0,
-      "true_end_ms": 5856.0,
-      "cutoff": false,
-      "added_latency_ms": 1120.0,
-      "false_hold": false,
-      "n_updates": 203
-    },
-    {
-      "turn_id": "TS3004d.B.2678.59",
-      "stratum": "short",
-      "fired_at_ms": 2048.0,
-      "true_end_ms": 1216.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 49
-    },
-    {
-      "turn_id": "TS3004d.B.500.97",
-      "stratum": "disfluent",
-      "fired_at_ms": 4064.0,
-      "true_end_ms": 3232.0,
-      "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 112
-    },
-    {
-      "turn_id": "TS3004d.B.762.01",
-      "stratum": "ordinary",
-      "fired_at_ms": 4352.0,
-      "true_end_ms": 3552.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 121
-    },
-    {
-      "turn_id": "TS3004d.B.78.53",
-      "stratum": "ordinary",
-      "fired_at_ms": 8672.0,
-      "true_end_ms": 7872.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 256
-    },
-    {
-      "turn_id": "TS3004d.C.1376.47",
-      "stratum": "short",
-      "fired_at_ms": 1536.0,
-      "true_end_ms": 736.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 33
-    },
-    {
-      "turn_id": "TS3004d.C.1757.67",
-      "stratum": "ordinary",
-      "fired_at_ms": 2752.0,
-      "true_end_ms": 1952.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 71
-    },
-    {
-      "turn_id": "TS3004d.C.1920.32",
-      "stratum": "short",
-      "fired_at_ms": 1664.0,
-      "true_end_ms": 864.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 37
-    },
-    {
-      "turn_id": "TS3004d.C.2186.90",
-      "stratum": "disfluent",
-      "fired_at_ms": 1696.0,
-      "true_end_ms": 2848.0,
-      "cutoff": true,
-      "added_latency_ms": null,
-      "false_hold": false,
-      "n_updates": 38
-    },
-    {
-      "turn_id": "TS3004d.C.2225.96",
-      "stratum": "ordinary",
-      "fired_at_ms": 4160.0,
-      "true_end_ms": 3360.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 115
-    },
-    {
-      "turn_id": "TS3004d.C.2512.92",
-      "stratum": "ordinary",
       "fired_at_ms": 3456.0,
-      "true_end_ms": 2656.0,
+      "true_end_ms": 2432.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
       "n_updates": 93
     },
     {
-      "turn_id": "TS3004d.C.62.03",
-      "stratum": "short",
-      "fired_at_ms": 2560.0,
-      "true_end_ms": 1760.0,
+      "turn_id": "TS3004c.B.948.21",
+      "stratum": "ordinary",
+      "fired_at_ms": 3456.0,
+      "true_end_ms": 2432.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 65
+      "n_updates": 93
     },
     {
-      "turn_id": "TS3004d.C.666.01",
+      "turn_id": "TS3004c.C.1576.27",
       "stratum": "short",
-      "fired_at_ms": 1664.0,
-      "true_end_ms": 832.0,
+      "fired_at_ms": 1824.0,
+      "true_end_ms": 800.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 37
+      "n_updates": 42
     },
     {
-      "turn_id": "TS3004d.D.1011.90",
+      "turn_id": "TS3004c.C.1627.99",
+      "stratum": "short",
+      "fired_at_ms": 2080.0,
+      "true_end_ms": 1056.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 50
+    },
+    {
+      "turn_id": "TS3004c.C.1698.69",
+      "stratum": "short",
+      "fired_at_ms": 2080.0,
+      "true_end_ms": 992.0,
+      "cutoff": false,
+      "early_by_ms": -1088.0,
+      "added_latency_ms": 1088.0,
+      "false_hold": false,
+      "n_updates": 50
+    },
+    {
+      "turn_id": "TS3004c.C.1955.64",
+      "stratum": "ordinary",
+      "fired_at_ms": 7488.0,
+      "true_end_ms": 6464.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 219
+    },
+    {
+      "turn_id": "TS3004c.C.2110.18",
+      "stratum": "short",
+      "fired_at_ms": 2208.0,
+      "true_end_ms": 1184.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 54
+    },
+    {
+      "turn_id": "TS3004c.C.879.96",
       "stratum": "disfluent",
-      "fired_at_ms": 2336.0,
-      "true_end_ms": 1536.0,
+      "fired_at_ms": 2080.0,
+      "true_end_ms": 1024.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 50
+    },
+    {
+      "turn_id": "TS3004c.D.1984.00",
+      "stratum": "short",
+      "fired_at_ms": 1952.0,
+      "true_end_ms": 928.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 46
+    },
+    {
+      "turn_id": "TS3004c.D.2069.14",
+      "stratum": "disfluent",
+      "fired_at_ms": 2592.0,
+      "true_end_ms": 3584.0,
+      "cutoff": true,
+      "early_by_ms": 992.0,
+      "added_latency_ms": null,
+      "false_hold": false,
+      "n_updates": 66
+    },
+    {
+      "turn_id": "TS3004c.D.226.23",
+      "stratum": "disfluent",
+      "fired_at_ms": 2368.0,
+      "true_end_ms": 1312.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 59
+    },
+    {
+      "turn_id": "TS3004c.D.408.77",
+      "stratum": "short",
+      "fired_at_ms": 2368.0,
+      "true_end_ms": 1312.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 59
+    },
+    {
+      "turn_id": "TS3004d.A.1361.34",
+      "stratum": "disfluent",
+      "fired_at_ms": 3712.0,
+      "true_end_ms": 2688.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 101
+    },
+    {
+      "turn_id": "TS3004d.A.1582.40",
+      "stratum": "short",
+      "fired_at_ms": 2336.0,
+      "true_end_ms": 1312.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
       "n_updates": 58
     },
     {
-      "turn_id": "TS3004d.D.2377.81",
-      "stratum": "short",
-      "fired_at_ms": 1792.0,
-      "true_end_ms": 992.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 41
-    },
-    {
-      "turn_id": "TS3004d.D.2496.63",
+      "turn_id": "TS3004d.A.1740.56",
       "stratum": "disfluent",
-      "fired_at_ms": 1888.0,
-      "true_end_ms": 1056.0,
+      "fired_at_ms": 2912.0,
+      "true_end_ms": 1824.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1088.0,
+      "added_latency_ms": 1088.0,
       "false_hold": false,
-      "n_updates": 44
+      "n_updates": 76
     },
     {
-      "turn_id": "TS3004d.D.2710.78",
-      "stratum": "disfluent",
-      "fired_at_ms": 2976.0,
-      "true_end_ms": 2176.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 78
-    },
-    {
-      "turn_id": "TS3006a.A.1150.43",
-      "stratum": "disfluent",
-      "fired_at_ms": 1664.0,
-      "true_end_ms": 864.0,
-      "cutoff": false,
-      "added_latency_ms": 800.0,
-      "false_hold": false,
-      "n_updates": 37
-    },
-    {
-      "turn_id": "TS3006a.A.239.81",
-      "stratum": "disfluent",
-      "fired_at_ms": 9664.0,
-      "true_end_ms": 8192.0,
-      "cutoff": false,
-      "added_latency_ms": 1472.0,
-      "false_hold": false,
-      "n_updates": 287
-    },
-    {
-      "turn_id": "TS3006a.A.261.47",
+      "turn_id": "TS3004d.A.1936.09",
       "stratum": "ordinary",
-      "fired_at_ms": 3232.0,
-      "true_end_ms": 2400.0,
+      "fired_at_ms": 2720.0,
+      "true_end_ms": 1696.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 86
+      "n_updates": 70
     },
     {
-      "turn_id": "TS3006a.A.375.02",
-      "stratum": "disfluent",
+      "turn_id": "TS3004d.A.235.62",
+      "stratum": "short",
       "fired_at_ms": 1984.0,
-      "true_end_ms": 1152.0,
+      "true_end_ms": 928.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
       "n_updates": 47
     },
     {
-      "turn_id": "TS3006a.B.280.76",
-      "stratum": "disfluent",
+      "turn_id": "TS3004d.A.559.37",
+      "stratum": "short",
       "fired_at_ms": 2112.0,
-      "true_end_ms": 1312.0,
+      "true_end_ms": 1088.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
       "n_updates": 51
     },
     {
-      "turn_id": "TS3006a.D.123.28",
+      "turn_id": "TS3004d.B.1113.47",
+      "stratum": "ordinary",
+      "fired_at_ms": 2592.0,
+      "true_end_ms": 1568.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 66
+    },
+    {
+      "turn_id": "TS3004d.B.1335.06",
+      "stratum": "ordinary",
+      "fired_at_ms": 2848.0,
+      "true_end_ms": 1792.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 74
+    },
+    {
+      "turn_id": "TS3004d.B.1631.35",
       "stratum": "short",
-      "fired_at_ms": 1632.0,
+      "fired_at_ms": 1856.0,
       "true_end_ms": 800.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 36
+      "n_updates": 43
     },
     {
-      "turn_id": "TS3006a.D.647.73",
-      "stratum": "disfluent",
-      "fired_at_ms": 1696.0,
+      "turn_id": "TS3004d.B.1694.01",
+      "stratum": "short",
+      "fired_at_ms": 1952.0,
       "true_end_ms": 896.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 38
+      "n_updates": 46
     },
     {
-      "turn_id": "TS3006b.A.1105.41",
+      "turn_id": "TS3004d.B.1743.21",
+      "stratum": "disfluent",
+      "fired_at_ms": 2528.0,
+      "true_end_ms": 1472.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 64
+    },
+    {
+      "turn_id": "TS3004d.B.2039.03",
+      "stratum": "disfluent",
+      "fired_at_ms": 3616.0,
+      "true_end_ms": 2560.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 98
+    },
+    {
+      "turn_id": "TS3004d.B.2061.25",
+      "stratum": "disfluent",
+      "fired_at_ms": 3392.0,
+      "true_end_ms": 2368.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 91
+    },
+    {
+      "turn_id": "TS3004d.B.2276.43",
+      "stratum": "short",
+      "fired_at_ms": 2272.0,
+      "true_end_ms": 1216.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 56
+    },
+    {
+      "turn_id": "TS3004d.B.2449.59",
+      "stratum": "short",
+      "fired_at_ms": 2048.0,
+      "true_end_ms": 1024.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 49
+    },
+    {
+      "turn_id": "TS3004d.B.2459.27",
+      "stratum": "disfluent",
+      "fired_at_ms": 2816.0,
+      "true_end_ms": 1792.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 73
+    },
+    {
+      "turn_id": "TS3004d.B.2621.54",
+      "stratum": "disfluent",
+      "fired_at_ms": 7200.0,
+      "true_end_ms": 5856.0,
+      "cutoff": false,
+      "early_by_ms": -1344.0,
+      "added_latency_ms": 1344.0,
+      "false_hold": false,
+      "n_updates": 210
+    },
+    {
+      "turn_id": "TS3004d.B.2678.59",
+      "stratum": "short",
+      "fired_at_ms": 2272.0,
+      "true_end_ms": 1216.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 56
+    },
+    {
+      "turn_id": "TS3004d.B.500.97",
+      "stratum": "disfluent",
+      "fired_at_ms": 4288.0,
+      "true_end_ms": 3232.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 119
+    },
+    {
+      "turn_id": "TS3004d.B.762.01",
+      "stratum": "ordinary",
+      "fired_at_ms": 4576.0,
+      "true_end_ms": 3552.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 128
+    },
+    {
+      "turn_id": "TS3004d.B.78.53",
+      "stratum": "ordinary",
+      "fired_at_ms": 8896.0,
+      "true_end_ms": 7872.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 263
+    },
+    {
+      "turn_id": "TS3004d.C.1376.47",
+      "stratum": "short",
+      "fired_at_ms": null,
+      "true_end_ms": 736.0,
+      "cutoff": false,
+      "early_by_ms": null,
+      "added_latency_ms": null,
+      "false_hold": true,
+      "n_updates": 70
+    },
+    {
+      "turn_id": "TS3004d.C.1757.67",
+      "stratum": "ordinary",
+      "fired_at_ms": 2976.0,
+      "true_end_ms": 1952.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 78
+    },
+    {
+      "turn_id": "TS3004d.C.1920.32",
+      "stratum": "short",
+      "fired_at_ms": null,
+      "true_end_ms": 864.0,
+      "cutoff": false,
+      "early_by_ms": null,
+      "added_latency_ms": null,
+      "false_hold": true,
+      "n_updates": 74
+    },
+    {
+      "turn_id": "TS3004d.C.2186.90",
+      "stratum": "disfluent",
+      "fired_at_ms": 3904.0,
+      "true_end_ms": 2848.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 107
+    },
+    {
+      "turn_id": "TS3004d.C.2225.96",
+      "stratum": "ordinary",
+      "fired_at_ms": null,
+      "true_end_ms": 3360.0,
+      "cutoff": false,
+      "early_by_ms": null,
+      "added_latency_ms": null,
+      "false_hold": true,
+      "n_updates": 152
+    },
+    {
+      "turn_id": "TS3004d.C.2512.92",
+      "stratum": "ordinary",
+      "fired_at_ms": 3680.0,
+      "true_end_ms": 2656.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 100
+    },
+    {
+      "turn_id": "TS3004d.C.62.03",
+      "stratum": "short",
+      "fired_at_ms": 2784.0,
+      "true_end_ms": 1760.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 72
+    },
+    {
+      "turn_id": "TS3004d.C.666.01",
+      "stratum": "short",
+      "fired_at_ms": 1888.0,
+      "true_end_ms": 832.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 44
+    },
+    {
+      "turn_id": "TS3004d.D.1011.90",
       "stratum": "disfluent",
       "fired_at_ms": 2560.0,
-      "true_end_ms": 1728.0,
+      "true_end_ms": 1536.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
       "n_updates": 65
     },
     {
+      "turn_id": "TS3004d.D.2377.81",
+      "stratum": "short",
+      "fired_at_ms": 2016.0,
+      "true_end_ms": 992.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 48
+    },
+    {
+      "turn_id": "TS3004d.D.2496.63",
+      "stratum": "disfluent",
+      "fired_at_ms": 2112.0,
+      "true_end_ms": 1056.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 51
+    },
+    {
+      "turn_id": "TS3004d.D.2710.78",
+      "stratum": "disfluent",
+      "fired_at_ms": 3200.0,
+      "true_end_ms": 2176.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 85
+    },
+    {
+      "turn_id": "TS3006a.A.1150.43",
+      "stratum": "disfluent",
+      "fired_at_ms": 1888.0,
+      "true_end_ms": 864.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 44
+    },
+    {
+      "turn_id": "TS3006a.A.239.81",
+      "stratum": "disfluent",
+      "fired_at_ms": 9888.0,
+      "true_end_ms": 8192.0,
+      "cutoff": false,
+      "early_by_ms": -1696.0,
+      "added_latency_ms": 1696.0,
+      "false_hold": false,
+      "n_updates": 294
+    },
+    {
+      "turn_id": "TS3006a.A.261.47",
+      "stratum": "ordinary",
+      "fired_at_ms": 3456.0,
+      "true_end_ms": 2400.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 93
+    },
+    {
+      "turn_id": "TS3006a.A.375.02",
+      "stratum": "disfluent",
+      "fired_at_ms": 2208.0,
+      "true_end_ms": 1152.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 54
+    },
+    {
+      "turn_id": "TS3006a.B.280.76",
+      "stratum": "disfluent",
+      "fired_at_ms": 2336.0,
+      "true_end_ms": 1312.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 58
+    },
+    {
+      "turn_id": "TS3006a.D.123.28",
+      "stratum": "short",
+      "fired_at_ms": 1856.0,
+      "true_end_ms": 800.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 43
+    },
+    {
+      "turn_id": "TS3006a.D.647.73",
+      "stratum": "disfluent",
+      "fired_at_ms": 1920.0,
+      "true_end_ms": 896.0,
+      "cutoff": false,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
+      "false_hold": false,
+      "n_updates": 45
+    },
+    {
+      "turn_id": "TS3006b.A.1105.41",
+      "stratum": "disfluent",
+      "fired_at_ms": 2784.0,
+      "true_end_ms": 1728.0,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
+      "false_hold": false,
+      "n_updates": 72
+    },
+    {
       "turn_id": "TS3006b.A.139.59",
       "stratum": "short",
-      "fired_at_ms": 2176.0,
+      "fired_at_ms": 2400.0,
       "true_end_ms": 1344.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 53
+      "n_updates": 60
     },
     {
       "turn_id": "TS3006b.A.779.71",
       "stratum": "ordinary",
-      "fired_at_ms": 1696.0,
+      "fired_at_ms": 4608.0,
       "true_end_ms": 3488.0,
-      "cutoff": true,
-      "added_latency_ms": null,
+      "cutoff": false,
+      "early_by_ms": -1120.0,
+      "added_latency_ms": 1120.0,
       "false_hold": false,
-      "n_updates": 38
+      "n_updates": 129
     },
     {
       "turn_id": "TS3006b.B.663.20",
@@ -1646,6 +1813,7 @@
       "fired_at_ms": null,
       "true_end_ms": 6272.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 243
@@ -1656,6 +1824,7 @@
       "fired_at_ms": null,
       "true_end_ms": 1280.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 87
@@ -1663,122 +1832,134 @@
     {
       "turn_id": "TS3006b.D.1085.75",
       "stratum": "disfluent",
-      "fired_at_ms": 2432.0,
+      "fired_at_ms": 2656.0,
       "true_end_ms": 1632.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 61
+      "n_updates": 68
     },
     {
       "turn_id": "TS3006b.D.1199.22",
       "stratum": "disfluent",
-      "fired_at_ms": 1920.0,
+      "fired_at_ms": 2144.0,
       "true_end_ms": 1120.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 45
+      "n_updates": 52
     },
     {
       "turn_id": "TS3006b.D.2042.49",
       "stratum": "ordinary",
-      "fired_at_ms": 3744.0,
+      "fired_at_ms": 3968.0,
       "true_end_ms": 2944.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 102
+      "n_updates": 109
     },
     {
       "turn_id": "TS3006c.A.1338.91",
       "stratum": "short",
-      "fired_at_ms": 2784.0,
+      "fired_at_ms": 3008.0,
       "true_end_ms": 1216.0,
       "cutoff": false,
-      "added_latency_ms": 1568.0,
+      "early_by_ms": -1792.0,
+      "added_latency_ms": 1792.0,
       "false_hold": false,
-      "n_updates": 72
+      "n_updates": 79
     },
     {
       "turn_id": "TS3006c.A.2194.51",
       "stratum": "ordinary",
-      "fired_at_ms": 3168.0,
+      "fired_at_ms": 3392.0,
       "true_end_ms": 2336.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 84
+      "n_updates": 91
     },
     {
       "turn_id": "TS3006c.B.1943.37",
       "stratum": "short",
-      "fired_at_ms": 1664.0,
+      "fired_at_ms": null,
       "true_end_ms": 832.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
-      "false_hold": false,
-      "n_updates": 37
+      "early_by_ms": null,
+      "added_latency_ms": null,
+      "false_hold": true,
+      "n_updates": 73
     },
     {
       "turn_id": "TS3006c.B.2287.54",
       "stratum": "ordinary",
-      "fired_at_ms": 5664.0,
+      "fired_at_ms": 5888.0,
       "true_end_ms": 4832.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 162
+      "n_updates": 169
     },
     {
       "turn_id": "TS3006c.B.2538.90",
       "stratum": "ordinary",
-      "fired_at_ms": 6944.0,
+      "fired_at_ms": 7168.0,
       "true_end_ms": 6144.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 202
+      "n_updates": 209
     },
     {
       "turn_id": "TS3006c.B.2577.16",
       "stratum": "short",
-      "fired_at_ms": 1600.0,
+      "fired_at_ms": 1824.0,
       "true_end_ms": 768.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 35
+      "n_updates": 42
     },
     {
       "turn_id": "TS3006c.B.633.33",
       "stratum": "ordinary",
-      "fired_at_ms": 4992.0,
+      "fired_at_ms": null,
       "true_end_ms": 3168.0,
       "cutoff": false,
-      "added_latency_ms": 1824.0,
-      "false_hold": false,
-      "n_updates": 141
+      "early_by_ms": null,
+      "added_latency_ms": null,
+      "false_hold": true,
+      "n_updates": 146
     },
     {
       "turn_id": "TS3006c.C.2177.11",
       "stratum": "short",
-      "fired_at_ms": 2080.0,
+      "fired_at_ms": 2304.0,
       "true_end_ms": 1248.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 50
+      "n_updates": 57
     },
     {
       "turn_id": "TS3006c.D.1155.18",
       "stratum": "short",
-      "fired_at_ms": 1664.0,
+      "fired_at_ms": 1888.0,
       "true_end_ms": 832.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 37
+      "n_updates": 44
     },
     {
       "turn_id": "TS3006c.D.1486.24",
@@ -1786,6 +1967,7 @@
       "fired_at_ms": null,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 75
@@ -1793,62 +1975,68 @@
     {
       "turn_id": "TS3006c.D.1762.36",
       "stratum": "ordinary",
-      "fired_at_ms": 2592.0,
+      "fired_at_ms": 2816.0,
       "true_end_ms": 1760.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 66
+      "n_updates": 73
     },
     {
       "turn_id": "TS3006c.D.2064.75",
       "stratum": "disfluent",
-      "fired_at_ms": 1728.0,
+      "fired_at_ms": 1952.0,
       "true_end_ms": 896.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 39
+      "n_updates": 46
     },
     {
       "turn_id": "TS3006c.D.92.86",
       "stratum": "disfluent",
-      "fired_at_ms": 1760.0,
+      "fired_at_ms": 1984.0,
       "true_end_ms": 960.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 40
+      "n_updates": 47
     },
     {
       "turn_id": "TS3006d.A.2637.36",
       "stratum": "disfluent",
-      "fired_at_ms": 2304.0,
+      "fired_at_ms": 2528.0,
       "true_end_ms": 1472.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 57
+      "n_updates": 64
     },
     {
       "turn_id": "TS3006d.A.634.86",
       "stratum": "ordinary",
-      "fired_at_ms": 4256.0,
+      "fired_at_ms": 4480.0,
       "true_end_ms": 3456.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 118
+      "n_updates": 125
     },
     {
       "turn_id": "TS3006d.A.950.34",
       "stratum": "disfluent",
-      "fired_at_ms": 3936.0,
+      "fired_at_ms": 5984.0,
       "true_end_ms": 4928.0,
-      "cutoff": true,
-      "added_latency_ms": null,
+      "cutoff": false,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 108
+      "n_updates": 172
     },
     {
       "turn_id": "TS3006d.B.2471.29",
@@ -1856,6 +2044,7 @@
       "fired_at_ms": null,
       "true_end_ms": 2784.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 134
@@ -1863,12 +2052,13 @@
     {
       "turn_id": "TS3006d.B.2475.91",
       "stratum": "disfluent",
-      "fired_at_ms": 2464.0,
+      "fired_at_ms": 2688.0,
       "true_end_ms": 1632.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 62
+      "n_updates": 69
     },
     {
       "turn_id": "TS3006d.B.2517.31",
@@ -1876,6 +2066,7 @@
       "fired_at_ms": null,
       "true_end_ms": 2048.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 111
@@ -1883,142 +2074,156 @@
     {
       "turn_id": "TS3006d.C.1466.26",
       "stratum": "short",
-      "fired_at_ms": 1760.0,
+      "fired_at_ms": 1984.0,
       "true_end_ms": 960.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 40
+      "n_updates": 47
     },
     {
       "turn_id": "TS3006d.C.1586.73",
       "stratum": "disfluent",
-      "fired_at_ms": 3360.0,
+      "fired_at_ms": 3584.0,
       "true_end_ms": 2528.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 90
+      "n_updates": 97
     },
     {
       "turn_id": "TS3006d.C.1723.84",
       "stratum": "ordinary",
-      "fired_at_ms": 2848.0,
+      "fired_at_ms": 3072.0,
       "true_end_ms": 2016.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 74
+      "n_updates": 81
     },
     {
       "turn_id": "TS3006d.C.2150.71",
       "stratum": "short",
-      "fired_at_ms": 2208.0,
+      "fired_at_ms": 2432.0,
       "true_end_ms": 1184.0,
       "cutoff": false,
-      "added_latency_ms": 1024.0,
+      "early_by_ms": -1248.0,
+      "added_latency_ms": 1248.0,
       "false_hold": false,
-      "n_updates": 54
+      "n_updates": 61
     },
     {
       "turn_id": "TS3006d.C.2183.01",
       "stratum": "ordinary",
-      "fired_at_ms": 5184.0,
+      "fired_at_ms": 5408.0,
       "true_end_ms": 4384.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 147
+      "n_updates": 154
     },
     {
       "turn_id": "TS3006d.C.2601.56",
       "stratum": "short",
-      "fired_at_ms": 2304.0,
+      "fired_at_ms": 2528.0,
       "true_end_ms": 1472.0,
       "cutoff": false,
-      "added_latency_ms": 832.0,
+      "early_by_ms": -1056.0,
+      "added_latency_ms": 1056.0,
       "false_hold": false,
-      "n_updates": 57
+      "n_updates": 64
     },
     {
       "turn_id": "TS3006d.D.2042.89",
       "stratum": "disfluent",
-      "fired_at_ms": 1696.0,
+      "fired_at_ms": 1920.0,
       "true_end_ms": 896.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 38
+      "n_updates": 45
     },
     {
       "turn_id": "TS3006d.D.2064.12",
       "stratum": "ordinary",
-      "fired_at_ms": 2720.0,
+      "fired_at_ms": 2944.0,
       "true_end_ms": 4064.0,
       "cutoff": true,
+      "early_by_ms": 1120.0,
       "added_latency_ms": null,
       "false_hold": false,
-      "n_updates": 70
+      "n_updates": 77
     },
     {
       "turn_id": "TS3006d.D.2089.30",
       "stratum": "short",
-      "fired_at_ms": 2208.0,
+      "fired_at_ms": 2432.0,
       "true_end_ms": 1408.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 54
+      "n_updates": 61
     },
     {
       "turn_id": "TS3006d.D.2235.51",
       "stratum": "ordinary",
-      "fired_at_ms": 4256.0,
+      "fired_at_ms": 4480.0,
       "true_end_ms": 3456.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 118
+      "n_updates": 125
     },
     {
       "turn_id": "TS3006d.D.577.17",
       "stratum": "short",
-      "fired_at_ms": 1696.0,
+      "fired_at_ms": 1920.0,
       "true_end_ms": 896.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 38
+      "n_updates": 45
     },
     {
       "turn_id": "TS3006d.D.604.51",
       "stratum": "ordinary",
-      "fired_at_ms": 2592.0,
+      "fired_at_ms": 2816.0,
       "true_end_ms": 1792.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 66
+      "n_updates": 73
     },
     {
       "turn_id": "TS3006d.D.969.36",
       "stratum": "ordinary",
-      "fired_at_ms": 3328.0,
+      "fired_at_ms": 3552.0,
       "true_end_ms": 2528.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 89
+      "n_updates": 96
     },
     {
       "turn_id": "TS3006d.D.977.16",
       "stratum": "ordinary",
-      "fired_at_ms": 2560.0,
+      "fired_at_ms": 2784.0,
       "true_end_ms": 1760.0,
       "cutoff": false,
-      "added_latency_ms": 800.0,
+      "early_by_ms": -1024.0,
+      "added_latency_ms": 1024.0,
       "false_hold": false,
-      "n_updates": 65
+      "n_updates": 72
     }
   ]
 }

@@ -41,6 +41,21 @@ REPO = Path(__file__).resolve().parents[1]
 RESULTS = REPO / "results"
 FIRE_THRESHOLD = 0.5
 
+BOUNDARY_TOLERANCE_MS = 150.0
+"""How close to the true end a fire may land and still not count as a cutoff.
+
+Not a fudge factor and not tuned: it is the resolution of the instrument. The
+audio-grounded boundary agrees with the word alignment only to about +/-150ms
+(p10 -144ms, p90 +145ms over 198 turns), and VAD frames are 32ms. Calling a
+96ms-early fire a "premature cutoff" asserts precision the measurement does not
+have.
+
+Both rates are reported. `cutoff_rate` is strict, `cutoff_rate_at_tolerance`
+allows this margin, and the gap between them is the population sitting inside
+the boundary's own uncertainty. Reporting only one would be choosing a
+flattering number.
+"""
+
 
 @dataclass(frozen=True, slots=True)
 class TurnResult:
@@ -49,6 +64,8 @@ class TurnResult:
     fired_at_ms: float | None
     true_end_ms: float
     cutoff: bool
+    early_by_ms: float | None
+    """How far before the true end it fired. Negative means it fired after."""
     added_latency_ms: float | None
     false_hold: bool
     n_updates: int
@@ -58,8 +75,14 @@ def _percentile(xs: list[float], p: float) -> float | None:
     return float(np.percentile(xs, p)) if xs else None
 
 
-def vad_frames(turn: EvalTurn, vad: SileroVAD) -> list[VadFrame]:
-    """Deterministic silence track for one frozen turn."""
+def vad_frames(turn: EvalTurn, vad) -> list[VadFrame]:
+    """Deterministic silence track for one frozen turn.
+
+    `vad` is any frame-synchronous detector with reset()/push() -- SileroVAD for
+    baseline #2, EnergyVAD for baseline #1. The silence source is a property of
+    the pipeline, not of the EOT rule, which is exactly what distinguishes those
+    two baselines: same timer, different notion of silence.
+    """
     audio, sr = sf.read(turn.audio_path, dtype="float32")
     vad.reset()
     return vad.push(np.asarray(audio, dtype=np.float32).reshape(-1))
@@ -87,7 +110,9 @@ def replay(
     for f in frames:
         if f.t_ms < turn.turn_start_ms:
             continue
-        text = " ".join(w["t"] for w in words if w["end_ms"] <= f.t_ms)
+        text = " ".join(
+            w["t"] + (w.get("punc_after") or "") for w in words if w["end_ms"] <= f.t_ms
+        )
         within_turn_ms = f.t_ms - turn.turn_start_ms
         yield Update(
             t_ms=f.t_ms,
@@ -122,6 +147,7 @@ def run_turn(
     cutoff = fired_at is not None and fired_at < turn.true_end_ms
     return (
         TurnResult(
+            early_by_ms=(None if fired_at is None else turn.true_end_ms - fired_at),
             turn_id=turn.turn_id,
             stratum=turn.stratum,
             fired_at_ms=fired_at,
@@ -143,6 +169,11 @@ def summarise(
     n = len(results)
     added = [r.added_latency_ms for r in results if r.added_latency_ms is not None]
 
+    def cutoffs(tol: float) -> int:
+        return sum(
+            1 for r in results if r.early_by_ms is not None and r.early_by_ms > tol
+        )
+
     def strata_block() -> dict:
         out = {}
         for s in sorted({r.stratum for r in results}):
@@ -151,6 +182,13 @@ def summarise(
             out[s] = {
                 "n": len(rs),
                 "cutoff_rate": sum(r.cutoff for r in rs) / len(rs),
+                "cutoff_rate_at_tolerance": sum(
+                    1
+                    for r in rs
+                    if r.early_by_ms is not None
+                    and r.early_by_ms > BOUNDARY_TOLERANCE_MS
+                )
+                / len(rs),
                 "false_hold_rate": sum(r.false_hold for r in rs) / len(rs),
                 "added_latency_p50": _percentile(a, 50),
             }
@@ -160,7 +198,9 @@ def summarise(
         "name": name,
         "n_turns": n,
         "horizon_ms": horizon_ms,
-        "cutoff_rate": sum(r.cutoff for r in results) / n,
+        "cutoff_rate": cutoffs(0.0) / n,
+        "cutoff_rate_at_tolerance": cutoffs(BOUNDARY_TOLERANCE_MS) / n,
+        "boundary_tolerance_ms": BOUNDARY_TOLERANCE_MS,
         "false_hold_rate": sum(r.false_hold for r in results) / n,
         "added_latency_ms": {
             "n": len(added),
@@ -180,14 +220,25 @@ def summarise(
     }
 
 
-def evaluate(detector: EOTDetector, threshold: float = FIRE_THRESHOLD) -> dict:
-    """Run one detector over the whole frozen eval set."""
+def evaluate(
+    detector: EOTDetector,
+    silence=None,
+    name: str | None = None,
+    threshold: float = FIRE_THRESHOLD,
+) -> dict:
+    """Run one detector over the whole frozen eval set.
+
+    `silence` selects the silence source (default Silero). `name` overrides the
+    result name; without it the source is appended, since the same timer over a
+    different silence source is a different baseline.
+    """
     turns = load_eval_set()
     spec = json.loads((EVAL_DIR / "eval_set.json").read_text())
     words_by_id = {t["turn_id"]: t["words"] for t in spec["turns"]}
     horizon_ms = json.loads(MANIFEST.read_text())["horizon_ms"]
 
-    vad = SileroVAD()
+    vad = SileroVAD() if silence is None else silence
+    source_name = getattr(vad, "name", "silero")
     results, latencies = [], []
     for turn in turns:
         frames = vad_frames(turn, vad)
@@ -197,7 +248,10 @@ def evaluate(detector: EOTDetector, threshold: float = FIRE_THRESHOLD) -> dict:
         results.append(r)
         latencies.extend(lat)
 
-    summary = summarise(detector.name, results, latencies, horizon_ms)
+    run_name = name or f"{detector.name}__{source_name}"
+    summary = summarise(run_name, results, latencies, horizon_ms)
+    summary["detector"] = detector.name
+    summary["silence_source"] = source_name
     summary["threshold"] = threshold
     summary["turns"] = [asdict(r) for r in results]
     return summary
