@@ -53,3 +53,12 @@ A prefix; the speaker continued.
 - `Okay Alright That would be Okay So um does that make sense So what I basically got is I just looked into some information and sort of`   (word 27 of 162, disfluent)  ⟶ continues: *th tried to think about how how we could review it and how we could and what kind of decisions we could take away from it and then maybe by the end of just looking at some of these things we can think about what are our priorities 'Cause certainly there's lots of different information to go through So um I'm thinking here about uh primarily about customer needs that we start with the customer and w you know what they want and what are issues with with um existing products Uh to think about trends and also about try and connect that as you see with the company vision which is about fashion in electronics Um and then as I say uh w we'd like to prioritise our design features from this and um*
 - `Um and I think you are gonna get a`   (word 9 of 15)  ⟶ continues: *chance to play with some clay*
 - `rigid thing or like like a banana something very soft`   (word 10 of 16)  ⟶ continues: *you can open like banana or*
+
+---
+
+**Reviewed 2026-09-10.** All 40 labels read and agreed. Phase 3 done-condition
+met. Three examples noted as testing the definition rather than the code
+(a grammatically complete prefix labelled incomplete; "Mm let's see" and a
+turn ending on "Yeah so" labelled complete) -- accepted as correct under the
+definition, with the meeting-vs-telephony gap they expose already recorded in
+`data/README.md`.
