@@ -144,6 +144,7 @@ These exist because violating them silently invalidates the entire project.
 ├── eval/
 │   ├── harness.py          # runs a model over eval set, emits metrics
 │   └── sweep.py            # threshold sweep → tradeoff curve
+├── models/                 # vendored weights, committed + SHA256'd
 ├── scripts/
 ├── tests/
 └── results/                # metrics JSON + charts, committed
