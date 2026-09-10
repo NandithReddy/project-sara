@@ -176,12 +176,17 @@ def plot(rows: list[dict]) -> None:
             return "#008300", "P", f"punctuation + {g}ms gate"
         return None
 
-    charted = [s for s in dict.fromkeys(r["system"] for r in rows) if style_for(s)]
+    charted = [
+        s
+        for s in dict.fromkeys(r["system"] for r in rows)
+        if style_for(s) and "sensitivity" not in s
+    ]
     style = {s: style_for(s) for s in charted}
     surface, ink, ink2, grid = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1"
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 5.6), facecolor=surface)
     panels = (("latency_fallback_p50", "p50"), ("latency_fallback_p95", "p95"))
+    Y_MAX, X_MAX = 45.0, 2150.0  # the bare model runs to 68% cutoff; it exits the top
 
     for ax, (xkey, pct) in zip(axes, panels, strict=True):
         ax.set_facecolor(surface)
@@ -219,8 +224,9 @@ def plot(rows: list[dict]) -> None:
             # Direct label at the first point of the line. Series start at
             # different heights, so labels separate there; mid-curve the two
             # timers overlap, and at the right edge they pile up on the wall.
-            if len(pts) > 1:
-                first = pts[0]
+            visible = [r for r in pts if r["cutoff_rate_at_tolerance"] * 100 <= Y_MAX]
+            if len(pts) > 1 and visible:
+                first = visible[0]
                 ax.annotate(
                     label,
                     (first[xkey], first["cutoff_rate_at_tolerance"] * 100),
@@ -249,14 +255,16 @@ def plot(rows: list[dict]) -> None:
                 "fixed_timeout+energy": ((500, 1000), (6, -12)),
             }
             if system.startswith("text_eot"):
+                # Two tags each, offset to opposite sides so they cannot meet.
                 tags[system] = (
-                    (0.3, 0.5, 0.7, 0.9),
-                    (-30, -12) if "+gate" not in system else (6, 5),
+                    (0.5, 0.9) if "+gate" not in system else (0.3, 0.5),
+                    (-34, -12) if "+gate" in system else (6, -12),
                 )
             if system in tags:
                 values, offset = tags[system]
                 for r in pts:
-                    if r["knob_value"] in values and r[xkey] < 1900:
+                    y_pct = r["cutoff_rate_at_tolerance"] * 100
+                    if r["knob_value"] in values and r[xkey] < 1900 and y_pct <= Y_MAX:
                         is_thr = system.startswith("text_eot")
                         ax.annotate(
                             f"p≥{r['knob_value']}"
@@ -283,8 +291,8 @@ def plot(rows: list[dict]) -> None:
         ax.set_xlabel(f"added latency at {pct} (ms)", color=ink2, fontsize=9)
         ax.set_ylabel("premature cutoff rate (%)", color=ink2, fontsize=9)
         ax.set_title(f"cutoff vs latency at {pct}", color=ink, fontsize=11, loc="left")
-        ax.set_ylim(-1, 44)
-        ax.set_xlim(0, 2150)
+        ax.set_ylim(-1, Y_MAX)
+        ax.set_xlim(0, X_MAX)
 
     handles = [
         plt.Line2D([], [], color=c, marker=m, markersize=8, linewidth=2, label=lab)

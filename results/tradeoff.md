@@ -7,45 +7,69 @@ eval.sweep` over the 198 frozen turns in `data/eval/`. Latency is measured from
 the audio-grounded true end of the turn; a turn never answered is counted at
 the 2000ms fallback. Cutoff rate is at the 150ms boundary tolerance.
 
-**The text-only model v1 is on the chart, and it loses.** Read that section
-first; the baseline reading below it is unchanged.
+**Two iterations of the text-only model are measured. Neither beats the
+timer. The silence gate is the finding.** Read this section first; the
+baseline reading below it is unchanged.
 
-## text EOT model v1 — measured, does not beat the timer
+## text EOT model, v1 and v1.1 — measured; neither beats the timer
+
+Latency here is the chart's convention: a turn never answered is counted at
+the 2000ms fallback. v1 rows are from the sweep at commit `809a9d5`; every
+other row is from `tradeoff.csv` in this commit.
 
 | system | cutoff (tol) | hold | p50 | p95 |
 |---|---|---|---|---|
-| Silero timer, 800ms | 10.6% | 4.5% | 800 | 885 |
+| Silero timer, 800ms | 10.6% | 4.5% | 800 | 1859 |
 | punctuation heuristic | 24.7% | 6.6% | 96 | 2000 |
-| **text EOT v1 @0.5** | **53.5%** | 10.1% | 160 | 2000 |
-| text EOT v1 @0.9 | 12.1% | **64.1%** | 2000 | 2000 |
+| **punctuation + 200ms gate** | 11.1% | 9.1% | 256 | 2000 |
+| text EOT v1 @0.5 *(commit 809a9d5)* | 53.5% | 10.1% | 160 | 2000 |
+| text EOT v1 + gate @0.5 *(commit 809a9d5)* | 15.7% | 24.2% | 256 | 2000 |
+| text EOT v1.1 @0.5 | 15.7% | 58.1% | 2000 | 2000 |
+| text EOT v1.1 + gate @0.1 | 19.7% | 17.2% | 256 | 2000 |
+| text EOT v1.1 + gate @0.3 | 7.6% | 44.9% | 352 | 2000 |
+| text EOT v1.1 + gate @0.5 | 4.5% | 67.2% | 2000 | 2000 |
 
-To approach the 800ms timer's cutoff rate the model must refuse to answer on
-64% of turns. Its curve is the yellow wall at the fallback. Dominated at every
-threshold.
+**What v1.1 changed.** One thing: the loss weight on the "complete" class,
+6.1× in v1, set to 1. Validation (10 held-out speakers): AP 0.505 → 0.551,
+log-loss 0.410 → 0.269. Regularisation (freezing the lower two layers,
+dropout 0.2) was tried in the same batch and made things worse on its own and
+slightly worse on top of the weight fix, so it is not in v1.1. The earlier
+claim that v1 was memorising the corpus was mostly wrong: the rising
+validation loss was the weighted objective's calibration.
 
-**Why, with numbers** (full detail in the Phase 4 commit message):
+**What that bought on the eval set.** The model went from firing too much to
+firing too little — bare cutoff 53.5% → 15.7%, hold 10.1% → 58.1%. Gated, it
+reaches 4.5% cutoff at threshold 0.5 while refusing to answer 67% of turns;
+sweeping the threshold down walks along that trade (19.7% / 17.2% at 0.1)
+without ever crossing the timer's curve or reaching the gated heuristic's
+point. Turn-level separability — the full turn outscoring every one of its
+own prefixes — is 57.1% (disfluent 31/66 ordinary 24/66 short 58/66), against 55.1% for v1.
 
-- **Turn-level separability is 55.1%.** On 89 of 198 turns some prefix of the
-  turn scores higher than the whole turn, so no threshold can be right. By
-  stratum: short **89%**, ordinary 33%, disfluent 42%. On disfluent turns the
-  median max-prefix score (0.77) is *higher* than the median full-turn score
-  (0.57).
-- **Half the false fires are on the first word** — `Okay`, `Oh`, `Um`. In
-  training, `Okay` alone is a whole turn 61% of the time. Text cannot tell
-  `Okay.` from `Okay so the thing is`; a timer can, because it waits. This is
-  the Phase 3 label-collision ceiling, now at turn level.
-- **Streaming compounds precision.** 0.36 per-example precision at 0.5, ~5
-  prefixes per turn, one false fire is a cutoff. Class weighting (6.1× on
-  positives) pushed the model *toward* firing — backwards for this metric.
-- **The ranking is weak and the model overfits fast.** Val AP 0.505 on 10
-  held-out speakers; best epoch is 1 in every run. AMI's scenario meetings all
-  discuss one fictional product and the model memorises it.
+**Why it still loses, in one number: AP 0.55.** The ranking is not good
+enough for a streaming decision, and no threshold fixes a ranking. Three
+reasons it is weak, none of them fixable by another training flag:
 
-**What worked:** short answers — 89% separable, median P(complete) 0.92 —
-which is exactly the stratum where every timer is worst. The semantic signal
-does the thing it was built for there and fails where the timer's patience is
-the advantage. Latency is a non-issue: 0.41ms p50 per inference, 20× under
-budget.
+- 5,747 training turns from one meeting scenario is a small corpus to learn
+  syntactic completion from, and the eval speakers are, correctly, unseen.
+- The Phase 3 ceiling: on the short-answer stratum, "Yeah" / "Okay" carry
+  both labels and no function of the text separates them. Gating recovers
+  some of this; it cannot recover the ranking.
+- Meeting speech trails off — turns ending on "so", "and", "um" are labelled
+  complete because the speaker stopped — which teaches exactly the wrong
+  thing about telephony turns.
+
+**The finding stands: the gate is the contribution.** The same 200ms gate on
+a one-character heuristic sits at 11.1% cutoff, 9.1% hold, p50 256ms — the
+first point in the previously empty bottom-left of the chart — and beats the
+gated model at every gate value tested (100/200/300/500ms, in the CSV).
+Its caveat also stands: annotator punctuation, not recogniser punctuation.
+The Phase 6 real-ASR condition decides whether that point is real.
+
+**What would move the model, as proposals.** More training turns from a
+second corpus; a larger encoder with a frozen body (latency allows 10× —
+v1.1 is 0.45ms per inference); prosody (Phase 7, the ceiling argument);
+punctuation as an input, with the same caveat as the heuristic. None of these
+were tried. The model has not been touched since the number was seen.
 
 ## What the chart says
 
