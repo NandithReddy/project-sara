@@ -60,7 +60,9 @@ from eval.dataset import EvalSetViolation, load_eval_set  # noqa: E402
 
 TRAIN_DIR = REPO / "data" / "train"
 OUT_DIR = REPO / "models" / "eot_v1"
-DEFAULT_MODEL = "google/bert_uncased_L-2_H-128_A-2"  # BERT-tiny, 4.4M params
+DEFAULT_MODEL = "google/bert_uncased_L-4_H-256_A-4"
+"""BERT-mini, 11.2M params, 4 layers. v1 shipped as this; bert-tiny (2 layers)
+was no better and --freeze-layers 2 would freeze all of it."""
 MAX_LEN = 64
 HARD_NEGATIVE_WEIGHT = 2.0
 VAL_SPEAKER_FRACTION = 0.10
@@ -144,6 +146,23 @@ def main() -> int:
     ap.add_argument("--lr", type=float, default=5e-5)
     ap.add_argument("--seed", type=int, default=20260910)
     ap.add_argument("--limit", type=int, default=0, help="debug: cap examples")
+    ap.add_argument(
+        "--pos-weight",
+        default="1.0",
+        help="loss weight on the 'complete' class: a number, or 'auto' for "
+        "n_incomplete/n_complete (what v1 did -- it pushed the model toward "
+        "firing, backwards for a metric where the first false fire loses)",
+    )
+    ap.add_argument(
+        "--freeze-layers",
+        type=int,
+        default=0,
+        help="freeze the embeddings and this many lowest encoder layers",
+    )
+    ap.add_argument(
+        "--dropout", type=float, default=None, help="hidden + attention dropout"
+    )
+    ap.add_argument("--version", default="1.1", help="recorded in metadata")
     ap.add_argument("--out", type=Path, default=OUT_DIR)
     args = ap.parse_args()
 
@@ -170,15 +189,50 @@ def main() -> int:
         f"held-out speakers  device: {device}"
     )
 
+    from transformers import AutoConfig
+
     tok = AutoTokenizer.from_pretrained(args.model)
     tok.truncation_side = "left"
+    cfg_kw = {"num_labels": 2}
+    if args.dropout is not None:
+        cfg_kw["hidden_dropout_prob"] = args.dropout
+        cfg_kw["attention_probs_dropout_prob"] = args.dropout
+    config = AutoConfig.from_pretrained(args.model, **cfg_kw)
+    # eager attention: MPS's fused SDPA kernel refuses attention dropout.
     model = AutoModelForSequenceClassification.from_pretrained(
-        args.model, num_labels=2
+        args.model, config=config, attn_implementation="eager"
     ).to(device)
 
-    # Class weights balance the 6:1 skew; the k = n-1 prefix gets extra weight.
-    w_pos = (len(train) - n_pos) / n_pos
+    # Regularisation against the epoch-2 overfit: the AMI scenario meetings all
+    # discuss one fictional product, so the lower layers' general English is
+    # worth more than anything they would learn from it.
+    enc_layers = model.base_model.encoder.layer
+    if args.freeze_layers:
+        if args.freeze_layers >= len(enc_layers):
+            raise SystemExit(
+                f"--freeze-layers {args.freeze_layers} would freeze every one of "
+                f"the {len(enc_layers)} encoder layers; nothing left to train."
+            )
+        for prm in model.base_model.embeddings.parameters():
+            prm.requires_grad = False
+        for layer in enc_layers[: args.freeze_layers]:
+            for prm in layer.parameters():
+                prm.requires_grad = False
+    n_trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+    # Loss weight on 'complete'. v1 used n_neg/n_pos (~6.1) and it pushed the
+    # model toward firing; the streaming metric punishes exactly that.
+    w_pos = (
+        (len(train) - n_pos) / n_pos
+        if args.pos_weight == "auto"
+        else float(args.pos_weight)
+    )
     class_w = torch.tensor([1.0, w_pos], dtype=torch.float32, device=device)
+    print(
+        f"pos_weight={w_pos:.2f}  freeze_layers={args.freeze_layers}  "
+        f"dropout={args.dropout}  frozen {args.freeze_layers}/{len(enc_layers)} "
+        f"layers  trainable={n_trainable / 1e6:.2f}M"
+    )
 
     def batches(data, shuffle):
         idx = list(range(len(data)))
@@ -199,7 +253,11 @@ def main() -> int:
             )
             yield enc["input_ids"], enc["attention_mask"], labels, hard
 
-    opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
+    opt = torch.optim.AdamW(
+        [p for p in model.parameters() if p.requires_grad],
+        lr=args.lr,
+        weight_decay=0.01,
+    )
     steps_total = args.epochs * ((len(train) + args.batch - 1) // args.batch)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt,
@@ -264,11 +322,12 @@ def main() -> int:
     model = model.eval().cpu()
     sample = tok(["my order number is", "yes"], padding=True, return_tensors="pt")
     ids, mask = sample["input_ids"], sample["attention_mask"]
-    onnx_path = args.out / "model.onnx"
+    fp32_path = args.out / "model_fp32.onnx"  # gitignored; 4x the size
+    onnx_path = args.out / "model.onnx"  # INT8, the artefact that ships
     torch.onnx.export(
         model,
         (ids, mask),
-        str(onnx_path),
+        str(fp32_path),
         input_names=["input_ids", "attention_mask"],
         output_names=["logits"],
         dynamic_axes={
@@ -282,14 +341,47 @@ def main() -> int:
     tok.backend_tokenizer.save(str(args.out / "tokenizer.json"))
 
     import onnxruntime as ort
+    from onnxruntime.quantization import QuantType, quantize_dynamic
 
-    sess = ort.InferenceSession(str(onnx_path), providers=["CPUExecutionProvider"])
+    fp32 = ort.InferenceSession(str(fp32_path), providers=["CPUExecutionProvider"])
     with torch.no_grad():
         ref = model(input_ids=ids, attention_mask=mask).logits.numpy()
-    out = sess.run(None, {"input_ids": ids.numpy(), "attention_mask": mask.numpy()})[0]
+    out = fp32.run(None, {"input_ids": ids.numpy(), "attention_mask": mask.numpy()})[0]
     max_diff = float(np.abs(out - ref).max())
     if max_diff > 1e-3:
         raise SystemExit(f"FATAL: ONNX disagrees with torch by {max_diff:.2e}")
+
+    # Dynamic INT8: weights quantised, activations at runtime. Measured on v1
+    # as a 0.0006 AP change for a 4x smaller file. Verified per run below and
+    # refused if the ranking moves.
+    quantize_dynamic(str(fp32_path), str(onnx_path), weight_type=QuantType.QInt8)
+    sess = ort.InferenceSession(str(onnx_path), providers=["CPUExecutionProvider"])
+
+    def val_ap(session) -> float:
+        probs = []
+        for r in val:
+            enc = tok(
+                r["text"], truncation=True, max_length=MAX_LEN, return_tensors="np"
+            )
+            lg = session.run(
+                None,
+                {
+                    "input_ids": enc["input_ids"],
+                    "attention_mask": enc["attention_mask"],
+                },
+            )[0][0]
+            z = lg - lg.max()
+            probs.append(float(np.exp(z)[1] / np.exp(z).sum()))
+        return average_precision(
+            np.asarray(probs), np.asarray([r["label"] for r in val])
+        )
+
+    ap_fp32, ap_int8 = val_ap(fp32), val_ap(sess)
+    if abs(ap_fp32 - ap_int8) > 0.02:
+        raise SystemExit(
+            f"FATAL: INT8 moved validation AP from {ap_fp32:.4f} to {ap_int8:.4f}; "
+            f"not shipping a quantised model that ranks differently."
+        )
 
     # Single-example CPU latency: the live setting, one update at a time.
     lat = []
@@ -307,7 +399,16 @@ def main() -> int:
     }
 
     meta = {
+        "version": args.version,
         "base_model": args.model,
+        "pos_weight": float(w_pos),
+        "freeze_layers": args.freeze_layers,
+        "dropout": args.dropout,
+        "trainable_params": int(n_trainable),
+        "quantization": "dynamic int8 (onnxruntime)",
+        "val_ap_fp32": ap_fp32,
+        "val_ap_int8": ap_int8,
+        "onnx_fp32_bytes": fp32_path.stat().st_size,
         "params": int(sum(p.numel() for p in model.parameters())),
         "max_len": MAX_LEN,
         "truncation_side": "left",
@@ -333,8 +434,9 @@ def main() -> int:
     (args.out / "metadata.json").write_text(json.dumps(meta, indent=2))
     shown = onnx_path.relative_to(REPO) if onnx_path.is_relative_to(REPO) else onnx_path
     print(
-        f"\nexported {shown} ({meta['onnx_bytes'] / 1e6:.1f}MB), "
-        f"onnx==torch to {max_diff:.1e}"
+        f"\nexported {shown} INT8 {meta['onnx_bytes'] / 1e6:.1f}MB "
+        f"(fp32 {meta['onnx_fp32_bytes'] / 1e6:.1f}MB kept aside), "
+        f"fp32==torch to {max_diff:.1e}, val AP fp32 {ap_fp32:.4f} int8 {ap_int8:.4f}"
     )
     print(
         f"CPU latency, one example: p50={lat_ms['p50']:.2f}ms "

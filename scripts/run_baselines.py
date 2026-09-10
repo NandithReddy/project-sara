@@ -29,6 +29,7 @@ from src.baselines.silence import (  # noqa: E402
     SECTION_3_TIMEOUTS_MS,
     FixedSilenceTimeout,
 )
+from src.eot.gated import DEFAULT_GATE_MS, SilenceGated  # noqa: E402
 from src.eot.model import TextEOT  # noqa: E402
 
 # 800ms is what the Phase 1 live loop shipped with, so the demo and the
@@ -43,18 +44,27 @@ def main() -> int:
             runs.append((FixedSilenceTimeout(timeout), source_factory(), None))
     # Baseline #3 reads only text, so the silence source cannot affect it.
     runs.append((PunctuationHeuristic(), SileroVAD(), "punctuation"))
-    # The deliverable. Text-only, so the silence source cannot affect it either.
-    # Raises if the model has not been trained: rule 3, no silent substitution.
-    runs.append((TextEOT(), SileroVAD(), "text_eot_v1"))
+    # The deliverable, bare and gated. Raises if untrained: rule 3, no silent
+    # substitution. The gated punctuation heuristic is the fair fight for the
+    # gated model: same gate, no model.
+    runs.append(
+        (SilenceGated(PunctuationHeuristic(), DEFAULT_GATE_MS), SileroVAD(), None)
+    )
+    runs.append((TextEOT(), SileroVAD(), None))
+    runs.append((SilenceGated(TextEOT(), DEFAULT_GATE_MS), SileroVAD(), None))
 
     rows = []
     for detector, silence, name in runs:
+        # Text-only systems (and gates on them) carry no silence-source suffix:
+        # the source cannot change their transcript, only the gate reads it.
+        if name is None and not isinstance(detector, FixedSilenceTimeout):
+            name = detector.name
         label = name or f"{detector.name}__{silence.name}"
         print(f"running {label} ...", flush=True)
         summary = evaluate(detector, silence=silence, name=name)
         if hasattr(detector, "inference_latency_ms"):
             summary["inference_latency_ms"] = detector.inference_latency_ms()
-            summary["model"] = detector.meta["base_model"]
+            summary["model"] = detector.meta.get("base_model")
         write_results(summary)
         rows.append(summary)
 

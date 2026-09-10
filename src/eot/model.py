@@ -57,7 +57,7 @@ class TextEOT:
                 f"Not substituting anything (rule 3)."
             )
         meta = json.loads((model_dir / "metadata.json").read_text())
-        self.name = f"text_eot_v1[{meta['base_model'].split('/')[-1]}]"
+        self.name = f"text_eot_v{meta.get('version', '1')}"
         self.max_len = int(meta["max_len"])
         self.meta = meta
 
