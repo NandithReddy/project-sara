@@ -168,6 +168,15 @@ def summarise(
 ) -> dict:
     n = len(results)
     added = [r.added_latency_ms for r in results if r.added_latency_ms is not None]
+    # What the caller actually waits. A false hold is not "no latency" -- in a
+    # real pipeline the fallback timer fires at the horizon, so the caller waits
+    # that long. Excluding holds flatters any system that holds a lot: a timer
+    # holding 46.5% of turns would otherwise plot as fast and safe.
+    with_fallback = [
+        horizon_ms if r.false_hold else r.added_latency_ms
+        for r in results
+        if not r.cutoff
+    ]
 
     def cutoffs(tol: float) -> int:
         return sum(
@@ -208,6 +217,13 @@ def summarise(
             "p95": _percentile(added, 95),
             "p99": _percentile(added, 99),
         },
+        "added_latency_with_fallback_ms": {
+            "n": len(with_fallback),
+            "p50": _percentile(with_fallback, 50),
+            "p95": _percentile(with_fallback, 95),
+            "p99": _percentile(with_fallback, 99),
+            "note": "false holds counted at horizon_ms, the fallback timeout",
+        },
         "update_latency_ms": {
             "n": len(latencies),
             "p50": _percentile(latencies, 50),
@@ -220,28 +236,52 @@ def summarise(
     }
 
 
+@dataclass(frozen=True)
+class FrameCache:
+    """Silence tracks for every turn under one source, computed once.
+
+    The VAD pass is the only slow part of an eval run, and it does not depend
+    on the detector. A sweep re-runs detectors dozens of times over the same
+    audio, so the frames are computed once and shared.
+    """
+
+    source_name: str
+    frames: dict[str, list[VadFrame]]
+
+
+def precompute(silence=None) -> FrameCache:
+    vad = SileroVAD() if silence is None else silence
+    return FrameCache(
+        source_name=getattr(vad, "name", "silero"),
+        frames={t.turn_id: vad_frames(t, vad) for t in load_eval_set()},
+    )
+
+
 def evaluate(
     detector: EOTDetector,
     silence=None,
     name: str | None = None,
     threshold: float = FIRE_THRESHOLD,
+    cache: FrameCache | None = None,
 ) -> dict:
     """Run one detector over the whole frozen eval set.
 
     `silence` selects the silence source (default Silero). `name` overrides the
     result name; without it the source is appended, since the same timer over a
-    different silence source is a different baseline.
+    different silence source is a different baseline. Pass `cache` from
+    `precompute()` to skip the VAD pass.
     """
     turns = load_eval_set()
     spec = json.loads((EVAL_DIR / "eval_set.json").read_text())
     words_by_id = {t["turn_id"]: t["words"] for t in spec["turns"]}
     horizon_ms = json.loads(MANIFEST.read_text())["horizon_ms"]
 
-    vad = SileroVAD() if silence is None else silence
-    source_name = getattr(vad, "name", "silero")
+    if cache is None:
+        cache = precompute(silence)
+    source_name = cache.source_name
     results, latencies = [], []
     for turn in turns:
-        frames = vad_frames(turn, vad)
+        frames = cache.frames[turn.turn_id]
         r, lat = run_turn(
             detector, turn, frames, words_by_id[turn.turn_id], horizon_ms, threshold
         )

@@ -7,6 +7,7 @@
 # --- Tier A: tooling ---
 pytest         # test runner
 ruff           # linter + formatter in one binary (replaces flake8 + black + isort)
+matplotlib     # results/tradeoff.png only. Never imported by src/ -- not runtime.
 
 # --- Phase 1b: live audio path ---
 sounddevice    # mic capture via PortAudio; the only maintained option that streams
