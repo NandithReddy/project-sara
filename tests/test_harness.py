@@ -122,9 +122,25 @@ def test_the_silence_track_is_deterministic():
 def test_summary_reports_every_section_3_metric():
     f = frames([(1900, False, 400)])
     r, lat = run_turn(FixedSilenceTimeout(300), TURN, f, WORDS, horizon_ms=2000.0)
-    other = replace(r, turn_id="T.2", cutoff=True, added_latency_ms=None)
+    other = replace(
+        r, turn_id="T.2", cutoff=True, early_by_ms=400.0, added_latency_ms=None
+    )
     s = summarise("x", [r, other], lat, 2000.0)
     assert s["cutoff_rate"] == pytest.approx(0.5)
     assert s["added_latency_ms"]["p50"] == pytest.approx(400.0)
     assert set(s["added_latency_ms"]) >= {"p50", "p95", "p99"}
     assert s["update_latency_ms"]["budget_ms"] == 20.0
+
+
+def test_a_fire_inside_the_boundary_uncertainty_is_reported_both_ways():
+    """72 of the punctuation baseline's 124 "cutoffs" were under 100ms early --
+    the alignment/audio offset, not the heuristic firing mid-sentence. Both
+    rates are reported so neither reading is hidden."""
+    f = frames([(1400, False, 100)])  # 100ms before true_end, inside tolerance
+    r, lat = run_turn(FixedSilenceTimeout(50), TURN, f, WORDS, horizon_ms=2000.0)
+    s = summarise("x", [r], lat, 2000.0)
+    assert r.early_by_ms == pytest.approx(100.0)
+    assert s["cutoff_rate"] == pytest.approx(1.0), "strictly, it fired early"
+    assert s["cutoff_rate_at_tolerance"] == pytest.approx(0.0), (
+        "but 100ms is inside the boundary's own uncertainty"
+    )

@@ -169,6 +169,7 @@ def main() -> int:
                         "t": w[0],
                         "start_ms": round((w[1] - seg_start) * 1000.0, 1),
                         "end_ms": round((w[2] - seg_start) * 1000.0, 1),
+                        "punc_after": w[3],
                     }
                     for w in t["words"]
                 ],

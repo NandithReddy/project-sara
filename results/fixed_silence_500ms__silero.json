@@ -1,8 +1,10 @@
 {
-  "name": "fixed_silence_500ms",
+  "name": "fixed_silence_500ms__silero",
   "n_turns": 198,
   "horizon_ms": 2000.0,
   "cutoff_rate": 0.17676767676767677,
+  "cutoff_rate_at_tolerance": 0.1717171717171717,
+  "boundary_tolerance_ms": 150.0,
   "false_hold_rate": 0.020202020202020204,
   "added_latency_ms": {
     "n": 159,
@@ -12,9 +14,9 @@
   },
   "update_latency_ms": {
     "n": 13390,
-    "p50": 8.297502063214779e-05,
+    "p50": 8.300412446260452e-05,
     "p95": 0.00012500095181167126,
-    "p99": 0.000166997779160738,
+    "p99": 0.00016702688299119473,
     "budget_ms": 20.0,
     "within_budget": true
   },
@@ -22,22 +24,27 @@
     "disfluent": {
       "n": 66,
       "cutoff_rate": 0.2878787878787879,
+      "cutoff_rate_at_tolerance": 0.2878787878787879,
       "false_hold_rate": 0.015151515151515152,
       "added_latency_p50": 544.0
     },
     "ordinary": {
       "n": 66,
       "cutoff_rate": 0.21212121212121213,
+      "cutoff_rate_at_tolerance": 0.21212121212121213,
       "false_hold_rate": 0.015151515151515152,
       "added_latency_p50": 512.0
     },
     "short": {
       "n": 66,
       "cutoff_rate": 0.030303030303030304,
+      "cutoff_rate_at_tolerance": 0.015151515151515152,
       "false_hold_rate": 0.030303030303030304,
       "added_latency_p50": 528.0
     }
   },
+  "detector": "fixed_silence_500ms",
+  "silence_source": "silero",
   "threshold": 0.5,
   "turns": [
     {
@@ -46,6 +53,7 @@
       "fired_at_ms": 5664.0,
       "true_end_ms": 5120.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 162
@@ -56,6 +64,7 @@
       "fired_at_ms": 2784.0,
       "true_end_ms": 12032.0,
       "cutoff": true,
+      "early_by_ms": 9248.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 72
@@ -66,6 +75,7 @@
       "fired_at_ms": 5376.0,
       "true_end_ms": 4864.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 153
@@ -76,6 +86,7 @@
       "fired_at_ms": 4864.0,
       "true_end_ms": 4352.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 137
@@ -86,6 +97,7 @@
       "fired_at_ms": 2688.0,
       "true_end_ms": 2144.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 69
@@ -96,6 +108,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 832.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 28
@@ -106,6 +119,7 @@
       "fired_at_ms": 2112.0,
       "true_end_ms": 3360.0,
       "cutoff": true,
+      "early_by_ms": 1248.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 51
@@ -116,6 +130,7 @@
       "fired_at_ms": 3776.0,
       "true_end_ms": 42496.0,
       "cutoff": true,
+      "early_by_ms": 38720.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 103
@@ -126,6 +141,7 @@
       "fired_at_ms": 1440.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 30
@@ -136,6 +152,7 @@
       "fired_at_ms": 1888.0,
       "true_end_ms": 1376.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 44
@@ -146,6 +163,7 @@
       "fired_at_ms": 1312.0,
       "true_end_ms": 800.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 26
@@ -156,6 +174,7 @@
       "fired_at_ms": 2176.0,
       "true_end_ms": 1632.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 53
@@ -166,6 +185,7 @@
       "fired_at_ms": 1440.0,
       "true_end_ms": 928.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 30
@@ -176,6 +196,7 @@
       "fired_at_ms": 2432.0,
       "true_end_ms": 1920.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 61
@@ -186,6 +207,7 @@
       "fired_at_ms": 3200.0,
       "true_end_ms": 2656.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 85
@@ -196,6 +218,7 @@
       "fired_at_ms": 5120.0,
       "true_end_ms": 4288.0,
       "cutoff": false,
+      "early_by_ms": -832.0,
       "added_latency_ms": 832.0,
       "false_hold": false,
       "n_updates": 145
@@ -206,6 +229,7 @@
       "fired_at_ms": 3104.0,
       "true_end_ms": 2592.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 82
@@ -216,6 +240,7 @@
       "fired_at_ms": 2272.0,
       "true_end_ms": 1760.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 56
@@ -226,6 +251,7 @@
       "fired_at_ms": 1536.0,
       "true_end_ms": 992.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 33
@@ -236,6 +262,7 @@
       "fired_at_ms": 1600.0,
       "true_end_ms": 3744.0,
       "cutoff": true,
+      "early_by_ms": 2144.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 35
@@ -246,6 +273,7 @@
       "fired_at_ms": 3616.0,
       "true_end_ms": 3104.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 98
@@ -256,6 +284,7 @@
       "fired_at_ms": 2848.0,
       "true_end_ms": 3552.0,
       "cutoff": true,
+      "early_by_ms": 704.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 74
@@ -266,6 +295,7 @@
       "fired_at_ms": 1280.0,
       "true_end_ms": 768.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 25
@@ -276,6 +306,7 @@
       "fired_at_ms": 1184.0,
       "true_end_ms": 672.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 22
@@ -286,6 +317,7 @@
       "fired_at_ms": 8480.0,
       "true_end_ms": 7968.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 250
@@ -296,6 +328,7 @@
       "fired_at_ms": 2752.0,
       "true_end_ms": 2240.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 71
@@ -306,6 +339,7 @@
       "fired_at_ms": 2144.0,
       "true_end_ms": 1600.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 52
@@ -316,6 +350,7 @@
       "fired_at_ms": 6816.0,
       "true_end_ms": 6304.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 198
@@ -326,6 +361,7 @@
       "fired_at_ms": 2784.0,
       "true_end_ms": 2272.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 72
@@ -336,6 +372,7 @@
       "fired_at_ms": 3904.0,
       "true_end_ms": 3360.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 107
@@ -346,6 +383,7 @@
       "fired_at_ms": 1728.0,
       "true_end_ms": 23904.0,
       "cutoff": true,
+      "early_by_ms": 22176.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 39
@@ -356,6 +394,7 @@
       "fired_at_ms": 2016.0,
       "true_end_ms": 2848.0,
       "cutoff": true,
+      "early_by_ms": 832.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 48
@@ -366,6 +405,7 @@
       "fired_at_ms": 1408.0,
       "true_end_ms": 864.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 29
@@ -376,6 +416,7 @@
       "fired_at_ms": 1408.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 29
@@ -386,6 +427,7 @@
       "fired_at_ms": 2624.0,
       "true_end_ms": 2112.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 67
@@ -396,6 +438,7 @@
       "fired_at_ms": 2880.0,
       "true_end_ms": 31584.0,
       "cutoff": true,
+      "early_by_ms": 28704.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 75
@@ -406,6 +449,7 @@
       "fired_at_ms": 2304.0,
       "true_end_ms": 6656.0,
       "cutoff": true,
+      "early_by_ms": 4352.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 57
@@ -416,6 +460,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 832.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 28
@@ -426,6 +471,7 @@
       "fired_at_ms": 4096.0,
       "true_end_ms": 3584.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 113
@@ -436,6 +482,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 832.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 28
@@ -446,6 +493,7 @@
       "fired_at_ms": 1440.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 30
@@ -456,6 +504,7 @@
       "fired_at_ms": 1152.0,
       "true_end_ms": 608.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 21
@@ -466,6 +515,7 @@
       "fired_at_ms": 2176.0,
       "true_end_ms": 3456.0,
       "cutoff": true,
+      "early_by_ms": 1280.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 53
@@ -476,6 +526,7 @@
       "fired_at_ms": 1024.0,
       "true_end_ms": 1050.0,
       "cutoff": true,
+      "early_by_ms": 26.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 17
@@ -486,6 +537,7 @@
       "fired_at_ms": 1344.0,
       "true_end_ms": 832.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 27
@@ -496,6 +548,7 @@
       "fired_at_ms": 1984.0,
       "true_end_ms": 1440.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 47
@@ -506,6 +559,7 @@
       "fired_at_ms": 2304.0,
       "true_end_ms": 1760.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 57
@@ -516,6 +570,7 @@
       "fired_at_ms": 1024.0,
       "true_end_ms": 770.0,
       "cutoff": false,
+      "early_by_ms": -254.0,
       "added_latency_ms": 254.0,
       "false_hold": false,
       "n_updates": 17
@@ -526,6 +581,7 @@
       "fired_at_ms": 2560.0,
       "true_end_ms": 2048.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 65
@@ -536,6 +592,7 @@
       "fired_at_ms": 2400.0,
       "true_end_ms": 1888.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 60
@@ -546,6 +603,7 @@
       "fired_at_ms": 5984.0,
       "true_end_ms": 6560.0,
       "cutoff": true,
+      "early_by_ms": 576.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 172
@@ -556,6 +614,7 @@
       "fired_at_ms": 5440.0,
       "true_end_ms": 6336.0,
       "cutoff": true,
+      "early_by_ms": 896.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 155
@@ -566,6 +625,7 @@
       "fired_at_ms": 3328.0,
       "true_end_ms": 2816.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 89
@@ -576,6 +636,7 @@
       "fired_at_ms": 1024.0,
       "true_end_ms": 660.0,
       "cutoff": false,
+      "early_by_ms": -364.0,
       "added_latency_ms": 364.0,
       "false_hold": false,
       "n_updates": 17
@@ -586,6 +647,7 @@
       "fired_at_ms": 3584.0,
       "true_end_ms": 3072.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 97
@@ -596,6 +658,7 @@
       "fired_at_ms": 4928.0,
       "true_end_ms": 4416.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 139
@@ -606,6 +669,7 @@
       "fired_at_ms": 2080.0,
       "true_end_ms": 1568.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 50
@@ -616,6 +680,7 @@
       "fired_at_ms": 1824.0,
       "true_end_ms": 1312.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 42
@@ -626,6 +691,7 @@
       "fired_at_ms": 2336.0,
       "true_end_ms": 1824.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 58
@@ -636,6 +702,7 @@
       "fired_at_ms": 2304.0,
       "true_end_ms": 832.0,
       "cutoff": false,
+      "early_by_ms": -1472.0,
       "added_latency_ms": 1472.0,
       "false_hold": false,
       "n_updates": 57
@@ -646,6 +713,7 @@
       "fired_at_ms": null,
       "true_end_ms": 1408.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 91
@@ -656,6 +724,7 @@
       "fired_at_ms": 1440.0,
       "true_end_ms": 928.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 30
@@ -666,6 +735,7 @@
       "fired_at_ms": 7040.0,
       "true_end_ms": 6496.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 205
@@ -676,6 +746,7 @@
       "fired_at_ms": 2912.0,
       "true_end_ms": 2368.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 76
@@ -686,6 +757,7 @@
       "fired_at_ms": 7776.0,
       "true_end_ms": 7264.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 228
@@ -696,6 +768,7 @@
       "fired_at_ms": 7232.0,
       "true_end_ms": 14944.0,
       "cutoff": true,
+      "early_by_ms": 7712.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 211
@@ -706,6 +779,7 @@
       "fired_at_ms": 2368.0,
       "true_end_ms": 3424.0,
       "cutoff": true,
+      "early_by_ms": 1056.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 59
@@ -716,6 +790,7 @@
       "fired_at_ms": 1216.0,
       "true_end_ms": 672.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 23
@@ -726,6 +801,7 @@
       "fired_at_ms": 4256.0,
       "true_end_ms": 4768.0,
       "cutoff": true,
+      "early_by_ms": 512.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 118
@@ -736,6 +812,7 @@
       "fired_at_ms": 1120.0,
       "true_end_ms": 576.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 20
@@ -746,6 +823,7 @@
       "fired_at_ms": 4608.0,
       "true_end_ms": 6720.0,
       "cutoff": true,
+      "early_by_ms": 2112.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 129
@@ -756,6 +834,7 @@
       "fired_at_ms": 12096.0,
       "true_end_ms": 24480.0,
       "cutoff": true,
+      "early_by_ms": 12384.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 363
@@ -766,6 +845,7 @@
       "fired_at_ms": 2112.0,
       "true_end_ms": 56128.0,
       "cutoff": true,
+      "early_by_ms": 54016.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 51
@@ -776,6 +856,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 864.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 28
@@ -786,6 +867,7 @@
       "fired_at_ms": 2400.0,
       "true_end_ms": 1856.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 60
@@ -796,6 +878,7 @@
       "fired_at_ms": 6144.0,
       "true_end_ms": 5600.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 177
@@ -806,6 +889,7 @@
       "fired_at_ms": 2976.0,
       "true_end_ms": 2432.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 78
@@ -816,6 +900,7 @@
       "fired_at_ms": 2272.0,
       "true_end_ms": 1760.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 56
@@ -826,6 +911,7 @@
       "fired_at_ms": 1504.0,
       "true_end_ms": 960.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 32
@@ -836,6 +922,7 @@
       "fired_at_ms": 1600.0,
       "true_end_ms": 2528.0,
       "cutoff": true,
+      "early_by_ms": 928.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 35
@@ -846,6 +933,7 @@
       "fired_at_ms": 2464.0,
       "true_end_ms": 1920.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 62
@@ -856,6 +944,7 @@
       "fired_at_ms": 2432.0,
       "true_end_ms": 1888.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 61
@@ -866,6 +955,7 @@
       "fired_at_ms": 1024.0,
       "true_end_ms": 640.0,
       "cutoff": false,
+      "early_by_ms": -384.0,
       "added_latency_ms": 384.0,
       "false_hold": false,
       "n_updates": 17
@@ -876,6 +966,7 @@
       "fired_at_ms": 1024.0,
       "true_end_ms": 1210.0,
       "cutoff": true,
+      "early_by_ms": 186.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 17
@@ -886,6 +977,7 @@
       "fired_at_ms": 1888.0,
       "true_end_ms": 1376.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 44
@@ -896,6 +988,7 @@
       "fired_at_ms": 1696.0,
       "true_end_ms": 1152.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 38
@@ -906,6 +999,7 @@
       "fired_at_ms": 1760.0,
       "true_end_ms": 1216.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 40
@@ -916,6 +1010,7 @@
       "fired_at_ms": 2048.0,
       "true_end_ms": 1504.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 49
@@ -926,6 +1021,7 @@
       "fired_at_ms": 2176.0,
       "true_end_ms": 5504.0,
       "cutoff": true,
+      "early_by_ms": 3328.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 53
@@ -936,6 +1032,7 @@
       "fired_at_ms": 1792.0,
       "true_end_ms": 1280.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 41
@@ -946,6 +1043,7 @@
       "fired_at_ms": 7328.0,
       "true_end_ms": 6816.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 214
@@ -956,6 +1054,7 @@
       "fired_at_ms": 1664.0,
       "true_end_ms": 1120.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 37
@@ -966,6 +1065,7 @@
       "fired_at_ms": 7072.0,
       "true_end_ms": 18432.0,
       "cutoff": true,
+      "early_by_ms": 11360.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 206
@@ -976,6 +1076,7 @@
       "fired_at_ms": 1536.0,
       "true_end_ms": 1024.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 33
@@ -986,6 +1087,7 @@
       "fired_at_ms": 1728.0,
       "true_end_ms": 1216.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 39
@@ -996,6 +1098,7 @@
       "fired_at_ms": 3456.0,
       "true_end_ms": 59360.0,
       "cutoff": true,
+      "early_by_ms": 55904.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 93
@@ -1006,6 +1109,7 @@
       "fired_at_ms": 2048.0,
       "true_end_ms": 1536.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 49
@@ -1016,6 +1120,7 @@
       "fired_at_ms": 3584.0,
       "true_end_ms": 3040.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 97
@@ -1026,6 +1131,7 @@
       "fired_at_ms": 2144.0,
       "true_end_ms": 1600.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 52
@@ -1036,6 +1142,7 @@
       "fired_at_ms": 2720.0,
       "true_end_ms": 2176.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 70
@@ -1046,6 +1153,7 @@
       "fired_at_ms": 1664.0,
       "true_end_ms": 1152.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 37
@@ -1056,6 +1164,7 @@
       "fired_at_ms": 2464.0,
       "true_end_ms": 1920.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 62
@@ -1066,6 +1175,7 @@
       "fired_at_ms": 2944.0,
       "true_end_ms": 2432.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 77
@@ -1076,6 +1186,7 @@
       "fired_at_ms": 3104.0,
       "true_end_ms": 2560.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 82
@@ -1086,6 +1197,7 @@
       "fired_at_ms": null,
       "true_end_ms": 1216.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 85
@@ -1096,6 +1208,7 @@
       "fired_at_ms": 2944.0,
       "true_end_ms": 2432.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 77
@@ -1106,6 +1219,7 @@
       "fired_at_ms": 2944.0,
       "true_end_ms": 2432.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 77
@@ -1116,6 +1230,7 @@
       "fired_at_ms": 1312.0,
       "true_end_ms": 800.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 26
@@ -1126,6 +1241,7 @@
       "fired_at_ms": 1568.0,
       "true_end_ms": 1056.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 34
@@ -1136,6 +1252,7 @@
       "fired_at_ms": 1568.0,
       "true_end_ms": 992.0,
       "cutoff": false,
+      "early_by_ms": -576.0,
       "added_latency_ms": 576.0,
       "false_hold": false,
       "n_updates": 34
@@ -1146,6 +1263,7 @@
       "fired_at_ms": 4128.0,
       "true_end_ms": 6464.0,
       "cutoff": true,
+      "early_by_ms": 2336.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 114
@@ -1156,6 +1274,7 @@
       "fired_at_ms": 1696.0,
       "true_end_ms": 1184.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 38
@@ -1166,6 +1285,7 @@
       "fired_at_ms": 1568.0,
       "true_end_ms": 1024.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 34
@@ -1176,6 +1296,7 @@
       "fired_at_ms": 1440.0,
       "true_end_ms": 928.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 30
@@ -1186,6 +1307,7 @@
       "fired_at_ms": 2080.0,
       "true_end_ms": 3584.0,
       "cutoff": true,
+      "early_by_ms": 1504.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 50
@@ -1196,6 +1318,7 @@
       "fired_at_ms": 1856.0,
       "true_end_ms": 1312.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 43
@@ -1206,6 +1329,7 @@
       "fired_at_ms": 1856.0,
       "true_end_ms": 1312.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 43
@@ -1216,6 +1340,7 @@
       "fired_at_ms": 3200.0,
       "true_end_ms": 2688.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 85
@@ -1226,6 +1351,7 @@
       "fired_at_ms": 1824.0,
       "true_end_ms": 1312.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 42
@@ -1236,6 +1362,7 @@
       "fired_at_ms": 2400.0,
       "true_end_ms": 1824.0,
       "cutoff": false,
+      "early_by_ms": -576.0,
       "added_latency_ms": 576.0,
       "false_hold": false,
       "n_updates": 60
@@ -1246,6 +1373,7 @@
       "fired_at_ms": 2208.0,
       "true_end_ms": 1696.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 54
@@ -1256,6 +1384,7 @@
       "fired_at_ms": 1472.0,
       "true_end_ms": 928.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 31
@@ -1266,6 +1395,7 @@
       "fired_at_ms": 1600.0,
       "true_end_ms": 1088.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 35
@@ -1276,6 +1406,7 @@
       "fired_at_ms": 2080.0,
       "true_end_ms": 1568.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 50
@@ -1286,6 +1417,7 @@
       "fired_at_ms": 2336.0,
       "true_end_ms": 1792.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 58
@@ -1296,6 +1428,7 @@
       "fired_at_ms": 1344.0,
       "true_end_ms": 800.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 27
@@ -1306,6 +1439,7 @@
       "fired_at_ms": 1440.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 30
@@ -1316,6 +1450,7 @@
       "fired_at_ms": 2016.0,
       "true_end_ms": 1472.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 48
@@ -1326,6 +1461,7 @@
       "fired_at_ms": 3104.0,
       "true_end_ms": 2560.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 82
@@ -1336,6 +1472,7 @@
       "fired_at_ms": 2880.0,
       "true_end_ms": 2368.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 75
@@ -1346,6 +1483,7 @@
       "fired_at_ms": 1760.0,
       "true_end_ms": 1216.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 40
@@ -1356,6 +1494,7 @@
       "fired_at_ms": 1536.0,
       "true_end_ms": 1024.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 33
@@ -1366,6 +1505,7 @@
       "fired_at_ms": 2304.0,
       "true_end_ms": 1792.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 57
@@ -1376,6 +1516,7 @@
       "fired_at_ms": 6688.0,
       "true_end_ms": 5856.0,
       "cutoff": false,
+      "early_by_ms": -832.0,
       "added_latency_ms": 832.0,
       "false_hold": false,
       "n_updates": 194
@@ -1386,6 +1527,7 @@
       "fired_at_ms": 1760.0,
       "true_end_ms": 1216.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 40
@@ -1396,6 +1538,7 @@
       "fired_at_ms": 3776.0,
       "true_end_ms": 3232.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 103
@@ -1406,6 +1549,7 @@
       "fired_at_ms": 4064.0,
       "true_end_ms": 3552.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 112
@@ -1416,6 +1560,7 @@
       "fired_at_ms": 2976.0,
       "true_end_ms": 7872.0,
       "cutoff": true,
+      "early_by_ms": 4896.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 78
@@ -1426,6 +1571,7 @@
       "fired_at_ms": 1248.0,
       "true_end_ms": 736.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 24
@@ -1436,6 +1582,7 @@
       "fired_at_ms": 2464.0,
       "true_end_ms": 1952.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 62
@@ -1446,6 +1593,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 864.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 28
@@ -1456,6 +1604,7 @@
       "fired_at_ms": 1408.0,
       "true_end_ms": 2848.0,
       "cutoff": true,
+      "early_by_ms": 1440.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 29
@@ -1466,6 +1615,7 @@
       "fired_at_ms": 3872.0,
       "true_end_ms": 3360.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 106
@@ -1476,6 +1626,7 @@
       "fired_at_ms": 3168.0,
       "true_end_ms": 2656.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 84
@@ -1486,6 +1637,7 @@
       "fired_at_ms": 2272.0,
       "true_end_ms": 1760.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 56
@@ -1496,6 +1648,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 832.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 28
@@ -1506,6 +1659,7 @@
       "fired_at_ms": 2048.0,
       "true_end_ms": 1536.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 49
@@ -1516,6 +1670,7 @@
       "fired_at_ms": 1504.0,
       "true_end_ms": 992.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 32
@@ -1526,6 +1681,7 @@
       "fired_at_ms": 1600.0,
       "true_end_ms": 1056.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 35
@@ -1536,6 +1692,7 @@
       "fired_at_ms": 2688.0,
       "true_end_ms": 2176.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 69
@@ -1546,6 +1703,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 864.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 28
@@ -1556,6 +1714,7 @@
       "fired_at_ms": 4160.0,
       "true_end_ms": 8192.0,
       "cutoff": true,
+      "early_by_ms": 4032.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 115
@@ -1566,6 +1725,7 @@
       "fired_at_ms": 2944.0,
       "true_end_ms": 2400.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 77
@@ -1576,6 +1736,7 @@
       "fired_at_ms": 1696.0,
       "true_end_ms": 1152.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 38
@@ -1586,6 +1747,7 @@
       "fired_at_ms": 1824.0,
       "true_end_ms": 1312.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 42
@@ -1596,6 +1758,7 @@
       "fired_at_ms": 1344.0,
       "true_end_ms": 800.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 27
@@ -1606,6 +1769,7 @@
       "fired_at_ms": 1408.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 29
@@ -1616,6 +1780,7 @@
       "fired_at_ms": 2272.0,
       "true_end_ms": 1728.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 56
@@ -1626,6 +1791,7 @@
       "fired_at_ms": 1888.0,
       "true_end_ms": 1344.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 44
@@ -1636,6 +1802,7 @@
       "fired_at_ms": 1408.0,
       "true_end_ms": 3488.0,
       "cutoff": true,
+      "early_by_ms": 2080.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 29
@@ -1646,6 +1813,7 @@
       "fired_at_ms": null,
       "true_end_ms": 6272.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 243
@@ -1656,6 +1824,7 @@
       "fired_at_ms": 1920.0,
       "true_end_ms": 1280.0,
       "cutoff": false,
+      "early_by_ms": -640.0,
       "added_latency_ms": 640.0,
       "false_hold": false,
       "n_updates": 45
@@ -1666,6 +1835,7 @@
       "fired_at_ms": 1024.0,
       "true_end_ms": 1632.0,
       "cutoff": true,
+      "early_by_ms": 608.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 17
@@ -1676,6 +1846,7 @@
       "fired_at_ms": 1632.0,
       "true_end_ms": 1120.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 36
@@ -1686,6 +1857,7 @@
       "fired_at_ms": 3456.0,
       "true_end_ms": 2944.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 93
@@ -1696,6 +1868,7 @@
       "fired_at_ms": 1728.0,
       "true_end_ms": 1216.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 39
@@ -1706,6 +1879,7 @@
       "fired_at_ms": 2880.0,
       "true_end_ms": 2336.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 75
@@ -1716,6 +1890,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 832.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 28
@@ -1726,6 +1901,7 @@
       "fired_at_ms": 5376.0,
       "true_end_ms": 4832.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 153
@@ -1736,6 +1912,7 @@
       "fired_at_ms": 2080.0,
       "true_end_ms": 6144.0,
       "cutoff": true,
+      "early_by_ms": 4064.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 50
@@ -1746,6 +1923,7 @@
       "fired_at_ms": 1312.0,
       "true_end_ms": 768.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 26
@@ -1756,6 +1934,7 @@
       "fired_at_ms": 3680.0,
       "true_end_ms": 3168.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 100
@@ -1766,6 +1945,7 @@
       "fired_at_ms": 1792.0,
       "true_end_ms": 1248.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 41
@@ -1776,6 +1956,7 @@
       "fired_at_ms": 1376.0,
       "true_end_ms": 832.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 28
@@ -1786,6 +1967,7 @@
       "fired_at_ms": 1440.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 30
@@ -1796,6 +1978,7 @@
       "fired_at_ms": 2304.0,
       "true_end_ms": 1760.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 57
@@ -1806,6 +1989,7 @@
       "fired_at_ms": 1440.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 30
@@ -1816,6 +2000,7 @@
       "fired_at_ms": 1472.0,
       "true_end_ms": 960.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 31
@@ -1826,6 +2011,7 @@
       "fired_at_ms": 2016.0,
       "true_end_ms": 1472.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 48
@@ -1836,6 +2022,7 @@
       "fired_at_ms": 3968.0,
       "true_end_ms": 3456.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 109
@@ -1846,6 +2033,7 @@
       "fired_at_ms": 3648.0,
       "true_end_ms": 4928.0,
       "cutoff": true,
+      "early_by_ms": 1280.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 99
@@ -1856,6 +2044,7 @@
       "fired_at_ms": 4384.0,
       "true_end_ms": 2784.0,
       "cutoff": false,
+      "early_by_ms": -1600.0,
       "added_latency_ms": 1600.0,
       "false_hold": false,
       "n_updates": 122
@@ -1866,6 +2055,7 @@
       "fired_at_ms": 2176.0,
       "true_end_ms": 1632.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 53
@@ -1876,6 +2066,7 @@
       "fired_at_ms": null,
       "true_end_ms": 2048.0,
       "cutoff": false,
+      "early_by_ms": null,
       "added_latency_ms": null,
       "false_hold": true,
       "n_updates": 111
@@ -1886,6 +2077,7 @@
       "fired_at_ms": 1472.0,
       "true_end_ms": 960.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 31
@@ -1896,6 +2088,7 @@
       "fired_at_ms": 3072.0,
       "true_end_ms": 2528.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 81
@@ -1906,6 +2099,7 @@
       "fired_at_ms": 2560.0,
       "true_end_ms": 2016.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 65
@@ -1916,6 +2110,7 @@
       "fired_at_ms": 1920.0,
       "true_end_ms": 1184.0,
       "cutoff": false,
+      "early_by_ms": -736.0,
       "added_latency_ms": 736.0,
       "false_hold": false,
       "n_updates": 45
@@ -1926,6 +2121,7 @@
       "fired_at_ms": 1664.0,
       "true_end_ms": 4384.0,
       "cutoff": true,
+      "early_by_ms": 2720.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 37
@@ -1936,6 +2132,7 @@
       "fired_at_ms": 2016.0,
       "true_end_ms": 1472.0,
       "cutoff": false,
+      "early_by_ms": -544.0,
       "added_latency_ms": 544.0,
       "false_hold": false,
       "n_updates": 48
@@ -1946,6 +2143,7 @@
       "fired_at_ms": 1408.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 29
@@ -1956,6 +2154,7 @@
       "fired_at_ms": 2432.0,
       "true_end_ms": 4064.0,
       "cutoff": true,
+      "early_by_ms": 1632.0,
       "added_latency_ms": null,
       "false_hold": false,
       "n_updates": 61
@@ -1966,6 +2165,7 @@
       "fired_at_ms": 1920.0,
       "true_end_ms": 1408.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 45
@@ -1976,6 +2176,7 @@
       "fired_at_ms": 3968.0,
       "true_end_ms": 3456.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 109
@@ -1986,6 +2187,7 @@
       "fired_at_ms": 1408.0,
       "true_end_ms": 896.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 29
@@ -1996,6 +2198,7 @@
       "fired_at_ms": 2304.0,
       "true_end_ms": 1792.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 57
@@ -2006,6 +2209,7 @@
       "fired_at_ms": 3040.0,
       "true_end_ms": 2528.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 80
@@ -2016,6 +2220,7 @@
       "fired_at_ms": 2272.0,
       "true_end_ms": 1760.0,
       "cutoff": false,
+      "early_by_ms": -512.0,
       "added_latency_ms": 512.0,
       "false_hold": false,
       "n_updates": 56

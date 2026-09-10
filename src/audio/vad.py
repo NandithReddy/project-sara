@@ -57,6 +57,8 @@ class SileroVAD:
     signal the EOT decision reads, so flapping there corrupts the metric.
     """
 
+    name = "silero"
+
     def __init__(
         self,
         model_path: Path | str = DEFAULT_MODEL_PATH,
