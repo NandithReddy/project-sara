@@ -66,34 +66,49 @@ def main() -> int:
     print("-" * 72)
 
     was_speech = False
-    fired = False
+    # A turn that never started cannot end. Without this gate the rule fires
+    # during the silence before the user has said anything at all -- trailing
+    # silence hits the timeout at t=800ms with no speech on record.
+    turn_active = False
     turns = 0
     wall0 = time.perf_counter()
+
+    # Clearing the \r status line only means anything on a terminal; piping the
+    # output would otherwise show the raw escape code.
+    clr = "\033[2K" if sys.stdout.isatty() else ""
+
+    def line(text: str) -> None:
+        """Print a full line, clearing the \r status line underneath it first."""
+        print(f"{clr}{text}")
 
     try:
         for block in source:
             for f in vad.push(block):
                 if f.is_speech != was_speech:
                     label = "SPEECH" if f.is_speech else "silence"
-                    print(f"[{f.t_ms:8.0f}ms] {label:>7}  p={f.prob:.3f}")
+                    line(f"[{f.t_ms:8.0f}ms] {label:>7}  p={f.prob:.3f}")
                     was_speech = f.is_speech
                     if f.is_speech:
-                        fired = False  # new speech -- the turn is live again
+                        turn_active = True  # the turn is live from here
 
-                p = eot.update(Update(t_ms=f.t_ms, text="", silence_ms=f.silence_ms))
-                if p >= 0.5 and not fired:
-                    fired = True
-                    turns += 1
-                    print(
-                        f"[{f.t_ms:8.0f}ms] *** END OF TURN *** "
-                        f"after {f.silence_ms:.0f}ms of silence"
+                if turn_active:
+                    p = eot.update(
+                        Update(t_ms=f.t_ms, text="", silence_ms=f.silence_ms)
                     )
-                else:
-                    print(
-                        f"  p(speech)={f.prob:5.3f}  silence={f.silence_ms:6.0f}ms   ",
-                        end="\r",
-                        flush=True,
-                    )
+                    if p >= 0.5:
+                        turn_active = False
+                        turns += 1
+                        line(
+                            f"[{f.t_ms:8.0f}ms] *** END OF TURN *** "
+                            f"after {f.silence_ms:.0f}ms of silence"
+                        )
+                        continue
+
+                print(
+                    f"  p(speech)={f.prob:5.3f}  silence={f.silence_ms:6.0f}ms",
+                    end=f"{clr}\r",
+                    flush=True,
+                )
 
             if not args.wav and time.perf_counter() - wall0 > args.seconds:
                 break
