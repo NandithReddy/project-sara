@@ -25,7 +25,7 @@ from a run over the frozen eval set; nothing is estimated.
 | 1 | Live loop with a fixed-timeout baseline | done |
 | 2 | Frozen eval set + harness + baseline numbers | done — 198 turns, 3 baselines |
 | 3 | Training data | done — 41,287 examples, labels reviewed |
-| 4 | EOT model v1, text only | **measured: does not beat the timer** |
+| 4 | EOT model, text only | **v1 and v1.1 measured: neither beats the timer; the silence gate does** |
 | 5 | The tradeoff curve | done — baselines and v1 on it |
 | 6 | Telephony band + real-ASR conditions | not started |
 | 7 | Prosody, only if Phase 5 shows headroom | not started |
@@ -45,9 +45,10 @@ silence timers, a punctuation heuristic, and the text-only model, on 198 held
 out turns: [`results/tradeoff.png`](results/tradeoff.png), read in
 [`results/tradeoff.md`](results/tradeoff.md). The headline: the industry
 default 500ms timer interrupts 17% of turns; the punctuation heuristic answers
-3× faster at the same cutoff rate but its p95 is the fallback wall; and model
-v1 is dominated by the timer everywhere, for reasons that are measured rather
-than guessed.
+3× faster at the same cutoff rate but its p95 is the fallback wall; and two
+iterations of the text-only model are dominated by the timer, for reasons that
+are measured rather than guessed — while a 200ms silence gate on the heuristic
+is the first system into the chart's empty bottom-left.
 
 **The streaming STT** — whether `parakeet-mlx` can serve on the live path. Full record in
 [`results/spike-parakeet-mlx-streaming.md`](results/spike-parakeet-mlx-streaming.md).
