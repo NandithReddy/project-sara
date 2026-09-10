@@ -1,0 +1,109 @@
+{
+  "corpus": "AMI Meeting Corpus, manual annotations v1.6.2 (CC BY 4.0)",
+  "split": "training",
+  "seed": 20260910,
+  "n_meetings": 98,
+  "n_turns": 5747,
+  "n_speakers": 100,
+  "n_examples": 41287,
+  "n_complete": 5747,
+  "n_incomplete": 35540,
+  "collisions_text": {
+    "distinct_strings": 34343,
+    "strings_with_both_labels": 227,
+    "examples_on_conflicted_strings": 5127,
+    "unavoidable_errors": 1231,
+    "unavoidable_error_rate": 0.02981568048053867,
+    "worst": [
+      {
+        "text": "Yeah",
+        "complete": 449,
+        "incomplete": 263
+      },
+      {
+        "text": "Okay",
+        "complete": 317,
+        "incomplete": 202
+      },
+      {
+        "text": "So",
+        "complete": 51,
+        "incomplete": 244
+      },
+      {
+        "text": "I",
+        "complete": 1,
+        "incomplete": 254
+      },
+      {
+        "text": "Mm",
+        "complete": 142,
+        "incomplete": 59
+      },
+      {
+        "text": "Mm-hmm",
+        "complete": 167,
+        "incomplete": 9
+      },
+      {
+        "text": "Um",
+        "complete": 48,
+        "incomplete": 115
+      },
+      {
+        "text": "Uh",
+        "complete": 39,
+        "incomplete": 116
+      }
+    ]
+  },
+  "collisions_text_punc": {
+    "distinct_strings": 34829,
+    "strings_with_both_labels": 129,
+    "examples_on_conflicted_strings": 3796,
+    "unavoidable_errors": 444,
+    "unavoidable_error_rate": 0.010753990360161794,
+    "worst": [
+      {
+        "text": "Yeah.",
+        "complete": 442,
+        "incomplete": 53
+      },
+      {
+        "text": "Okay.",
+        "complete": 310,
+        "incomplete": 70
+      },
+      {
+        "text": "I",
+        "complete": 1,
+        "incomplete": 254
+      },
+      {
+        "text": "So",
+        "complete": 40,
+        "incomplete": 209
+      },
+      {
+        "text": "Mm-hmm.",
+        "complete": 164,
+        "incomplete": 6
+      },
+      {
+        "text": "Mm.",
+        "complete": 138,
+        "incomplete": 15
+      },
+      {
+        "text": "And",
+        "complete": 5,
+        "incomplete": 135
+      },
+      {
+        "text": "Uh",
+        "complete": 16,
+        "incomplete": 97
+      }
+    ]
+  }
+}
