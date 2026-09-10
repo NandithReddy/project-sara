@@ -15,6 +15,14 @@ PACKAGES = [
     "src.eot",
     "src.pipeline",
     "src.baselines",
+    # Modules, not just packages: importing the package alone does not execute
+    # module-level imports, so a bad one stays invisible until runtime.
+    "src.audio.capture",
+    "src.audio.vad",
+    "src.baselines.silence",
+    "src.eot.base",
+    "src.pipeline.live",
+    "src.stt.parakeet",
 ]
 
 
