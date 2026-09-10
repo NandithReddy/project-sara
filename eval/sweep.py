@@ -28,8 +28,10 @@ from src.audio.vad import SileroVAD
 from src.baselines.energy import EnergyVAD
 from src.baselines.punctuation import PunctuationHeuristic
 from src.baselines.silence import FixedSilenceTimeout
+from src.eot.model import TextEOT
 
 TIMEOUTS_MS = tuple(range(100, 2001, 100))
+THRESHOLDS = tuple(round(x * 0.05, 2) for x in range(1, 20))  # 0.05 .. 0.95
 CSV_PATH = RESULTS / "tradeoff.csv"
 PNG_PATH = RESULTS / "tradeoff.png"
 READING_PATH = RESULTS / "tradeoff.md"
@@ -81,6 +83,20 @@ def sweep_timers(cache: FrameCache) -> list[dict]:
     return out
 
 
+def sweep_model(cache: FrameCache) -> list[dict]:
+    """The model emits a probability, so it sweeps on the fire threshold.
+
+    One evaluate() per threshold. The VAD frames are cached and the detector
+    caches by text, so each pass costs only the few real inferences per turn.
+    """
+    det = TextEOT()
+    out = []
+    for thr in THRESHOLDS:
+        s = evaluate(det, cache=cache, name=f"sweep_text_eot_v1_{thr}", threshold=thr)
+        out.append(row("text_eot_v1", "threshold", thr, s))
+    return out
+
+
 def run_sweep() -> list[dict]:
     rows: list[dict] = []
     silero = precompute(SileroVAD())
@@ -91,6 +107,8 @@ def run_sweep() -> list[dict]:
     print("punctuation (single point) ...", flush=True)
     s = evaluate(PunctuationHeuristic(), cache=silero, name="sweep_punctuation")
     rows.append(row("punctuation", "none", 0.0, s))
+    print("sweeping text_eot_v1 on threshold ...", flush=True)
+    rows += sweep_model(silero)
     return rows
 
 
@@ -115,6 +133,7 @@ def plot(rows: list[dict]) -> None:
         "fixed_timeout+silero": ("#2a78d6", "o", "fixed timeout, Silero VAD"),
         "fixed_timeout+energy": ("#eb6834", "s", "fixed timeout, energy VAD"),
         "punctuation": ("#1baf7a", "D", "punctuation heuristic"),
+        "text_eot_v1": ("#eda100", "^", "text EOT model v1"),
     }
     surface, ink, ink2, grid = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1"
 
@@ -185,13 +204,17 @@ def plot(rows: list[dict]) -> None:
             tags = {
                 "fixed_timeout+silero": ((300, 500, 1000), (6, 5)),
                 "fixed_timeout+energy": ((500, 1000), (6, -12)),
+                "text_eot_v1": ((0.3, 0.5, 0.7, 0.9), (-30, -12)),
             }
             if system in tags:
                 values, offset = tags[system]
                 for r in pts:
                     if r["knob_value"] in values and r[xkey] < 1900:
+                        is_thr = system == "text_eot_v1"
                         ax.annotate(
-                            f"{int(r['knob_value'])}ms",
+                            f"p≥{r['knob_value']}"
+                            if is_thr
+                            else f"{int(r['knob_value'])}ms",
                             (r[xkey], r["cutoff_rate_at_tolerance"] * 100),
                             xytext=offset,
                             textcoords="offset points",

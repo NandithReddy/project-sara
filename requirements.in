@@ -17,6 +17,11 @@ onnxruntime    # CPU inference for Silero VAD now, and the EOT model in Phase 4.
                # torchaudio (16 packages, GBs) to run a 1.8MB model.
 soundfile      # read/write WAV, so the VAD can be verified offline without a mic
 
+# --- Phase 4: EOT model inference ---
+tokenizers     # Rust tokenizer for the exported model. The one piece of the
+               # transformers stack the runtime needs; transformers itself
+               # stays in requirements-train.txt.
+
 # --- Phase 1c: streaming STT, live path only ---
 # Apple Silicon only, so it carries a marker: without one, `make install` breaks
 # for anyone cloning this on Linux. Section 10 keeps the eval path off any STT,
