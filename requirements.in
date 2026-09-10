@@ -1,9 +1,20 @@
 # Direct dependencies. Compile to pinned requirements.txt with:
 #   uv pip compile requirements.in -o requirements.txt
 #
-# Tier A only. Runtime deps (numpy, soundfile, soxr, silero-vad) arrive with
-# the baselines phase; torch/transformers/onnxruntime with the model phase.
-# ENGINEERING.md rule 5: ask before adding a dependency.
+# Deps arrive with the phase that first imports them, never earlier
+# (ENGINEERING.md rule 5: ask before adding a dependency).
 
-pytest   # test runner
-ruff     # linter + formatter in one binary (replaces flake8 + black + isort)
+# --- Tier A: tooling ---
+pytest         # test runner
+ruff           # linter + formatter in one binary (replaces flake8 + black + isort)
+
+# --- Phase 1b: live audio path ---
+sounddevice    # mic capture via PortAudio; the only maintained option that streams
+numpy          # audio buffers; every audio lib below speaks ndarray
+onnxruntime    # CPU inference for Silero VAD now, and the EOT model in Phase 4.
+               # Chosen over the silero-vad package, which pulls torch +
+               # torchaudio (16 packages, GBs) to run a 1.8MB model.
+soundfile      # read/write WAV, so the VAD can be verified offline without a mic
+
+# TTS on the live path is macOS /usr/bin/say -- no dependency.
+# parakeet-mlx (streaming STT) arrives in Phase 1c.
