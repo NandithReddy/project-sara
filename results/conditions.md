@@ -170,6 +170,12 @@ timer loses to narrowband audio are the VAD's, not the timer's. Untried.
   party; it is stated, not hidden.
 - Clean-line telephony: band-limit and codec, no injected noise, so runs
   reproduce byte for byte. Real lines are worse.
+- The caller channel is *digital* silence after the turn. That flatters
+  energy thresholding specifically — the energy-VAD timer's false holds were
+  room tone and bleed re-triggering it, and a zeroed tail has neither, so in
+  the `asr_*` panels it plots as well as Silero. A real line carries noise.
+  No claim in this file rests on the energy-VAD rows; they are in the CSV
+  and on the chart for completeness.
 - One recogniser, one machine, two passes contending for one GPU (1.06×
   realtime; 0.6× solo). `compute_ms` is inflated by the contention;
   `asr_16k_content` isolates what the recogniser's *errors* cost from what its
