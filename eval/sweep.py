@@ -23,13 +23,21 @@ from __future__ import annotations
 
 import csv
 
-from eval.harness import RESULTS, FrameCache, evaluate, precompute
+from eval.harness import (
+    RESULTS,
+    FrameCache,
+    ProsodyCache,
+    evaluate,
+    precompute,
+    precompute_prosody,
+)
 from src.audio.vad import SileroVAD
 from src.baselines.energy import EnergyVAD
 from src.baselines.punctuation import PunctuationHeuristic
 from src.baselines.silence import FixedSilenceTimeout
 from src.eot.gated import DEFAULT_GATE_MS, SilenceGated
 from src.eot.model import TextEOT
+from src.eot.prosody_eot import ProsodyEOT
 
 TIMEOUTS_MS = tuple(range(100, 2001, 100))
 THRESHOLDS = tuple(round(x * 0.05, 2) for x in range(1, 20))  # 0.05 .. 0.95
@@ -87,7 +95,9 @@ def sweep_timers(cache: FrameCache) -> list[dict]:
     return out
 
 
-def sweep_thresholds(det, cache: FrameCache) -> list[dict]:
+def sweep_thresholds(
+    det, cache: FrameCache, prosody: ProsodyCache | None = None
+) -> list[dict]:
     """A detector that emits a probability sweeps on the fire threshold.
 
     One evaluate() per threshold. The VAD frames are cached and the model
@@ -95,7 +105,13 @@ def sweep_thresholds(det, cache: FrameCache) -> list[dict]:
     """
     out = []
     for thr in THRESHOLDS:
-        s = evaluate(det, cache=cache, name=f"sweep_{det.name}_{thr}", threshold=thr)
+        s = evaluate(
+            det,
+            cache=cache,
+            name=f"sweep_{det.name}_{thr}",
+            threshold=thr,
+            prosody_cache=prosody,
+        )
         out.append(row(det.name, "threshold", thr, s))
     return out
 
@@ -136,6 +152,14 @@ def run_sweep() -> list[dict]:
     rows.append(row(pg.name, "none", 0.0, s))
     print("gate sensitivity ...", flush=True)
     rows += gate_sensitivity(silero)
+    # Phase 7: the pause classifier, prosody alone and fused with the text
+    # model. Same gate as the systems above, so the rows are comparable.
+    print("prosody features ...", flush=True)
+    pros = precompute_prosody()
+    for kind in ("prosody", "fusion"):
+        det = ProsodyEOT(kind=kind)
+        print(f"sweeping {det.name} on threshold ...", flush=True)
+        rows += sweep_thresholds(det, silero, pros)
     return rows
 
 
@@ -165,6 +189,10 @@ def style_for(system: str):
     if system.startswith("punctuation+gate"):
         g = system.split("+gate")[1]
         return "#008300", "P", f"punctuation + {g}ms gate"
+    if system.startswith("prosody_prosody"):
+        return "#4a3aa7", "X", "prosody only, at the pause"
+    if system.startswith("prosody_fusion"):
+        return "#e34948", "*", "prosody + text, at the pause"
     return None
 
 
@@ -245,12 +273,14 @@ def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True
                 (0.5, 0.9) if "+gate" not in system else (0.3, 0.5),
                 (-34, -12) if "+gate" in system else (6, -12),
             )
+        if system.startswith("prosody_"):
+            tags[system] = ((0.3, 0.5, 0.7), (6, 5))
         if system in tags:
             values, offset = tags[system]
             for r in pts:
                 y_pct = r["cutoff_rate_at_tolerance"] * 100
                 if r["knob_value"] in values and r[xkey] < 1900 and y_pct <= Y_MAX:
-                    is_thr = system.startswith("text_eot")
+                    is_thr = system.startswith(("text_eot", "prosody_"))
                     ax.annotate(
                         f"p≥{r['knob_value']}"
                         if is_thr

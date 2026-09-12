@@ -21,7 +21,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from eval.harness import evaluate, write_results  # noqa: E402
+from eval.harness import evaluate, precompute_prosody, write_results  # noqa: E402
 from src.audio.vad import SileroVAD  # noqa: E402
 from src.baselines.energy import EnergyVAD  # noqa: E402
 from src.baselines.punctuation import PunctuationHeuristic  # noqa: E402
@@ -31,6 +31,7 @@ from src.baselines.silence import (  # noqa: E402
 )
 from src.eot.gated import DEFAULT_GATE_MS, SilenceGated  # noqa: E402
 from src.eot.model import TextEOT  # noqa: E402
+from src.eot.prosody_eot import ProsodyEOT  # noqa: E402
 
 # 800ms is what the Phase 1 live loop shipped with, so the demo and the
 # measurement talk about the same operating point.
@@ -52,6 +53,12 @@ def main() -> int:
     )
     runs.append((TextEOT(), SileroVAD(), None))
     runs.append((SilenceGated(TextEOT(), DEFAULT_GATE_MS), SileroVAD(), None))
+    # Phase 7: the pause classifier, prosody alone and fused with the text model.
+    runs.append((ProsodyEOT(kind="prosody"), SileroVAD(), None))
+    runs.append((ProsodyEOT(kind="fusion"), SileroVAD(), None))
+
+    print("prosody features ...", flush=True)
+    prosody = precompute_prosody()
 
     rows = []
     for detector, silence, name in runs:
@@ -61,10 +68,12 @@ def main() -> int:
             name = detector.name
         label = name or f"{detector.name}__{silence.name}"
         print(f"running {label} ...", flush=True)
-        summary = evaluate(detector, silence=silence, name=name)
+        summary = evaluate(detector, silence=silence, name=name, prosody_cache=prosody)
         if hasattr(detector, "inference_latency_ms"):
             summary["inference_latency_ms"] = detector.inference_latency_ms()
-            summary["model"] = detector.meta.get("base_model")
+            summary["model"] = detector.meta.get("base_model") or detector.meta.get(
+                "kind"
+            )
         write_results(summary)
         rows.append(summary)
 

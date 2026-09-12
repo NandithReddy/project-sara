@@ -170,7 +170,8 @@ def main() -> int:
         if kind != "text":
             order = np.argsort(-np.abs(w))
             print("   " + "  ".join(f"{names[kind][i]}={w[i]:+.2f}" for i in order[:6]))
-    print(f"wrote {args.out.relative_to(REPO)}/{{prosody,text,fusion}}_lr.json")
+    shown = args.out.relative_to(REPO) if args.out.is_relative_to(REPO) else args.out
+    print(f"wrote {shown}/{{prosody,text,fusion}}_lr.json")
     return 0
 
 
