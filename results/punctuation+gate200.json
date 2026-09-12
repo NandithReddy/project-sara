@@ -22,7 +22,7 @@
   "update_latency_ms": {
     "n": 15276,
     "p50": 8.300412446260452e-05,
-    "p95": 0.00020800507627427578,
+    "p95": 0.0002499727997928858,
     "p99": 0.00029199873097240925,
     "budget_ms": 20.0,
     "within_budget": true
@@ -52,6 +52,7 @@
   },
   "detector": "punctuation+gate200",
   "silence_source": "silero",
+  "transcripts": "gold",
   "threshold": 0.5,
   "turns": [
     {
