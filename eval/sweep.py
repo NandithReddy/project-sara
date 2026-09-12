@@ -215,8 +215,15 @@ def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True
             )
         visible = [r for r in pts if r["cutoff_rate_at_tolerance"] * 100 <= Y_MAX]
         if visible:
-            first = visible[0]
-            off = (10, 2) if len(pts) > 1 else (10, -4)
+            # The bare model enters from the top-left, where the timer's label
+            # lives, so it is labelled mid-curve instead of at its first point.
+            bare_model = system.startswith("text_eot") and "+gate" not in system
+            first = (
+                min(visible, key=lambda r: abs(r[xkey] - 1400.0))
+                if bare_model
+                else visible[0]
+            )
+            off = (0, 9) if bare_model else (10, 2) if len(pts) > 1 else (10, -4)
             ax.annotate(
                 label,
                 (first[xkey], first["cutoff_rate_at_tolerance"] * 100),
@@ -224,7 +231,7 @@ def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True
                 textcoords="offset points",
                 fontsize=9,
                 color=INK,
-                ha="left",
+                ha="center" if bare_model else "left",
                 va="center",
             )
         if not tags_on:
