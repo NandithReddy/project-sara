@@ -21,9 +21,9 @@
   },
   "update_latency_ms": {
     "n": 15717,
-    "p50": 8.300412446260452e-05,
-    "p95": 8.40227585285902e-05,
-    "p99": 0.00012500095181167126,
+    "p50": 4.1996827349066734e-05,
+    "p95": 8.300412446260452e-05,
+    "p99": 8.40227585285902e-05,
     "budget_ms": 20.0,
     "within_budget": true
   },
@@ -52,6 +52,7 @@
   },
   "detector": "fixed_silence_500ms",
   "silence_source": "energy",
+  "transcripts": "gold",
   "threshold": 0.5,
   "turns": [
     {

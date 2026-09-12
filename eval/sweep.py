@@ -147,184 +147,184 @@ def write_csv(rows: list[dict]) -> None:
         w.writerows(rows)
 
 
+def style_for(system: str):
+    """Validated 6-slot categorical palette, fixed order; colour follows the
+    entity. Aqua, yellow and magenta sit under 3:1 on the light surface, so
+    every series is direct-labelled and marker shape carries identity."""
+    if system == "fixed_timeout+silero":
+        return "#2a78d6", "o", "fixed timeout, Silero VAD"
+    if system == "fixed_timeout+energy":
+        return "#eb6834", "s", "fixed timeout, energy VAD"
+    if system == "punctuation":
+        return "#1baf7a", "D", "punctuation heuristic"
+    if system.startswith("text_eot") and "+gate" in system:
+        g = system.split("+gate")[1]
+        return "#e87ba4", "v", f"text EOT model + {g}ms gate"
+    if system.startswith("text_eot"):
+        return "#eda100", "^", f"text EOT model {system.split('text_eot_')[1]}"
+    if system.startswith("punctuation+gate"):
+        g = system.split("+gate")[1]
+        return "#008300", "P", f"punctuation + {g}ms gate"
+    return None
+
+
+SURFACE, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1"
+Y_MAX, X_MAX = 45.0, 2150.0  # the bare model runs to 68% cutoff; it exits the top
+
+
+def charted_systems(rows: list[dict]) -> list[str]:
+    return [
+        s
+        for s in dict.fromkeys(r["system"] for r in rows)
+        if style_for(s) and "sensitivity" not in s
+    ]
+
+
+def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True):
+    """One cutoff-vs-latency panel. Shared by tradeoff.png and conditions.png."""
+    ax.set_facecolor(SURFACE)
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("left", "bottom"):
+        ax.spines[spine].set_color(GRID)
+    ax.grid(True, color=GRID, linewidth=0.8)
+    ax.set_axisbelow(True)
+    ax.tick_params(colors=INK2, labelsize=9)
+
+    for system in charted_systems(rows):
+        colour, marker, label = style_for(system)
+        pts = sorted(
+            (r for r in rows if r["system"] == system), key=lambda r: r["knob_value"]
+        )
+        xs = [r[xkey] for r in pts]
+        ys = [r["cutoff_rate_at_tolerance"] * 100 for r in pts]
+        if len(pts) > 1:
+            ax.plot(xs, ys, color=colour, linewidth=2, zorder=2)
+        for r, x, y in zip(pts, xs, ys, strict=True):
+            hollow = r["false_hold_rate"] > 0.10  # >1 in 10 never answered
+            ax.plot(
+                x,
+                y,
+                marker=marker,
+                markersize=8,
+                color=colour,
+                markerfacecolor=SURFACE if hollow else colour,
+                markeredgewidth=2,
+                linestyle="none",
+                zorder=3,
+            )
+        visible = [r for r in pts if r["cutoff_rate_at_tolerance"] * 100 <= Y_MAX]
+        if visible:
+            first = visible[0]
+            off = (10, 2) if len(pts) > 1 else (10, -4)
+            ax.annotate(
+                label,
+                (first[xkey], first["cutoff_rate_at_tolerance"] * 100),
+                xytext=off,
+                textcoords="offset points",
+                fontsize=9,
+                color=INK,
+                ha="left",
+                va="center",
+            )
+        if not tags_on:
+            continue
+        tags = {
+            "fixed_timeout+silero": ((300, 500, 1000), (6, 5)),
+            "fixed_timeout+energy": ((500, 1000), (6, -12)),
+        }
+        if system.startswith("text_eot"):
+            tags[system] = (
+                (0.5, 0.9) if "+gate" not in system else (0.3, 0.5),
+                (-34, -12) if "+gate" in system else (6, -12),
+            )
+        if system in tags:
+            values, offset = tags[system]
+            for r in pts:
+                y_pct = r["cutoff_rate_at_tolerance"] * 100
+                if r["knob_value"] in values and r[xkey] < 1900 and y_pct <= Y_MAX:
+                    is_thr = system.startswith("text_eot")
+                    ax.annotate(
+                        f"p≥{r['knob_value']}"
+                        if is_thr
+                        else f"{int(r['knob_value'])}ms",
+                        (r[xkey], y_pct),
+                        xytext=offset,
+                        textcoords="offset points",
+                        fontsize=7.5,
+                        color=INK2,
+                    )
+
+    ax.axvline(2000, color=GRID, linewidth=1.2, zorder=1)
+    ax.annotate(
+        "2000ms fallback:\nnever answered",
+        (2000, Y_MAX * 0.97),
+        xytext=(-6, 0),
+        textcoords="offset points",
+        fontsize=7.5,
+        color=INK2,
+        ha="right",
+        va="top",
+    )
+    ax.set_xlabel(
+        f"added latency at {xkey.split('_')[-1]} (ms)", color=INK2, fontsize=9
+    )
+    ax.set_ylabel("premature cutoff rate (%)", color=INK2, fontsize=9)
+    ax.set_title(title, color=INK, fontsize=11, loc="left")
+    ax.set_ylim(-1, Y_MAX)
+    ax.set_xlim(0, X_MAX)
+
+
+def legend_handles(rows: list[dict]):
+    import matplotlib.pyplot as plt
+
+    handles = [
+        plt.Line2D([], [], color=c, marker=m, markersize=8, linewidth=2, label=lab)
+        for c, m, lab in (style_for(s) for s in charted_systems(rows))
+    ]
+    handles.append(
+        plt.Line2D(
+            [],
+            [],
+            color=INK2,
+            marker="o",
+            markersize=8,
+            linewidth=0,
+            markerfacecolor=SURFACE,
+            markeredgewidth=2,
+            label="hollow: >10% of turns never answered",
+        )
+    )
+    return handles
+
+
 def plot(rows: list[dict]) -> None:
     import matplotlib
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    # Validated categorical palette, fixed slot order. Aqua is below 3:1 on the
-    # light surface, so every series is direct-labelled and marker shape carries
-    # identity alongside colour.
-    def style_for(system: str):
-        # Validated 6-slot categorical palette, fixed order; colour follows the
-        # entity. Aqua, yellow and magenta sit under 3:1 on the light surface,
-        # so every series is direct-labelled and marker shape carries identity.
-        if system == "fixed_timeout+silero":
-            return "#2a78d6", "o", "fixed timeout, Silero VAD"
-        if system == "fixed_timeout+energy":
-            return "#eb6834", "s", "fixed timeout, energy VAD"
-        if system == "punctuation":
-            return "#1baf7a", "D", "punctuation heuristic"
-        if system.startswith("text_eot") and "+gate" in system:
-            g = system.split("+gate")[1]
-            return "#e87ba4", "v", f"text EOT model + {g}ms gate"
-        if system.startswith("text_eot"):
-            return "#eda100", "^", f"text EOT model {system.split('text_eot_')[1]}"
-        if system.startswith("punctuation+gate"):
-            g = system.split("+gate")[1]
-            return "#008300", "P", f"punctuation + {g}ms gate"
-        return None
-
-    charted = [
-        s
-        for s in dict.fromkeys(r["system"] for r in rows)
-        if style_for(s) and "sensitivity" not in s
-    ]
-    style = {s: style_for(s) for s in charted}
-    surface, ink, ink2, grid = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1"
-
-    fig, axes = plt.subplots(1, 2, figsize=(13, 5.6), facecolor=surface)
-    panels = (("latency_fallback_p50", "p50"), ("latency_fallback_p95", "p95"))
-    Y_MAX, X_MAX = 45.0, 2150.0  # the bare model runs to 68% cutoff; it exits the top
-
-    for ax, (xkey, pct) in zip(axes, panels, strict=True):
-        ax.set_facecolor(surface)
-        for spine in ("top", "right"):
-            ax.spines[spine].set_visible(False)
-        for spine in ("left", "bottom"):
-            ax.spines[spine].set_color(grid)
-        ax.grid(True, color=grid, linewidth=0.8)
-        ax.set_axisbelow(True)
-        ax.tick_params(colors=ink2, labelsize=9)
-
-        for system, (colour, marker, label) in style.items():
-            pts = [r for r in rows if r["system"] == system]
-            pts.sort(key=lambda r: r["knob_value"])
-            xs = [r[xkey] for r in pts]
-            ys = [r["cutoff_rate_at_tolerance"] * 100 for r in pts]
-            if len(pts) > 1:
-                ax.plot(xs, ys, color=colour, linewidth=2, zorder=2)
-            # Hollow marker: a point where more than one turn in ten never got
-            # an answer at all. The fallback latency already prices that in on
-            # x; the marker makes it visible on its own.
-            for r, x, y in zip(pts, xs, ys, strict=True):
-                hollow = r["false_hold_rate"] > 0.10
-                ax.plot(
-                    x,
-                    y,
-                    marker=marker,
-                    markersize=8,
-                    color=colour,
-                    markerfacecolor=surface if hollow else colour,
-                    markeredgewidth=2,
-                    linestyle="none",
-                    zorder=3,
-                )
-            # Direct label at the first point of the line. Series start at
-            # different heights, so labels separate there; mid-curve the two
-            # timers overlap, and at the right edge they pile up on the wall.
-            visible = [r for r in pts if r["cutoff_rate_at_tolerance"] * 100 <= Y_MAX]
-            if len(pts) > 1 and visible:
-                first = visible[0]
-                ax.annotate(
-                    label,
-                    (first[xkey], first["cutoff_rate_at_tolerance"] * 100),
-                    xytext=(10, 2),
-                    textcoords="offset points",
-                    fontsize=9,
-                    color=ink,
-                    ha="left",
-                    va="center",
-                )
-            else:
-                r = pts[0]
-                ax.annotate(
-                    label,
-                    (r[xkey], r["cutoff_rate_at_tolerance"] * 100),
-                    xytext=(10, -4),
-                    textcoords="offset points",
-                    fontsize=9,
-                    color=ink,
-                    ha="left",
-                )
-            # Knob values on a few points only, offset differently per series
-            # so the two timer curves' tags never land on each other.
-            tags = {
-                "fixed_timeout+silero": ((300, 500, 1000), (6, 5)),
-                "fixed_timeout+energy": ((500, 1000), (6, -12)),
-            }
-            if system.startswith("text_eot"):
-                # Two tags each, offset to opposite sides so they cannot meet.
-                tags[system] = (
-                    (0.5, 0.9) if "+gate" not in system else (0.3, 0.5),
-                    (-34, -12) if "+gate" in system else (6, -12),
-                )
-            if system in tags:
-                values, offset = tags[system]
-                for r in pts:
-                    y_pct = r["cutoff_rate_at_tolerance"] * 100
-                    if r["knob_value"] in values and r[xkey] < 1900 and y_pct <= Y_MAX:
-                        is_thr = system.startswith("text_eot")
-                        ax.annotate(
-                            f"p≥{r['knob_value']}"
-                            if is_thr
-                            else f"{int(r['knob_value'])}ms",
-                            (r[xkey], r["cutoff_rate_at_tolerance"] * 100),
-                            xytext=offset,
-                            textcoords="offset points",
-                            fontsize=7.5,
-                            color=ink2,
-                        )
-
-        ax.axvline(2000, color=grid, linewidth=1.2, zorder=1)
-        ax.annotate(
-            "2000ms fallback:\nnever answered",
-            (2000, ax.get_ylim()[1] * 0.97 if ax.get_ylim()[1] > 0 else 40),
-            xytext=(-6, 0),
-            textcoords="offset points",
-            fontsize=7.5,
-            color=ink2,
-            ha="right",
-            va="top",
-        )
-        ax.set_xlabel(f"added latency at {pct} (ms)", color=ink2, fontsize=9)
-        ax.set_ylabel("premature cutoff rate (%)", color=ink2, fontsize=9)
-        ax.set_title(f"cutoff vs latency at {pct}", color=ink, fontsize=11, loc="left")
-        ax.set_ylim(-1, Y_MAX)
-        ax.set_xlim(0, X_MAX)
-
-    handles = [
-        plt.Line2D([], [], color=c, marker=m, markersize=8, linewidth=2, label=lab)
-        for c, m, lab in style.values()
-    ]
-    handles.append(
-        plt.Line2D(
-            [],
-            [],
-            color=ink2,
-            marker="o",
-            markersize=8,
-            linewidth=0,
-            markerfacecolor=surface,
-            markeredgewidth=2,
-            label="hollow: >10% of turns never answered",
-        )
-    )
+    fig, axes = plt.subplots(1, 2, figsize=(13, 5.6), facecolor=SURFACE)
+    for ax, (xkey, pct) in zip(
+        axes,
+        (("latency_fallback_p50", "p50"), ("latency_fallback_p95", "p95")),
+        strict=True,
+    ):
+        draw_panel(ax, rows, xkey, f"cutoff vs latency at {pct}")
     fig.legend(
-        handles=handles,
+        handles=legend_handles(rows),
         loc="lower center",
         ncol=4,
         frameon=False,
         fontsize=9,
-        labelcolor=ink,
+        labelcolor=INK,
         bbox_to_anchor=(0.5, -0.02),
     )
     n = rows[0]["n_turns"]
     fig.suptitle(
         f"End-of-turn detection: premature cutoffs against added latency  "
         f"({n} turns, AMI development split, gold transcripts)",
-        color=ink,
+        color=INK,
         fontsize=12,
         x=0.02,
         ha="left",
@@ -334,12 +334,12 @@ def plot(rows: list[dict]) -> None:
         0.905,
         "latency is measured from the audio-grounded true end of the turn; a "
         "turn never answered is counted at the 2000ms fallback timeout",
-        color=ink2,
+        color=INK2,
         fontsize=9,
         ha="left",
     )
     fig.tight_layout(rect=(0, 0.06, 1, 0.95))
-    fig.savefig(PNG_PATH, dpi=160, facecolor=surface)
+    fig.savefig(PNG_PATH, dpi=160, facecolor=SURFACE)
     plt.close(fig)
 
 

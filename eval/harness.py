@@ -20,6 +20,11 @@ alignment absorbs intra-utterance pauses into word durations -- see
 scripts/build_eval_set.py. Using the timings would show no silence during a
 hesitation, so nothing would ever fire early and cutoff_rate would be ~0 for
 every system.
+
+Text arrives as a TIMELINE: (t_ms, text) events on the audio clock, cumulative.
+Gold builds one from word end times. The Phase 6 real-ASR condition builds one
+from a cached recogniser run (results/asr/), so the same replay serves both
+and the difference between them is exactly the optimism gap.
 """
 
 from __future__ import annotations
@@ -75,8 +80,12 @@ def _percentile(xs: list[float], p: float) -> float | None:
     return float(np.percentile(xs, p)) if xs else None
 
 
-def vad_frames(turn: EvalTurn, vad) -> list[VadFrame]:
+def vad_frames(turn: EvalTurn, vad, transform=None) -> list[VadFrame]:
     """Deterministic silence track for one frozen turn.
+
+    `transform` degrades the audio first (Phase 6 telephony condition). The
+    boundary stays frozen: the true end of a turn is a property of the speech,
+    not of the channel it came down.
 
     `vad` is any frame-synchronous detector with reset()/push() -- SileroVAD for
     baseline #2, EnergyVAD for baseline #1. The silence source is a property of
@@ -84,12 +93,39 @@ def vad_frames(turn: EvalTurn, vad) -> list[VadFrame]:
     two baselines: same timer, different notion of silence.
     """
     audio, sr = sf.read(turn.audio_path, dtype="float32")
+    audio = np.asarray(audio, dtype=np.float32).reshape(-1)
+    if transform is not None:
+        audio = transform(audio)
     vad.reset()
-    return vad.push(np.asarray(audio, dtype=np.float32).reshape(-1))
+    return vad.push(audio)
+
+
+Timeline = list[tuple[float, str]]
+
+
+def gold_timeline(words: list[dict]) -> Timeline:
+    """Perfect streaming STT: each word appears, punctuated, exactly at its end."""
+    out, parts = [], []
+    for w in words:
+        parts.append(w["t"] + (w.get("punc_after") or ""))
+        out.append((float(w["end_ms"]), " ".join(parts)))
+    return out
+
+
+def asr_timeline(partials: list[dict], include_compute: bool = True) -> Timeline:
+    """A real recogniser's partials, available when the caller would have them:
+    audio fed so far plus the time the recogniser took -- or the content gap
+    alone, with include_compute=False."""
+    out = []
+    for p in partials:
+        t = float(p["audio_ms"]) + (float(p["compute_ms"]) if include_compute else 0.0)
+        out.append((t, p["text"]))
+    out.sort(key=lambda e: e[0])
+    return out
 
 
 def replay(
-    turn: EvalTurn, frames: list[VadFrame], words: list[dict]
+    turn: EvalTurn, frames: list[VadFrame], timeline: Timeline
 ) -> Iterator[Update]:
     """Yield one Update per VAD frame, on the audio clock.
 
@@ -107,12 +143,13 @@ def replay(
     mistake the live loop made in Phase 1 ("a turn that never started cannot
     end"), reappearing in the eval path.
     """
+    i, text = 0, ""
     for f in frames:
+        while i < len(timeline) and timeline[i][0] <= f.t_ms:
+            text = timeline[i][1]
+            i += 1
         if f.t_ms < turn.turn_start_ms:
             continue
-        text = " ".join(
-            w["t"] + (w.get("punc_after") or "") for w in words if w["end_ms"] <= f.t_ms
-        )
         within_turn_ms = f.t_ms - turn.turn_start_ms
         yield Update(
             t_ms=f.t_ms,
@@ -125,7 +162,7 @@ def run_turn(
     detector: EOTDetector,
     turn: EvalTurn,
     frames: list[VadFrame],
-    words: list[dict],
+    timeline: Timeline,
     horizon_ms: float,
     threshold: float = FIRE_THRESHOLD,
 ) -> tuple[TurnResult, list[float]]:
@@ -133,7 +170,7 @@ def run_turn(
     deadline = turn.true_end_ms + horizon_ms
     fired_at, n, latencies = None, 0, []
 
-    for u in replay(turn, frames, words):
+    for u in replay(turn, frames, timeline):
         if u.t_ms > deadline:
             break
         t0 = time.perf_counter()
@@ -249,11 +286,11 @@ class FrameCache:
     frames: dict[str, list[VadFrame]]
 
 
-def precompute(silence=None) -> FrameCache:
+def precompute(silence=None, transform=None, label: str | None = None) -> FrameCache:
     vad = SileroVAD() if silence is None else silence
     return FrameCache(
-        source_name=getattr(vad, "name", "silero"),
-        frames={t.turn_id: vad_frames(t, vad) for t in load_eval_set()},
+        source_name=label or getattr(vad, "name", "silero"),
+        frames={t.turn_id: vad_frames(t, vad, transform) for t in load_eval_set()},
     )
 
 
@@ -263,17 +300,21 @@ def evaluate(
     name: str | None = None,
     threshold: float = FIRE_THRESHOLD,
     cache: FrameCache | None = None,
+    transcripts: dict[str, Timeline] | None = None,
+    transcript_label: str = "gold",
 ) -> dict:
     """Run one detector over the whole frozen eval set.
 
     `silence` selects the silence source (default Silero). `name` overrides the
     result name; without it the source is appended, since the same timer over a
     different silence source is a different baseline. Pass `cache` from
-    `precompute()` to skip the VAD pass.
+    `precompute()` to skip the VAD pass. `transcripts` maps turn_id to a text
+    Timeline; None replays gold.
     """
     turns = load_eval_set()
     spec = json.loads((EVAL_DIR / "eval_set.json").read_text())
-    words_by_id = {t["turn_id"]: t["words"] for t in spec["turns"]}
+    if transcripts is None:
+        transcripts = {t["turn_id"]: gold_timeline(t["words"]) for t in spec["turns"]}
     horizon_ms = json.loads(MANIFEST.read_text())["horizon_ms"]
 
     if cache is None:
@@ -283,7 +324,7 @@ def evaluate(
     for turn in turns:
         frames = cache.frames[turn.turn_id]
         r, lat = run_turn(
-            detector, turn, frames, words_by_id[turn.turn_id], horizon_ms, threshold
+            detector, turn, frames, transcripts[turn.turn_id], horizon_ms, threshold
         )
         results.append(r)
         latencies.extend(lat)
@@ -292,6 +333,7 @@ def evaluate(
     summary = summarise(run_name, results, latencies, horizon_ms)
     summary["detector"] = detector.name
     summary["silence_source"] = source_name
+    summary["transcripts"] = transcript_label
     summary["threshold"] = threshold
     summary["turns"] = [asdict(r) for r in results]
     return summary

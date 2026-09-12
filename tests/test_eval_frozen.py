@@ -56,13 +56,26 @@ def test_reading_the_eval_set_during_training_fails_loudly():
 
 
 def test_eval_package_never_imports_an_stt():
-    """Section 10: importing src/stt/ from eval/ is a bug, like rule 1."""
+    """Section 10: importing src/stt/ or a recogniser from eval/ is a bug, like
+    rule 1. Checks the import graph, not the vocabulary: eval/conditions.py
+    legitimately names the cached recogniser whose output it replays."""
+    import ast
+
+    banned_roots = {"parakeet_mlx", "whisper", "mlx", "deepgram"}
     offenders = []
     for path in EVAL_PKG.rglob("*.py"):
-        text = path.read_text()
-        for marker in ("src.stt", "from src import stt", "parakeet", "whisper"):
-            if marker in text and "never imports" not in text.split(marker)[0][-120:]:
-                offenders.append(f"{path.relative_to(REPO)} mentions {marker!r}")
+        for node in ast.walk(ast.parse(path.read_text())):
+            if isinstance(node, ast.Import):
+                names = [a.name for a in node.names]
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                names = [node.module]
+            else:
+                continue
+            for n in names:
+                if n == "src.stt" or n.startswith("src.stt."):
+                    offenders.append(f"{path.relative_to(REPO)} imports {n}")
+                if n.split(".")[0] in banned_roots:
+                    offenders.append(f"{path.relative_to(REPO)} imports {n}")
     assert not offenders, f"eval path must not reach an STT: {offenders}"
 
 
