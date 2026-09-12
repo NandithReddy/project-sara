@@ -25,3 +25,6 @@ PROMPT.md
 
 # fp32 export kept beside the shipped INT8 model; 4x the size, same ranking
 models/*/model_fp32.onnx
+
+# Training-turn audio: ~1GB FLAC, reproducible from turns.jsonl via scripts/fetch_train_audio.py
+data/train/audio/

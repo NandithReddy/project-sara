@@ -78,28 +78,21 @@ def wav_layout(url: str) -> tuple[int, int, int]:
     return data_off, sr, ba
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--turns", type=Path, default=REPO / "data/eval/turns.json")
-    ap.add_argument("--out", type=Path, default=REPO / "data/eval")
-    ap.add_argument("--limit", type=int, default=0, help="0 = all")
-    ap.add_argument("--sleep", type=float, default=0.15, help="politeness delay")
-    ap.add_argument(
-        "--reuse-audio",
-        action="store_true",
-        help="decode existing FLAC instead of refetching (unchanged segments)",
-    )
-    args = ap.parse_args()
+def fetch_turns(
+    turns: list[dict],
+    horizon_ms: float,
+    search_ms: float,
+    audio_dir: Path,
+    reuse_audio: bool,
+    sleep_s: float = 0.15,
+    log_every: int = 25,
+) -> tuple[list[dict], list[float], int]:
+    """Fetch, boundary-refine and store each turn. Returns (rows, deltas, bytes).
 
-    spec = json.loads(args.turns.read_text())
-    turns = spec["turns"][: args.limit] if args.limit else spec["turns"]
-    horizon_ms = spec["horizon_ms"]
-    search_ms = spec["boundary_search_ms"]
-
-    audio_dir = args.out / "audio"
+    Shared by the eval and training fetches so the boundary is defined once.
+    """
     audio_dir.mkdir(parents=True, exist_ok=True)
     vad = SileroVAD()
-
     layouts: dict[str, tuple[int, int, int]] = {}
     rows, deltas, fetched = [], [], 0
 
@@ -107,7 +100,7 @@ def main() -> int:
         url = audio_url(t["meeting"], t["channel"])
         if url not in layouts:
             layouts[url] = wav_layout(url)
-            time.sleep(args.sleep)
+            time.sleep(sleep_s)
         data_off, sr, ba = layouts[url]
         if sr != SAMPLE_RATE:
             raise RuntimeError(f"{url}: {sr}Hz, expected {SAMPLE_RATE}Hz")
@@ -118,7 +111,7 @@ def main() -> int:
         b1 = data_off + int(seg_end * sr) * ba - 1
 
         path = audio_dir / f"{t['turn_id']}.flac"
-        if args.reuse_audio and path.exists():
+        if reuse_audio and path.exists():
             audio, _sr = sf.read(path, dtype="float32")
             audio = np.asarray(audio, dtype=np.float32).reshape(-1)
         else:
@@ -127,16 +120,11 @@ def main() -> int:
             pcm = np.frombuffer(raw[: len(raw) - len(raw) % ba], dtype="<i2")
             audio = (pcm.astype(np.float32) / 32768.0).copy()
             sf.write(path, audio, sr, format="FLAC", subtype="PCM_16")
+            time.sleep(sleep_s)
 
-        # Ground the boundary: last speech frame at or before the annotated end.
         vad.reset()
         frames = vad.push(audio)
         ann_end_in_seg_ms = (t["end_s"] - seg_start) * 1000.0
-        # Raw probability, not the hysteresis-smoothed is_speech flag. Hysteresis
-        # exists to stop the LIVE path flapping; here it would just push the
-        # boundary late by its release time, and that bias would land straight
-        # in added_latency_ms. It also keeps the ground truth one step further
-        # from baseline #2, which does use the smoothed flag.
         speech = [
             f
             for f in frames
@@ -147,18 +135,8 @@ def main() -> int:
             boundary_source = "audio"
             deltas.append(ann_end_in_seg_ms - true_end_ms)
         else:
-            # Quiet single-word backchannels ("Yep", "Okay") can sit under the
-            # VAD threshold. Dropping them would systematically remove the
-            # quietest short answers -- the hardest cases for a VAD baseline --
-            # and make the eval easier for the systems under test. Keep them on
-            # the annotated boundary and mark the source so the difference can
-            # be audited rather than hidden.
             true_end_ms = ann_end_in_seg_ms
             boundary_source = "annotation"
-            print(
-                f"  [{i}/{len(turns)}] {t['turn_id']}: below VAD threshold "
-                f"({t['n_words']}w {t['text'][:24]!r}) -- annotated boundary"
-            )
 
         rows.append(
             {
@@ -181,9 +159,34 @@ def main() -> int:
                 "boundary_source": boundary_source,
             }
         )
-        if i % 25 == 0 or i == len(turns):
-            print(f"  [{i}/{len(turns)}] {fetched / 1e6:.1f}MB fetched")
-        time.sleep(args.sleep)
+        if i % log_every == 0 or i == len(turns):
+            print(f"  [{i}/{len(turns)}] {fetched / 1e6:.1f}MB fetched", flush=True)
+    return rows, deltas, fetched
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--turns", type=Path, default=REPO / "data/eval/turns.json")
+    ap.add_argument("--out", type=Path, default=REPO / "data/eval")
+    ap.add_argument("--limit", type=int, default=0, help="0 = all")
+    ap.add_argument("--sleep", type=float, default=0.15, help="politeness delay")
+    ap.add_argument(
+        "--reuse-audio",
+        action="store_true",
+        help="decode existing FLAC instead of refetching (unchanged segments)",
+    )
+    args = ap.parse_args()
+
+    spec = json.loads(args.turns.read_text())
+    turns = spec["turns"][: args.limit] if args.limit else spec["turns"]
+    rows, deltas, fetched = fetch_turns(
+        turns,
+        spec["horizon_ms"],
+        spec["boundary_search_ms"],
+        args.out / "audio",
+        args.reuse_audio,
+        args.sleep,
+    )
 
     d = np.array(deltas)
     n_ann = sum(1 for r in rows if r["boundary_source"] == "annotation")

@@ -40,6 +40,12 @@ class Update:
     words: tuple[Word, ...] = ()
     """Aligned words, where the source supplies them. Also subject to revision."""
 
+    prosody: tuple[float, ...] = ()
+    """Causal prosodic features at `t_ms` -- src.audio.prosody.FEATURE_NAMES --
+    when the source supplies them; empty on text-only paths. The live loop
+    computes them from the mic, the harness from the frozen audio, with the
+    same tracker, so "what the model heard" means one thing (Phase 7)."""
+
     silence_ms: float = 0.0
     """Trailing non-speech at `t_ms`. Zero means we are inside speech.
 
