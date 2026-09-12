@@ -1,7 +1,7 @@
 # uv may not be on PATH yet (installer puts it in ~/.local/bin).
 UV := $(shell command -v uv 2>/dev/null || echo $(HOME)/.local/bin/uv)
 
-.PHONY: install install-train test lint format compile
+.PHONY: install install-train test lint format compile readme
 
 install:          ## Create .venv if needed and install pinned deps
 	$(UV) venv .venv --python 3.12 --allow-existing
@@ -20,6 +20,9 @@ lint:             ## Check style and formatting (no writes)
 format:           ## Apply formatting and safe autofixes
 	$(UV) run ruff format .
 	$(UV) run ruff check --fix .
+
+readme:           ## Regenerate README.md from results/, models/ and data/
+	$(UV) run python scripts/write_readme.py
 
 compile:          ## Re-pin both requirement sets; train is constrained by runtime
 	$(UV) pip compile requirements.in -o requirements.txt
