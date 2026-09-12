@@ -130,6 +130,22 @@ starts. The word error rate of the final transcript against gold is 34%
 longer hypothesis is more than one error per word). None of that is ours, and
 all of it lands on every text system equally.
 
+## Phase 7: the prosody systems under the same four conditions
+
+| system | gold, wideband | gold, telephony | real ASR, wideband | real ASR, telephony |
+|---|---|---|---|---|
+| Silero timer 800ms | 10.6% / 4.5% | 17.2% / 2.5% | 10.6% / 0.0% | 17.2% / 0.0% |
+| punctuation + gate | 11.1% / 9.1% | 14.1% / 8.6% | 19.7% / 6.1% | 20.2% / 8.6% |
+| text EOT v1.1 + gate @0.3 | 7.6% / 44.9% | 14.6% / 41.9% | 10.6% / 30.8% | 10.1% / 34.3% |
+| prosody only + gate @0.5 | 24.7% / 9.6% | 25.8% / 19.7% | 24.7% / 10.6% | 25.8% / 20.2% |
+| prosody + text + gate @0.5 | 23.7% / 12.1% | 24.2% / 21.2% | 21.2% / 9.1% | 21.7% / 19.7% |
+
+Prosody-only reads no text, so the recogniser cannot touch it; the telephony
+band costs it ten points of hold because the features were fit on wideband
+audio. Fusion inherits the text model's small ASR loss. Neither leaves the
+region the gated heuristic and the gated text model already occupy. Full
+reading in [`tradeoff.md`](tradeoff.md), Phase 7 section.
+
 ## The bleed, and why the first pass was redone
 
 On the headset as recorded, the transcript kept growing after the true end

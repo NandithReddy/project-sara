@@ -251,7 +251,13 @@ def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True
                 if bare_model
                 else visible[0]
             )
-            off = (0, 9) if bare_model else (10, 2) if len(pts) > 1 else (10, -4)
+            # The two prosody series start on the same point; split their labels.
+            if system.startswith("prosody_prosody"):
+                off = (10, 9)
+            elif system.startswith("prosody_fusion"):
+                off = (10, -9)
+            else:
+                off = (0, 9) if bare_model else (10, 2) if len(pts) > 1 else (10, -4)
             ax.annotate(
                 label,
                 (first[xkey], first["cutoff_rate_at_tolerance"] * 100),

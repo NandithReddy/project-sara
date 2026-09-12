@@ -7,9 +7,10 @@ eval.sweep` over the 198 frozen turns in `data/eval/`. Latency is measured from
 the audio-grounded true end of the turn; a turn never answered is counted at
 the 2000ms fallback. Cutoff rate is at the 150ms boundary tolerance.
 
-**Two iterations of the text-only model are measured. Neither beats the
-timer. The silence gate is the finding.** Read this section first; the
-baseline reading below it is unchanged.
+**Two iterations of the text-only model and a prosody classifier are
+measured. None beats the timer; prosody does not help; the silence gate is
+the finding.** The Phase 4 and Phase 7 sections come first; the baseline
+reading below them is unchanged.
 
 ## text EOT model, v1 and v1.1 — measured; neither beats the timer
 
@@ -71,6 +72,85 @@ second corpus; a larger encoder with a frozen body (latency allows 10× —
 v1.1 is 0.45ms per inference); prosody (Phase 7, the ceiling argument);
 punctuation as an input, with the same caveat as the heuristic. None of these
 were tried. The model has not been touched since the number was seen.
+
+## Phase 7 — prosody, measured; it does not help
+
+Every number is from `tradeoff.csv` (gold transcripts, wideband) and
+`conditions.csv`; the models and their validation numbers are in
+`models/README.md`. The systems: a logistic regression over 14 prosodic
+features of the last speech frame before a pause, fired behind the same 200ms
+gate as everything else; the same with the text model's logit added.
+
+| system | cutoff (tol) | hold | p50 | p95 |
+|---|---|---|---|---|
+| Silero timer, 200ms | 29.8% | 0.0% | 224 | 256 |
+| Silero timer, 800ms | 10.6% | 4.5% | 800 | 1859 |
+| punctuation + 200ms gate | 11.1% | 9.1% | 256 | 2000 |
+| text EOT v1.1 + gate @0.1 | 19.7% | 17.2% | 256 | 2000 |
+| text EOT v1.1 + gate @0.3 | 7.6% | 44.9% | 352 | 2000 |
+| **prosody only + gate @0.3** | 26.3% | 2.5% | 256 | 429 |
+| **prosody only + gate @0.5** | 24.7% | 9.6% | 256 | 2000 |
+| **prosody only + gate @0.7** | 6.6% | 62.6% | 2000 | 2000 |
+| **prosody + text + gate @0.5** | 23.7% | 12.1% | 256 | 2000 |
+| **prosody + text + gate @0.7** | 12.6% | 30.8% | 256 | 2000 |
+
+**1. Prosody alone is dominated by the one-character heuristic at every
+threshold.** At matched hold rates (~10%) it cuts off 24.7% of turns against
+the gated heuristic's 11.1%. Below threshold 0.5 its curve is flat at
+26.3% / 2.5% — that is the 200ms timer itself, a classifier saying yes to
+every pause — and above it the holds explode before the cutoffs come down.
+
+**2. Fusion adds nothing over the text.** On held-out speakers the text logit
+alone scores AP 0.860 at the pause; adding prosody gives 0.857. On the eval,
+fusion @0.7 sits at 12.6% / 30.8% against the gated text model's
+19.7% / 17.2% @0.1 and 7.6% / 44.9% @0.3 — the same trade, no new frontier.
+The text logit's weight in the fusion model is +1.38; nothing prosodic comes close.
+
+**3. The signal that exists is energy, not pitch.** Prosody alone reaches AP
+0.716 (chance 0.585) on held-out speakers, and its weights say where:
+`energy_db` -0.25, `voiced_fraction` -0.24, `energy_slope` +0.19
+— the last speech before a real end is quieter and trailing off. The
+final-fall and pitch-slope weights are +0.01 and +0.01: at this
+tracker's resolution on AMI headsets, a falling contour does not separate a
+turn's end from a mid-turn pause. Many mid-turn pauses follow a complete,
+falling sentence — the hard negative Phase 3 named.
+
+**4. Under a real recogniser and the telephony band.**
+
+| system | gold, wideband | gold, telephony | real ASR, wideband | real ASR, telephony |
+|---|---|---|---|---|
+| Silero timer 800ms | 10.6% / 4.5% | 17.2% / 2.5% | 10.6% / 0.0% | 17.2% / 0.0% |
+| punctuation + gate | 11.1% / 9.1% | 14.1% / 8.6% | 19.7% / 6.1% | 20.2% / 8.6% |
+| text EOT v1.1 + gate @0.3 | 7.6% / 44.9% | 14.6% / 41.9% | 10.6% / 30.8% | 10.1% / 34.3% |
+| prosody only + gate @0.5 | 24.7% / 9.6% | 25.8% / 19.7% | 24.7% / 10.6% | 25.8% / 20.2% |
+| prosody + text + gate @0.5 | 23.7% / 12.1% | 24.2% / 21.2% | 21.2% / 9.1% | 21.7% / 19.7% |
+
+Prosody-only is invariant to the recogniser by construction (24.7% → 24.7%)
+and loses about ten points of hold rate at the telephony band (9.6% → 19.7%):
+the features were fit on wideband audio and are not band-invariant. Neither
+prosody system beats the gated heuristic or the gated text model on any
+condition.
+
+**5. Why, honestly, and what would move it — as proposals.** The features
+are weak (AP 0.72 on validation is the ceiling of this feature set, not of
+the model: a linear fit on standardised inputs is not what is limiting it).
+The F0 estimator is a 64ms autocorrelation on headset audio with crosstalk;
+a pitch tracker built for speech (pYIN, CREPE) is a dependency this project
+has not taken. Window statistics over 1.5s lose the syllable-level timing
+that final lengthening lives at. 10.7% of the mid-turn labels are a laugh
+or a breath, not a word. And the systems that make prosody work in
+production (Smart Turn v2) use a pretrained audio encoder, not fourteen
+hand-built numbers. None of these were tried; the model was not touched
+after the number was seen.
+
+**One thing was caught before it became a result.** The first classifier
+scored a perfect 1.000 AP on held-out speakers. It had learned to detect the
+caller-channel zeroing — features sampled 200ms into an end pause read −120dB
+of digital silence. Features come from the last speech frame now, the leaked
+models are not in the repo, and the lesson is in `models/README.md`.
+
+**Decision, per the plan:** prosody does not help; the text-only model stays
+the model, and this is the negative result reported.
 
 ## What the chart says
 

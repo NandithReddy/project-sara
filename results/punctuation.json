@@ -21,9 +21,9 @@
   },
   "update_latency_ms": {
     "n": 11848,
-    "p50": 8.399365469813347e-05,
-    "p95": 0.00012500095181167126,
-    "p99": 0.00012500095181167126,
+    "p50": 0.00012497184798121452,
+    "p95": 0.00016600824892520905,
+    "p99": 0.000166997779160738,
     "budget_ms": 20.0,
     "within_budget": true
   },
@@ -53,6 +53,7 @@
   "detector": "punctuation",
   "silence_source": "silero",
   "transcripts": "gold",
+  "prosody": "prosody",
   "threshold": 0.5,
   "turns": [
     {
