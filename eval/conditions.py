@@ -11,6 +11,13 @@ set to zero, isolating what its ERRORS cost from what its SPEED costs.
 The boundary (true_end_ms) is frozen and shared across conditions: the true
 end of a turn is a property of the speech, not of the channel it came down.
 
+In the asr_* conditions every audio consumer -- the recogniser and the VAD --
+hears the CALLER CHANNEL: the frozen audio zeroed from true_end + 150ms, because
+AMI headsets carry the next speaker at low level and a recogniser transcribes
+it (see eval.harness.caller_channel). The gold_* conditions keep the raw tail:
+a VAD at threshold sees it as silence already, verified below by the timer's
+numbers on both.
+
 ASR timelines come from results/asr/parakeet_<cond>.json, written once by
 scripts/transcribe_eval.py and cached with model, version, date and machine.
 eval/ never runs a recogniser (section 10); it replays the cache.
@@ -22,8 +29,16 @@ from __future__ import annotations
 
 import csv
 import json
+from pathlib import Path
 
-from eval.harness import RESULTS, FrameCache, asr_timeline, evaluate, precompute
+from eval.harness import (
+    RESULTS,
+    FrameCache,
+    asr_timeline,
+    caller_channel,
+    evaluate,
+    precompute,
+)
 from eval.sweep import (
     FIELDS,
     INK,
@@ -51,8 +66,8 @@ CHARTED = ("gold_16k", "gold_tel", "asr_16k", "asr_tel")
 CFIELDS = ("condition", *FIELDS)
 
 
-def load_asr(condition: str) -> tuple[dict, dict]:
-    path = ASR_DIR / f"parakeet_{condition}.json"
+def load_asr(condition: str, suffix: str = "") -> tuple[dict, dict]:
+    path = ASR_DIR / f"parakeet_{condition}{suffix}.json"
     if not path.exists():
         raise SystemExit(
             f"{path} not found. Produce it first (section 10 exception path):\n"
@@ -89,39 +104,46 @@ def systems_for(
     return out
 
 
-def run_all() -> tuple[list[dict], dict]:
-    print("silence tracks: wideband ...", flush=True)
+def run_all(tail: str = "caller") -> tuple[list[dict], dict]:
+    """`tail="caller"` is the condition that means something: after the turn
+    ends, every audio consumer hears what a caller's channel carries -- nothing.
+    `tail="raw"` reproduces the first pass on the headset as recorded, kept
+    because it is the evidence for why the caller channel exists."""
+
+    def tel(a, _t):
+        return degrade(a)
+
+    def zero_tel(a, t):
+        return degrade(caller_channel(a, t))
+
+    suffix = "" if tail == "caller" else "_rawtail"
+    print("silence tracks: wideband and telephony, raw tail ...", flush=True)
     sil16, en16 = precompute(SileroVAD()), precompute(EnergyVAD())
-    print("silence tracks: telephony band ...", flush=True)
-    sil_tel = precompute(SileroVAD(), transform=degrade, label="silero_tel")
-    en_tel = precompute(EnergyVAD(), transform=degrade, label="energy_tel")
-    meta16, asr16 = load_asr("16k")
-    meta_tel, asr_tel = load_asr("tel")
+    sil_tel = precompute(SileroVAD(), transform=tel, label="silero_tel")
+    en_tel = precompute(EnergyVAD(), transform=tel, label="energy_tel")
+    if tail == "caller":
+        print("silence tracks: caller channel, wideband and telephony ...", flush=True)
+        sil_a = precompute(SileroVAD(), transform=caller_channel, label="silero_caller")
+        en_a = precompute(EnergyVAD(), transform=caller_channel, label="energy_caller")
+        sil_ta = precompute(SileroVAD(), transform=zero_tel, label="silero_tel_caller")
+        en_ta = precompute(EnergyVAD(), transform=zero_tel, label="energy_tel_caller")
+    else:
+        sil_a, en_a, sil_ta, en_ta = sil16, en16, sil_tel, en_tel
+    meta16, asr16 = load_asr("16k", suffix)
+    meta_tel, asr_tel = load_asr("tel", suffix)
     missing = [t for t in sil16.frames if t not in asr16 or t not in asr_tel]
     if missing:
         raise SystemExit(f"ASR cache lacks {len(missing)} turns, e.g. {missing[:3]}")
 
+    tl16 = {k: asr_timeline(v) for k, v in asr16.items()}
+    tl_tel = {k: asr_timeline(v) for k, v in asr_tel.items()}
+    tl16_content = {k: asr_timeline(v, include_compute=False) for k, v in asr16.items()}
     plan = {
         "gold_16k": (sil16, en16, None, "gold"),
         "gold_tel": (sil_tel, en_tel, None, "gold"),
-        "asr_16k": (
-            sil16,
-            en16,
-            {k: asr_timeline(v) for k, v in asr16.items()},
-            "parakeet_16k",
-        ),
-        "asr_tel": (
-            sil_tel,
-            en_tel,
-            {k: asr_timeline(v) for k, v in asr_tel.items()},
-            "parakeet_tel",
-        ),
-        "asr_16k_content": (
-            sil16,
-            en16,
-            {k: asr_timeline(v, include_compute=False) for k, v in asr16.items()},
-            "parakeet_16k_content",
-        ),
+        "asr_16k": (sil_a, en_a, tl16, f"parakeet_16k{suffix}"),
+        "asr_tel": (sil_ta, en_ta, tl_tel, f"parakeet_tel{suffix}"),
+        "asr_16k_content": (sil_a, en_a, tl16_content, f"parakeet_16k{suffix}_content"),
     }
     rows = []
     for cond, (cache, energy, transcripts, label) in plan.items():
@@ -131,8 +153,8 @@ def run_all() -> tuple[list[dict], dict]:
     return rows, {"asr_16k": meta16, "asr_tel": meta_tel}
 
 
-def write_csv(rows: list[dict]) -> None:
-    with CSV_PATH.open("w", newline="") as f:
+def write_csv(rows: list[dict], path: Path) -> None:
+    with path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=CFIELDS)
         w.writeheader()
         w.writerows(rows)
@@ -242,19 +264,51 @@ def table(rows: list[dict]) -> str:
 
 
 def main() -> int:
-    rows, meta = run_all()
-    write_csv(rows)
-    plot(rows)
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--tail", choices=("caller", "raw"), default="caller")
+    args = ap.parse_args()
+
+    rows, meta = run_all(args.tail)
+    csv_path = CSV_PATH if args.tail == "caller" else RESULTS / "conditions_rawtail.csv"
+    write_csv(rows, csv_path)
+    if args.tail == "caller":
+        plot(rows)
     print(table(rows))
+
+    def timer800(cond):
+        return next(
+            r
+            for r in rows
+            if r["condition"] == cond
+            and r["system"] == "fixed_timeout+silero"
+            and r["knob_value"] == 800.0
+        )
+
+    g, a = timer800("gold_16k"), timer800("asr_16k")
+    print(
+        "\nsanity -- the 800ms timer reads no text, so gold_16k vs asr_16k isolates "
+        "the tail treatment on the VAD alone:"
+    )
+    print(
+        f"  cutoff {g['cutoff_rate_at_tolerance'] * 100:.1f}% -> "
+        f"{a['cutoff_rate_at_tolerance'] * 100:.1f}%, hold "
+        f"{g['false_hold_rate'] * 100:.1f}% -> {a['false_hold_rate'] * 100:.1f}%"
+    )
     for cond, m in meta.items():
         rtf = m["total_compute_s"] / m["total_audio_s"]
         print(
             f"\n{cond}: {m['model']} parakeet-mlx {m['parakeet_mlx']} on "
-            f"{m['machine']}, {m['date']}; {m['total_audio_s']:.0f}s audio in "
-            f"{m['total_compute_s']:.0f}s ({rtf:.2f}x realtime)"
+            f"{m['machine']}, {m['date']}, tail={m.get('tail', 'raw')}; "
+            f"{m['total_audio_s']:.0f}s audio in {m['total_compute_s']:.0f}s "
+            f"({rtf:.2f}x realtime)"
         )
     root = RESULTS.parent
-    print(f"\nwrote {CSV_PATH.relative_to(root)} and {PNG_PATH.relative_to(root)}")
+    print(
+        f"\nwrote {csv_path.relative_to(root)}"
+        + (f" and {PNG_PATH.relative_to(root)}" if args.tail == "caller" else "")
+    )
     for p in RESULTS.glob("sweep_*.json"):
         p.unlink()
     (RESULTS / "c.json").unlink(missing_ok=True)
