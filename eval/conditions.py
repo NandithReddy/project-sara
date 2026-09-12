@@ -34,10 +34,12 @@ from pathlib import Path
 from eval.harness import (
     RESULTS,
     FrameCache,
+    ProsodyCache,
     asr_timeline,
     caller_channel,
     evaluate,
     precompute,
+    precompute_prosody,
 )
 from eval.sweep import (
     FIELDS,
@@ -57,6 +59,7 @@ from src.baselines.punctuation import PunctuationHeuristic
 from src.baselines.silence import FixedSilenceTimeout
 from src.eot.gated import DEFAULT_GATE_MS, SilenceGated
 from src.eot.model import TextEOT
+from src.eot.prosody_eot import ProsodyEOT
 
 ASR_DIR = RESULTS / "asr"
 CSV_PATH = RESULTS / "conditions.csv"
@@ -80,7 +83,11 @@ def load_asr(condition: str, suffix: str = "") -> tuple[dict, dict]:
 
 
 def systems_for(
-    cache: FrameCache, energy: FrameCache, transcripts, label
+    cache: FrameCache,
+    energy: FrameCache,
+    transcripts,
+    label,
+    prosody: ProsodyCache,
 ) -> list[dict]:
     """Every system at every operating point, for one condition."""
     kw = {"transcripts": transcripts, "transcript_label": label}
@@ -97,9 +104,12 @@ def systems_for(
     s = evaluate(pg, cache=cache, name="c", **kw)
     out.append(row(pg.name, "none", 0.0, s))
     model, gated = TextEOT(), SilenceGated(TextEOT(), DEFAULT_GATE_MS)
-    for det in (model, gated):
+    pros = [ProsodyEOT(kind="prosody"), ProsodyEOT(kind="fusion")]
+    for det in (model, gated, *pros):
         for thr in THRESHOLDS:
-            s = evaluate(det, cache=cache, name="c", threshold=thr, **kw)
+            s = evaluate(
+                det, cache=cache, name="c", threshold=thr, prosody_cache=prosody, **kw
+            )
             out.append(row(det.name, "threshold", thr, s))
     return out
 
@@ -129,6 +139,15 @@ def run_all(tail: str = "caller") -> tuple[list[dict], dict]:
         en_ta = precompute(EnergyVAD(), transform=zero_tel, label="energy_tel_caller")
     else:
         sil_a, en_a, sil_ta, en_ta = sil16, en16, sil_tel, en_tel
+    # Prosody under the same transforms as the silence caches they pair with.
+    print("prosody features: four transforms ...", flush=True)
+    pr16 = precompute_prosody(label="prosody_raw")
+    pr_tel = precompute_prosody(transform=tel, label="prosody_tel")
+    if tail == "caller":
+        pr_a = precompute_prosody(transform=caller_channel, label="prosody_caller")
+        pr_ta = precompute_prosody(transform=zero_tel, label="prosody_tel_caller")
+    else:
+        pr_a, pr_ta = pr16, pr_tel
     meta16, asr16 = load_asr("16k", suffix)
     meta_tel, asr_tel = load_asr("tel", suffix)
     missing = [t for t in sil16.frames if t not in asr16 or t not in asr_tel]
@@ -139,16 +158,22 @@ def run_all(tail: str = "caller") -> tuple[list[dict], dict]:
     tl_tel = {k: asr_timeline(v) for k, v in asr_tel.items()}
     tl16_content = {k: asr_timeline(v, include_compute=False) for k, v in asr16.items()}
     plan = {
-        "gold_16k": (sil16, en16, None, "gold"),
-        "gold_tel": (sil_tel, en_tel, None, "gold"),
-        "asr_16k": (sil_a, en_a, tl16, f"parakeet_16k{suffix}"),
-        "asr_tel": (sil_ta, en_ta, tl_tel, f"parakeet_tel{suffix}"),
-        "asr_16k_content": (sil_a, en_a, tl16_content, f"parakeet_16k{suffix}_content"),
+        "gold_16k": (sil16, en16, None, "gold", pr16),
+        "gold_tel": (sil_tel, en_tel, None, "gold", pr_tel),
+        "asr_16k": (sil_a, en_a, tl16, f"parakeet_16k{suffix}", pr_a),
+        "asr_tel": (sil_ta, en_ta, tl_tel, f"parakeet_tel{suffix}", pr_ta),
+        "asr_16k_content": (
+            sil_a,
+            en_a,
+            tl16_content,
+            f"parakeet_16k{suffix}_content",
+            pr_a,
+        ),
     }
     rows = []
-    for cond, (cache, energy, transcripts, label) in plan.items():
+    for cond, (cache, energy, transcripts, label, prosody) in plan.items():
         print(f"condition {cond} ...", flush=True)
-        for r in systems_for(cache, energy, transcripts, label):
+        for r in systems_for(cache, energy, transcripts, label, prosody):
             rows.append({"condition": cond, **r})
     return rows, {"asr_16k": meta16, "asr_tel": meta_tel}
 
@@ -221,6 +246,8 @@ HEADLINE = (
     ("text_eot_v1.1", "threshold", 0.5, "text EOT v1.1 @0.5"),
     ("text_eot_v1.1+gate200", "threshold", 0.3, "text EOT v1.1 + gate @0.3"),
     ("text_eot_v1.1+gate200", "threshold", 0.5, "text EOT v1.1 + gate @0.5"),
+    ("prosody_prosody+gate200", "threshold", 0.5, "prosody only @0.5"),
+    ("prosody_fusion+gate200", "threshold", 0.5, "prosody + text @0.5"),
 )
 
 

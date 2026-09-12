@@ -36,7 +36,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--reuse-audio", action="store_true")
-    ap.add_argument("--sleep", type=float, default=0.1)
+    ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--out", type=Path, default=TRAIN_DIR / "audio_set.json")
     args = ap.parse_args()
 
@@ -50,7 +50,7 @@ def main() -> int:
         SEARCH_MS,
         TRAIN_DIR / "audio",
         args.reuse_audio,
-        args.sleep,
+        args.workers,
         log_every=250,
     )
     d = np.array(deltas)
