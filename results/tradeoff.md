@@ -58,12 +58,13 @@ reasons it is weak, none of them fixable by another training flag:
   complete because the speaker stopped — which teaches exactly the wrong
   thing about telephony turns.
 
-**The finding stands: the gate is the contribution.** The same 200ms gate on
-a one-character heuristic sits at 11.1% cutoff, 9.1% hold, p50 256ms — the
-first point in the previously empty bottom-left of the chart — and beats the
-gated model at every gate value tested (100/200/300/500ms, in the CSV).
-Its caveat also stands: annotator punctuation, not recogniser punctuation.
-The Phase 6 real-ASR condition decides whether that point is real.
+**The gate is the contribution; the heuristic's point was not real.** On
+gold, the same 200ms gate on a one-character heuristic sits at 11.1% cutoff,
+9.1% hold, p50 256ms — the first point in the chart's empty bottom-left. Phase
+6 measured it against a real recogniser on a caller's channel: **19.7% cutoff**
+on the deployment condition, more than the timer. The model behind the same
+gate lost 2.5 points where the heuristic lost 8.6. Read
+[`conditions.md`](conditions.md) before quoting anything from this file.
 
 **What would move the model, as proposals.** More training turns from a
 second corpus; a larger encoder with a frozen body (latency allows 10× —
@@ -123,11 +124,13 @@ while fixing the semantic cutoffs has ~600ms to gain over the best timer.**
 ## Caveats that travel with these numbers
 
 - **Gold transcripts.** Punctuation here is placed by human annotators who
-  heard the whole recording. A streaming recogniser punctuates causally from a
-  hypothesis it keeps revising. The Phase 6 real-ASR condition measures how
-  much that flatters baseline #3; until then, its numbers are a ceiling.
-- **Meeting speech, 16kHz headset.** The deployment target is telephony.
-  Phase 6 adds the 8kHz band-limited condition.
+  heard the whole recording. Phase 6 measured the gap: the bare heuristic goes
+  24.7% → 54.0% cutoff on a real recogniser. Every number in this file is
+  the gold ceiling; [`conditions.md`](conditions.md) has the floor.
+- **Meeting speech, 16kHz headset.** Phase 6 adds the telephony band: the
+  timer alone goes 10.6% → 17.2% cutoff, all of it through the VAD. And the
+  headset's raw tail carries the next speaker: the timer's 4.5% false holds
+  here are that, and read 0.0% on a caller's channel.
 - **The boundary is Silero-refined, and Silero is baseline #2.** Mitigated
   (raw probability, not the smoothed flag) and quantified (boundary delta
   p10 −144ms, p90 +145ms), but the ground truth shares a model with one system
