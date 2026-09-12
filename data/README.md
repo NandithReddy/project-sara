@@ -5,7 +5,7 @@ downloading it.
 
 | Dataset | Version | License | Used for | Downloaded |
 |---|---|---|---|---|
-| [AMI Meeting Corpus](https://groups.inf.ed.ac.uk/ami/corpus/) | manual annotations v1.6.2 | [CC BY 4.0](https://groups.inf.ed.ac.uk/ami/corpus/license.shtml) | eval + train (disjoint meetings) | 2026-09-10 (annotations only) |
+| [AMI Meeting Corpus](https://groups.inf.ed.ac.uk/ami/corpus/) | manual annotations v1.6.2 | [CC BY 4.0](https://groups.inf.ed.ac.uk/ami/corpus/license.shtml) | eval + train (disjoint meetings) | annotations 2026-09-10; eval audio 2026-09-10; training audio 2026-09-12 |
 
 `data/raw/` is gitignored. `data/eval/` is frozen once created and is never
 trained or tuned on (ENGINEERING.md rule 1).
@@ -79,3 +79,29 @@ Element counts across all of them:
 annotators, so baseline #3 reads cleaner punctuation than any real STT emits.
 That baseline is therefore flattered on gold transcripts, and the gap is
 quantified by the Phase 6 real-ASR condition, not assumed away.
+
+**Training audio (Phase 7), fetched 2026-09-12.** 5,747 turn segments from the
+`training` split, by HTTP range request through the same function as the eval
+audio (`scripts/fetch_eval_audio.fetch_turns`, called by
+`scripts/fetch_train_audio.py`): 718MB fetched, 294MB as FLAC under
+`data/train/audio/`, **gitignored** and reproducible from `data/train/turns.jsonl`.
+Segment = 500ms pre-roll + turn + 1500ms; boundary refined with Silero as for
+eval (5,525 from audio, 222 quiet single-word turns kept on the annotation;
+annotated minus audio end p50 −84ms, p90 +107ms). `data/train/audio_set.json`
+carries the refined boundaries.
+
+Four headset files in `ES2010d` are stereo. The fetch checks whether the two
+channels are the same signal before using one: all four are dual-mono at L/R
+correlation 1.000, so the left channel is used and no turn is skipped. A
+stereo file whose channels differed would have had its turns skipped, out
+loud, rather than downmixed on a guess.
+
+**Pause examples (Phase 7), built 2026-09-12.** `data/train/pauses.jsonl`:
+8,873 pauses from 5,747 training turns — one per point where silence reached
+200ms inside a turn, on the caller channel. Label 1 (5,521, 62.2%) if the
+speaker never spoke again; 0 (3,352, 37.8%) if they did. Features are the 14
+prosodic numbers at the **last speech frame before the pause** (see
+`models/README.md` for why not at the pause), the transcript so far, and the
+frozen text model's P(complete) on it. 359 of the mid-turn pauses (10.7%) are
+followed by VAD speech but no word — label noise, counted and kept for
+consistency with the VAD-based eval boundary. Review: `data/train/PAUSE_REVIEW.md`.

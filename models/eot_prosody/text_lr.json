@@ -1,0 +1,35 @@
+{
+  "kind": "text",
+  "features": [
+    "logit_p_text"
+  ],
+  "w": [
+    1.501580808778465
+  ],
+  "b": 0.45251223845597205,
+  "mean": [
+    -2.3232657261656686
+  ],
+  "std": [
+    3.3553266712835943
+  ],
+  "uses_text": true,
+  "l2": 1.0,
+  "seed": 20260912,
+  "val_speakers": 10,
+  "metrics": {
+    "train": {
+      "n": 8020,
+      "average_precision": 0.867782064926927,
+      "log_loss": 0.5463865292669797,
+      "majority_ap": 0.6261845386533665
+    },
+    "val": {
+      "n": 853,
+      "average_precision": 0.8596613718639697,
+      "log_loss": 0.561409220450136,
+      "majority_ap": 0.5849941383352872
+    }
+  },
+  "pauses_file": "data/train/pauses.jsonl"
+}

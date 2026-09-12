@@ -12,7 +12,7 @@ fixed silence timer in a cascade voice pipeline.
 
 ---
 
-## Status: Phase 6 of 9
+## Status: Phase 7 of 9
 
 **The baselines are measured, the tradeoff curve exists, and the first model
 loses to a 800ms silence timer.** The chart, the CSV behind it, and the
@@ -28,7 +28,7 @@ from a run over the frozen eval set; nothing is estimated.
 | 4 | EOT model, text only | **v1 and v1.1 measured: neither beats the timer; the silence gate does** |
 | 5 | The tradeoff curve | done — baselines and v1 on it |
 | 6 | Telephony band + real-ASR conditions | done — the gold winner does not survive; the model degrades least |
-| 7 | Prosody, only if Phase 5 shows headroom | not started |
+| 7 | Prosody | **measured: does not help; text-only stays** |
 | 8 | Inbound telephony adapter (optional) | not started |
 | 9 | Results write-up | not started |
 

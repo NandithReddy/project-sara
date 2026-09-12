@@ -5,8 +5,21 @@ Silero for silence, the prosody tracker for features. Each time silence
 reaches the gate (200ms) inside the turn's window, that is one example:
   label 1  the speaker did not speak again -- the turn ended here
   label 0  speech resumed -- a mid-turn pause, the thing that breaks timers
-Features are the tracker's 14 numbers at the gate crossing, plus the text so
-far (gold words ended by then) and the frozen text model's P(complete) on it.
+Features are the tracker's 14 numbers at the LAST SPEECH FRAME before the
+pause -- the prosody of what was just said -- plus the text so far (gold words
+ended by then) and the frozen text model's P(complete) on it.
+
+Why not at the gate crossing: the first build did that, and the classifier
+scored a perfect 1.000 AP on held-out speakers with energy_db as its dominant
+weight. 200ms into an END pause lies inside the region the caller channel
+zeroes (true_end + 150ms), so energy read -120dB of digital silence there and
+room tone at a mid-turn pause. It had learned to detect the preprocessing.
+At the last speech frame the zeroed tail is never in the window.
+
+Label noise, counted rather than hidden: "mid" means the VAD saw speech again,
+which includes a laugh or a breath after the final word. `word_follows` says
+whether a WORD started after the pause; the eval boundary is VAD-based too,
+so the label stays VAD-based for consistency and the count is reported.
 
 Reads data/train/ only. SARA_TRAINING is set so the eval-set guard is live.
 
@@ -78,16 +91,19 @@ def pauses_for(turn: EvalTurn, words: list[dict], vad, tracker, text_model, gate
         acc = acc or frames[i].is_speech
         speech_after[i] = acc
 
-    out, armed = [], False
+    out, armed, last_speech = [], False, None
     for i, (f, (_t, x)) in enumerate(zip(frames, feats, strict=True)):
         if f.t_ms < turn.turn_start_ms:
             continue
         if f.is_speech:
             armed = True  # a pause only counts after some speech in the turn
+            last_speech = x  # the prosody of the speech that is about to end
             continue
         if armed and f.silence_ms >= gate_ms:
             armed = False  # one example per pause, at the gate crossing
             resumes = speech_after[i]
+            pause_start = f.t_ms - f.silence_ms
+            word_follows = any(w["start_ms"] > pause_start for w in words)
             prefix = " ".join(w["t"] for w in words if w["end_ms"] <= f.t_ms)
             text_model.reset()
             p_text = text_model.update(Update(t_ms=f.t_ms, text=prefix))
@@ -102,7 +118,8 @@ def pauses_for(turn: EvalTurn, words: list[dict], vad, tracker, text_model, gate
                         turn.true_end_ms - (f.t_ms - f.silence_ms), 1
                     ),
                     "label": 0 if resumes else 1,
-                    "prosody": [round(float(v), 4) for v in x],
+                    "word_follows": bool(word_follows),
+                    "prosody": [round(float(v), 4) for v in last_speech],
                     "text": prefix,
                     "n_words_so_far": len(prefix.split()),
                     "n_words": turn.n_words,
@@ -152,6 +169,12 @@ def main() -> int:
     )
     mid = [e for e in examples if e["label"] == 0]
     if mid:
+        n_nonword = sum(1 for e in mid if not e["word_follows"])
+        print(
+            f"mid pauses followed by NO further word (VAD heard a laugh, breath, "
+            f"or bleed): {n_nonword}/{len(mid)} = {n_nonword / len(mid) * 100:.1f}% "
+            f"-- label noise, kept for consistency with the VAD-based eval boundary"
+        )
         d = np.array([-e["ms_to_true_end"] for e in mid])
         print(
             f"mid pauses: p50 {np.median(d):.0f}ms before the end, "

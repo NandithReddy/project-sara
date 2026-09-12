@@ -6,6 +6,12 @@ trailing off -- and optionally the text model's opinion of the transcript so
 far. A logistic regression over 14 (or 15) standardised features, stored as
 JSON: weights, bias, mean, std, feature names. Inference is a dot product.
 
+The feature vector is the one from the LAST SPEECH FRAME before the pause --
+what was just said -- not the one at the gate crossing. Sampling at the
+crossing leaked the caller-channel zeroing into the training set (a perfect
+1.000 AP with energy_db as the top weight, i.e. a digital-silence detector);
+the speech that ended is the signal, and it is never inside the zeroed tail.
+
 Text-only detectors ignore Update.prosody; this one ignores nothing it is
 given. With `uses_text` it wraps the frozen text model and adds logit(P_text)
 as a feature, so "did prosody add information over the transcript" is a
@@ -71,24 +77,34 @@ class ProsodyEOT:
 
             self._text = TextEOT()
         self.name = f"prosody_{self.kind}+gate{int(self.gate_ms)}"
+        self.reset()  # a fresh detector must be usable before any reset()
 
     def reset(self) -> None:
+        self._last_speech: tuple[float, ...] | None = None
         if self._text is not None:
             self._text.reset()
 
     def update(self, u: Update) -> float:
+        if u.silence_ms == 0.0 and u.prosody:
+            self._last_speech = u.prosody  # the speech that may be about to end
         if u.silence_ms < self.gate_ms:
             # Keep the text model's cache warm so a fire is not delayed by an
             # inference at the moment the gate opens.
             if self._text is not None and u.text:
                 self._text.update(u)
             return 0.0
-        if not u.prosody:
-            raise ValueError(
-                f"{self.name} needs Update.prosody; this source supplies none. "
-                f"Not guessing (rule 3)."
-            )
-        x = list(u.prosody)
+        if self._last_speech is None:
+            if not u.prosody:
+                raise ValueError(
+                    f"{self.name} reached the gate and this source supplies no "
+                    f"Update.prosody at all. Not guessing (rule 3)."
+                )
+            # Prosody is supplied but no speech frame preceded this pause: the
+            # VAD never heard the speaker (the quiet single-word turns). There
+            # is nothing to classify, and a pause after no speech is not an
+            # end -- it scores as a hold, which is the honest outcome.
+            return 0.0
+        x = list(self._last_speech)
         if self._text is not None:
             x.append(logit(self._text.update(u)))
         z = (np.asarray(x, dtype=np.float64) - self._mean) / self._std

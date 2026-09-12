@@ -1,0 +1,24 @@
+{
+  "n_pauses": 8873,
+  "n_end": 5521,
+  "n_mid": 3352,
+  "n_turns": 5747,
+  "gate_ms": 200.0,
+  "features": [
+    "energy_db",
+    "energy_drop_from_peak_db",
+    "energy_slope_db_per_s",
+    "f0_last_semitones_vs_median",
+    "f0_slope_st_per_s",
+    "f0_range_st",
+    "voiced_fraction",
+    "ms_since_voiced",
+    "last_run_ms",
+    "last_run_over_mean_run",
+    "n_runs",
+    "last_run_energy_vs_window_db",
+    "last_run_f0_fall_st",
+    "energy_std_db"
+  ],
+  "seed": 20260912
+}
