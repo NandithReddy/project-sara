@@ -12,7 +12,7 @@ fixed silence timer in a cascade voice pipeline.
 
 ---
 
-## Status: Phase 4 of 9
+## Status: Phase 6 of 9
 
 **The baselines are measured, the tradeoff curve exists, and the first model
 loses to a 800ms silence timer.** The chart, the CSV behind it, and the
@@ -27,7 +27,7 @@ from a run over the frozen eval set; nothing is estimated.
 | 3 | Training data | done — 41,287 examples, labels reviewed |
 | 4 | EOT model, text only | **v1 and v1.1 measured: neither beats the timer; the silence gate does** |
 | 5 | The tradeoff curve | done — baselines and v1 on it |
-| 6 | Telephony band + real-ASR conditions | not started |
+| 6 | Telephony band + real-ASR conditions | done — the gold winner does not survive; the model degrades least |
 | 7 | Prosody, only if Phase 5 shows headroom | not started |
 | 8 | Inbound telephony adapter (optional) | not started |
 | 9 | Results write-up | not started |
@@ -47,8 +47,12 @@ out turns: [`results/tradeoff.png`](results/tradeoff.png), read in
 default 500ms timer interrupts 17% of turns; the punctuation heuristic answers
 3× faster at the same cutoff rate but its p95 is the fallback wall; and two
 iterations of the text-only model are dominated by the timer, for reasons that
-are measured rather than guessed — while a 200ms silence gate on the heuristic
-is the first system into the chart's empty bottom-left.
+are measured rather than guessed. A 200ms silence gate on the punctuation
+heuristic was the first system into the chart's empty bottom-left on gold
+transcripts — and [`results/conditions.md`](results/conditions.md) shows it
+does not survive a real recogniser (11.1% → 19.7% cutoff), while the model
+behind the same gate loses 2.5 points and, on the telephony condition, has
+fewer cutoffs than the timer for the first time.
 
 **The streaming STT** — whether `parakeet-mlx` can serve on the live path. Full record in
 [`results/spike-parakeet-mlx-streaming.md`](results/spike-parakeet-mlx-streaming.md).
