@@ -125,7 +125,7 @@ text-based ones are not affected (their holds are missing punctuation).
 **5. The recogniser is the largest single source of degradation.** 198 turns
 produced 846 hypothesis revisions; 30 collapsed to empty by the end of the
 segment; the first partial lands a median 140ms but p90 2.06s after the turn
-starts. The word error rate of the final transcript against gold is 34%
+starts. The word error rate of the final transcript against gold is 20.9% on the caller channel (34.2% on the raw tail, where the next speaker's words count as errors)
 (disfluent turns 70%; short turns over 100%, since a one-word gold against a
 longer hypothesis is more than one error per word). None of that is ours, and
 all of it lands on every text system equally.

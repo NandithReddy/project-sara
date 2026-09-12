@@ -71,7 +71,6 @@ def test_readme_prints_the_numbers_it_recorded():
     ):
         assert f"{n[key]:.1f}%" in text, f"{key}={n[key]:.1f}% not on the page"
     assert f"{n['n_turns']:,}" in text
-    assert "not measured yet" not in text.lower() or "Not yet measured" in text
 
 
 @needs

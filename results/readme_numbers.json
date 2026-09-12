@@ -56,5 +56,13 @@
   "bleed_grew": 139,
   "revisions": 846,
   "asr_rtf": 1.059623517704619,
-  "asr_audio_s": 1205.9
+  "asr_audio_s": 1205.9,
+  "timer500_p50": 512.0,
+  "timer1000_p50": 1056.0,
+  "punct_hold": 6.565656565656567,
+  "v11_p50": 2000.0,
+  "pro_p50": 256.0,
+  "fus_p50": 256.0,
+  "pause_chance_ap": 0.5849941383352872,
+  "okay_complete_pct": 61.078998073217726
 }
