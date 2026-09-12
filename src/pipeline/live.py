@@ -20,6 +20,7 @@ from collections.abc import Iterator
 import numpy as np
 
 from src.audio.capture import DEFAULT_BLOCK_MS, mic_blocks
+from src.audio.prosody import ProsodyTracker
 from src.audio.vad import SileroVAD
 from src.eot.base import EOTDetector, Update
 from src.stt.parakeet import ParakeetStream
@@ -49,6 +50,7 @@ def run(
 ) -> int:
     """Run the loop until `seconds` elapse or the user interrupts."""
     vad = SileroVAD(threshold=threshold)
+    prosody = ProsodyTracker()
     stt = ParakeetStream()
 
     print(f"loading {stt.model_name} ...")
@@ -77,7 +79,10 @@ def run(
         for block in blocks:
             stt.push(block)
 
-            for f in vad.push(block):
+            # Same 512-sample framing from the same block, so the two lists
+            # line up one to one.
+            pros = prosody.push(block)
+            for f, (_pt, feats) in zip(vad.push(block), pros, strict=True):
                 audio_ms = f.t_ms
                 if f.is_speech and not turn_active:
                     turn_active = True
@@ -92,7 +97,11 @@ def run(
                     print(f"{stamp(audio_ms)}  partial: {hyp.text!r}")
 
                 if (
-                    eot.update(Update(audio_ms, hyp.text, silence_ms=f.silence_ms))
+                    eot.update(
+                        Update(
+                            audio_ms, hyp.text, prosody=feats, silence_ms=f.silence_ms
+                        )
+                    )
                     < 0.5
                 ):
                     continue
@@ -124,6 +133,7 @@ def run(
                     next(blocks, None)
 
                 vad.reset()
+                prosody.reset()
                 stt.reset()
                 eot.reset()
                 last_seq = -1

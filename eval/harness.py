@@ -39,6 +39,7 @@ import numpy as np
 import soundfile as sf
 
 from eval.dataset import EVAL_DIR, MANIFEST, EvalTurn, load_eval_set
+from src.audio.prosody import ProsodyTracker
 from src.audio.vad import SileroVAD, VadFrame
 from src.eot.base import EOTDetector, Update
 
@@ -78,6 +79,34 @@ class TurnResult:
 
 def _percentile(xs: list[float], p: float) -> float | None:
     return float(np.percentile(xs, p)) if xs else None
+
+
+ProsodyFrames = list[tuple[float, tuple[float, ...]]]
+
+
+@dataclass(frozen=True)
+class ProsodyCache:
+    """Prosodic features for every turn under one audio transform, computed
+    once. Must be built with the SAME transform as the silence cache it is
+    replayed with -- the conditions runner pairs them."""
+
+    label: str
+    feats: dict[str, ProsodyFrames]
+
+
+def prosody_frames(turn: EvalTurn, transform=None) -> ProsodyFrames:
+    audio, sr = sf.read(turn.audio_path, dtype="float32")
+    audio = np.asarray(audio, dtype=np.float32).reshape(-1)
+    if transform is not None:
+        audio = transform(audio, turn)
+    return ProsodyTracker().push(audio)
+
+
+def precompute_prosody(transform=None, label: str = "prosody") -> ProsodyCache:
+    return ProsodyCache(
+        label=label,
+        feats={t.turn_id: prosody_frames(t, transform) for t in load_eval_set()},
+    )
 
 
 def caller_channel(
@@ -151,7 +180,10 @@ def asr_timeline(partials: list[dict], include_compute: bool = True) -> Timeline
 
 
 def replay(
-    turn: EvalTurn, frames: list[VadFrame], timeline: Timeline
+    turn: EvalTurn,
+    frames: list[VadFrame],
+    timeline: Timeline,
+    prosody: ProsodyFrames | None = None,
 ) -> Iterator[Update]:
     """Yield one Update per VAD frame, on the audio clock.
 
@@ -169,17 +201,25 @@ def replay(
     mistake the live loop made in Phase 1 ("a turn that never started cannot
     end"), reappearing in the eval path.
     """
-    i, text = 0, ""
+    i, text, pj = 0, "", 0
     for f in frames:
         while i < len(timeline) and timeline[i][0] <= f.t_ms:
             text = timeline[i][1]
             i += 1
+        feats: tuple[float, ...] = ()
+        if prosody is not None:
+            # Same 32ms grid from the same audio: align by time, never by index.
+            while pj < len(prosody) and prosody[pj][0] < f.t_ms - 1e-6:
+                pj += 1
+            if pj < len(prosody) and abs(prosody[pj][0] - f.t_ms) < 1e-6:
+                feats = prosody[pj][1]
         if f.t_ms < turn.turn_start_ms:
             continue
         within_turn_ms = f.t_ms - turn.turn_start_ms
         yield Update(
             t_ms=f.t_ms,
             text=text,
+            prosody=feats,
             silence_ms=min(f.silence_ms, max(0.0, within_turn_ms)),
         )
 
@@ -191,12 +231,13 @@ def run_turn(
     timeline: Timeline,
     horizon_ms: float,
     threshold: float = FIRE_THRESHOLD,
+    prosody: ProsodyFrames | None = None,
 ) -> tuple[TurnResult, list[float]]:
     detector.reset()
     deadline = turn.true_end_ms + horizon_ms
     fired_at, n, latencies = None, 0, []
 
-    for u in replay(turn, frames, timeline):
+    for u in replay(turn, frames, timeline, prosody):
         if u.t_ms > deadline:
             break
         t0 = time.perf_counter()
@@ -328,6 +369,7 @@ def evaluate(
     cache: FrameCache | None = None,
     transcripts: dict[str, Timeline] | None = None,
     transcript_label: str = "gold",
+    prosody_cache: ProsodyCache | None = None,
 ) -> dict:
     """Run one detector over the whole frozen eval set.
 
@@ -350,7 +392,13 @@ def evaluate(
     for turn in turns:
         frames = cache.frames[turn.turn_id]
         r, lat = run_turn(
-            detector, turn, frames, transcripts[turn.turn_id], horizon_ms, threshold
+            detector,
+            turn,
+            frames,
+            transcripts[turn.turn_id],
+            horizon_ms,
+            threshold,
+            prosody_cache.feats[turn.turn_id] if prosody_cache else None,
         )
         results.append(r)
         latencies.extend(lat)
@@ -360,6 +408,7 @@ def evaluate(
     summary["detector"] = detector.name
     summary["silence_source"] = source_name
     summary["transcripts"] = transcript_label
+    summary["prosody"] = prosody_cache.label if prosody_cache else None
     summary["threshold"] = threshold
     summary["turns"] = [asdict(r) for r in results]
     return summary
