@@ -8,6 +8,11 @@ hash, as section 3 requires for a black-box system: the number is not
 bit-reproducible across vendor or hardware changes, so the raw responses are
 what reproduce.
 
+By default the recogniser hears the CALLER CHANNEL -- the frozen audio zeroed
+from true_end + 150ms (eval.harness.caller_channel) -- because AMI headsets
+carry the next speaker at low level and a recogniser transcribes it. The first
+pass on the raw tail is kept as results/asr/parakeet_*_rawtail.json.
+
 Feeds each turn's audio in 640ms chunks (the measured floor; shorter falls
 behind real time) and records, after every chunk, the full hypothesis and how
 long the chunk took. A partial is AVAILABLE at audio_end_ms + compute_ms: that
@@ -37,6 +42,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 from eval.dataset import MANIFEST, load_eval_set  # noqa: E402
+from eval.harness import caller_channel  # noqa: E402
 from src.audio.telephony import degrade  # noqa: E402
 
 MODEL = "mlx-community/parakeet-tdt-0.6b-v3"
@@ -49,6 +55,14 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--condition", choices=("16k", "tel"), required=True)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument(
+        "--tail",
+        choices=("caller", "raw"),
+        default="caller",
+        help="'caller': zero the channel after the turn ends, as a phone line "
+        "would be. 'raw': the headset as recorded, which carries the next "
+        "speaker -- the first pass, kept as *_rawtail.json for the record.",
+    )
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
     out = args.out or OUT_DIR / f"parakeet_{args.condition}.json"
@@ -74,6 +88,8 @@ def main() -> int:
         audio = np.asarray(audio, dtype=np.float32).reshape(-1)
         if file_sr != sr:
             raise SystemExit(f"{turn.audio_path}: {file_sr}Hz, model wants {sr}Hz")
+        if args.tail == "caller":
+            audio = caller_channel(audio, turn)
         if args.condition == "tel":
             audio = degrade(audio)
         total_audio_s += len(audio) / sr
@@ -114,6 +130,7 @@ def main() -> int:
         json.dumps(
             {
                 "condition": args.condition,
+                "tail": args.tail,
                 "model": MODEL,
                 "parakeet_mlx": pkg_version("parakeet-mlx"),
                 "mlx": pkg_version("mlx"),

@@ -80,12 +80,38 @@ def _percentile(xs: list[float], p: float) -> float | None:
     return float(np.percentile(xs, p)) if xs else None
 
 
+def caller_channel(
+    audio: np.ndarray, turn: EvalTurn, sr: int = 16_000, ramp_ms: float = 5.0
+) -> np.ndarray:
+    """What a phone pipeline hears after the caller stops: nothing.
+
+    AMI headset channels carry the NEXT speaker at low level once the floor
+    changes hands, and a full recogniser transcribes it. In the first real-ASR
+    pass the transcript kept growing after the true end on 139 of 198 turns
+    (median +4 words), and 79 of the punctuation heuristic's fires came from
+    those words -- someone else's. A VAD at threshold mostly ignores the bleed;
+    an ASR does not. Zeroing the channel from true_end + the boundary tolerance
+    removes a party that a caller's channel never carried in the first place.
+    Cutoffs were valid either way (pre-end text is the speaker's own); holds and
+    latency were not.
+    """
+    x = np.array(audio, dtype=np.float32, copy=True)
+    cut = int((turn.true_end_ms + BOUNDARY_TOLERANCE_MS) / 1000.0 * sr)
+    if cut >= len(x):
+        return x
+    ramp = int(sr * ramp_ms / 1000.0)
+    end = min(cut + ramp, len(x))
+    x[cut:end] *= np.linspace(1.0, 0.0, end - cut, dtype=np.float32)
+    x[end:] = 0.0
+    return x
+
+
 def vad_frames(turn: EvalTurn, vad, transform=None) -> list[VadFrame]:
     """Deterministic silence track for one frozen turn.
 
-    `transform` degrades the audio first (Phase 6 telephony condition). The
-    boundary stays frozen: the true end of a turn is a property of the speech,
-    not of the channel it came down.
+    `transform(audio, turn)` reshapes the audio first: the telephony band, the
+    caller channel, or both (Phase 6). The boundary stays frozen: the true end
+    of a turn is a property of the speech, not of the channel it came down.
 
     `vad` is any frame-synchronous detector with reset()/push() -- SileroVAD for
     baseline #2, EnergyVAD for baseline #1. The silence source is a property of
@@ -95,7 +121,7 @@ def vad_frames(turn: EvalTurn, vad, transform=None) -> list[VadFrame]:
     audio, sr = sf.read(turn.audio_path, dtype="float32")
     audio = np.asarray(audio, dtype=np.float32).reshape(-1)
     if transform is not None:
-        audio = transform(audio)
+        audio = transform(audio, turn)
     vad.reset()
     return vad.push(audio)
 

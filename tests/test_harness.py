@@ -14,7 +14,14 @@ from dataclasses import replace
 import pytest
 
 from eval.dataset import EvalTurn
-from eval.harness import asr_timeline, gold_timeline, replay, run_turn, summarise
+from eval.harness import (
+    asr_timeline,
+    caller_channel,
+    gold_timeline,
+    replay,
+    run_turn,
+    summarise,
+)
 from src.audio.vad import VadFrame
 from src.baselines.silence import FixedSilenceTimeout
 
@@ -174,3 +181,20 @@ def test_replay_uses_the_latest_event_at_or_before_each_frame():
         "hello there",
         "yellow there.",
     ]
+
+
+def test_caller_channel_is_silent_after_the_turn_and_untouched_before():
+    """A phone caller's channel never carries the other party; an AMI headset does."""
+    import numpy as np
+
+    sr = 16_000
+    audio = np.full(sr * 3, 0.25, dtype=np.float32)  # 3s, TURN ends at 1500ms
+    out = caller_channel(audio, TURN, sr=sr)
+    cut = int((TURN.true_end_ms + 150.0) / 1000.0 * sr)
+    assert len(out) == len(audio)
+    assert np.array_equal(out[:cut], audio[:cut]), "nothing before the tolerance moves"
+    assert np.all(out[cut + int(sr * 0.005) :] == 0.0), "everything after it is silence"
+    assert 0.0 < out[cut + 1] < 0.25, "a short ramp, not a click"
+    assert np.array_equal(audio, np.full(sr * 3, 0.25, dtype=np.float32)), (
+        "input untouched"
+    )
