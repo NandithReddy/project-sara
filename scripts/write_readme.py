@@ -182,6 +182,22 @@ def main() -> int:
         "asr_rtf": asr16["total_compute_s"] / asr16["total_audio_s"],
         "asr_audio_s": asr16["total_audio_s"],
     }
+    N.update(
+        {
+            "timer500_p50": p50(pick(sweep, S, 500.0)),
+            "timer1000_p50": p50(pick(sweep, S, 1000.0)),
+            "punct_hold": hold(pick(sweep, P, 0.0)),
+            "v11_p50": p50(pick(sweep, T, 0.5)),
+            "pro_p50": p50(pick(sweep, PR, 0.5)),
+            "fus_p50": p50(pick(sweep, FU, 0.5)),
+            "pause_chance_ap": pro["metrics"]["val"]["majority_ap"],
+            "okay_complete_pct": next(
+                w["complete"] / (w["complete"] + w["incomplete"]) * 100
+                for w in train["collisions_text"]["worst"]
+                if w["text"] == "Okay"
+            ),
+        }
+    )
     (R / "readme_numbers.json").write_text(json.dumps(N, indent=2))
     f = {k: (f"{v:.1f}" if isinstance(v, float) else str(v)) for k, v in N.items()}
     f["v11_val_ap"] = f"{N['v11_val_ap']:.3f}"
@@ -214,6 +230,18 @@ def main() -> int:
         "revisions",
     ):
         f[k] = f"{N[k]:,}"
+
+    for k in (
+        "timer500_p50",
+        "timer1000_p50",
+        "v11_p50",
+        "pro_p50",
+        "fus_p50",
+        "okay_complete_pct",
+    ):
+        f[k] = f"{N[k]:.0f}"
+    f["punct_hold"] = f"{N['punct_hold']:.1f}"
+    f["pause_chance_ap"] = f"{N['pause_chance_ap']:.3f}"
 
     readme = f"""# SARA — Semantic End-of-Turn Detection for Voice Agents
 

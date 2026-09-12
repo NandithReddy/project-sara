@@ -41,7 +41,7 @@ latency in ms.
 |---|---|---|
 | Silero VAD + 500ms timer *(the industry default)* | 17.2% / 2.0% / 512 | — |
 | Silero VAD + 800ms timer | 10.6% / 4.5% / 800 | 17.2% / 0.0% / 800 |
-| Silero VAD + 1000ms timer | 4.0% / 7.6% / 1024 | — |
+| Silero VAD + 1000ms timer | 4.0% / 7.6% / 1056 | — |
 | punctuation heuristic | 24.7% / 6.6% / 96 | 47.0% / 4.5% / 416 |
 | **punctuation + 200ms silence gate** | **11.1% / 9.1% / 256** | 20.2% / 8.6% / 384 |
 | text model v1.1 (bert-mini), bare | 15.7% / 58.1% / 2000 | — |
