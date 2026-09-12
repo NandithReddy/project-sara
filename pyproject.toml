@@ -29,3 +29,7 @@ extend-exclude = [".venv", "data"]
 # E/F = pyflakes + pycodestyle, I = import sorting, UP = pyupgrade,
 # B = bugbear (real-bug lints, not style).
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# A markdown template inside an f-string: line length is the page's, not the code's.
+"scripts/write_readme.py" = ["E501"]
