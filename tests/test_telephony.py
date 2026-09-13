@@ -19,7 +19,9 @@ def rms(x: np.ndarray) -> float:
 
 
 def db(out: np.ndarray, ref: np.ndarray) -> float:
-    return 20 * np.log10(rms(out) / rms(ref))
+    # A tone the filter removes entirely has RMS exactly 0; floor it so the
+    # ratio is a large negative number, not a divide-by-zero warning.
+    return 20 * np.log10(max(rms(out), 1e-12) / rms(ref))
 
 
 def test_length_is_preserved_odd_and_even():
