@@ -205,9 +205,9 @@ uv run python scripts/write_readme.py     # this page, from the files above
 
 The frozen eval set, the recogniser caches under `results/asr/`, and both
 models are committed, so the three commands above reproduce every number on
-this page on any machine. Verified on a fresh clone at commit `1dad1e5`
-(2026-09-12): install, tests, the table, the sweep CSV's decision columns
-and this page all came out identical. Two tests skip without the optional
+this page on any machine. Verified on a fresh clone at commit `30da231`
+(2026-09-13): install, tests, the table, both CSVs' decision columns and this
+page came out identical; only the CPU inference-latency column moved. Two tests skip without the optional
 `data/raw/jfk.wav` sample, which is gitignored. To regenerate the inputs
 instead:
 
