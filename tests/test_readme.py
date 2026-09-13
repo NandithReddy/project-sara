@@ -46,6 +46,10 @@ def test_headline_numbers_match_the_csvs():
         "tel_pg_cut": pick(cond, "punctuation+gate200", 0.0, "asr_tel"),
         "tel_v11g03_cut": pick(cond, "text_eot_v1.1+gate200", 0.3, "asr_tel"),
         "tel_timer800_cut": pick(cond, "fixed_timeout+silero", 800.0, "asr_tel"),
+        "flux_cut": pick(sweep, "flux", n["flux_thr"]),
+        "tel_flux_cut": pick(cond, "flux", n["flux_thr"], "nova3_tel"),
+        "nova3sf_cut": pick(cond, "nova3_speech_final", 0.0, "nova3_16k"),
+        "nova3tel_v11g03_cut": pick(cond, "text_eot_v1.1+gate200", 0.3, "nova3_tel"),
     }
     for key, row in checks.items():
         assert n[key] == pytest.approx(float(row["cutoff_rate_at_tolerance"]) * 100), (
@@ -68,6 +72,9 @@ def test_readme_prints_the_numbers_it_recorded():
         "v11g03_cut",
         "tel_pg_cut",
         "tel_v11g03_cut",
+        "flux_cut",
+        "tel_flux_cut",
+        "nova3sf_cut",
     ):
         assert f"{n[key]:.1f}%" in text, f"{key}={n[key]:.1f}% not on the page"
     assert f"{n['n_turns']:,}" in text
@@ -75,6 +82,10 @@ def test_readme_prints_the_numbers_it_recorded():
 
 @needs
 def test_readme_claims_no_unmeasured_figure():
-    """Anything the page promises but has not run must say so, not estimate."""
+    """Anything the page promises but has not run must say so, not estimate.
+    The Deepgram row used to say "Not yet measured"; now it is measured, and
+    the page has to name the model and the date the snapshot was taken."""
+    n = json.loads(NUMBERS.read_text())
     text = README.read_text()
-    assert "Not yet measured" in text  # the Deepgram row is honest about itself
+    assert "Not yet measured" not in text
+    assert n["flux_model"] in text and n["flux_date"] in text

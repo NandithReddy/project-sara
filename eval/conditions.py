@@ -4,6 +4,12 @@
   gold_tel  gold transcripts, telephony-band audio     -- silence changes, text does not
   asr_16k   parakeet-mlx transcripts, wideband audio   -- the optimism gap
   asr_tel   parakeet-mlx transcripts, telephony audio  -- the deployment target
+  nova3_16k Deepgram Nova-3 transcripts, wideband      -- a second, cloud recogniser
+  nova3_tel Deepgram Nova-3 transcripts, telephony     -- ... on the deployment audio
+
+The nova3_* conditions also carry the two Deepgram systems under test, which
+hear the same audio and need no transcript from us: Flux (as shipped, and a
+sweep on the confidence it reports) and Nova-3's own speech_final endpointing.
 
 Plus asr_16k_content (CSV only): the recogniser's partials with compute time
 set to zero, isolating what its ERRORS cost from what its SPEED costs.
@@ -19,8 +25,9 @@ a VAD at threshold sees it as silence already, verified below by the timer's
 numbers on both.
 
 ASR timelines come from results/asr/parakeet_<cond>.json, written once by
-scripts/transcribe_eval.py and cached with model, version, date and machine.
-eval/ never runs a recogniser (section 10); it replays the cache.
+scripts/transcribe_eval.py, and results/asr/{nova3,flux}_<cond>.json, written
+once by scripts/deepgram_eval.py; all cached with model, parameters, date and
+machine. eval/ never runs a recogniser (section 10); it replays the caches.
 
 Run from the repo root:  uv run python -m eval.conditions
 """
@@ -60,26 +67,60 @@ from src.baselines.silence import FixedSilenceTimeout
 from src.eot.gated import DEFAULT_GATE_MS, SilenceGated
 from src.eot.model import TextEOT
 from src.eot.prosody_eot import ProsodyEOT
+from src.eot.replayed import (
+    ReplayedEOT,
+    flux_confidence_series,
+    flux_shipped_series,
+    nova3_endpoint_series,
+)
 
 ASR_DIR = RESULTS / "asr"
 CSV_PATH = RESULTS / "conditions.csv"
 PNG_PATH = RESULTS / "conditions.png"
-CONDITIONS = ("gold_16k", "gold_tel", "asr_16k", "asr_tel", "asr_16k_content")
-CHARTED = ("gold_16k", "gold_tel", "asr_16k", "asr_tel")
+CONDITIONS = (
+    "gold_16k",
+    "gold_tel",
+    "asr_16k",
+    "asr_tel",
+    "asr_16k_content",
+    "nova3_16k",
+    "nova3_tel",
+)
+CHARTED = ("gold_16k", "gold_tel", "asr_16k", "asr_tel", "nova3_16k", "nova3_tel")
 CFIELDS = ("condition", *FIELDS)
 
 
-def load_asr(condition: str, suffix: str = "") -> tuple[dict, dict]:
-    path = ASR_DIR / f"parakeet_{condition}{suffix}.json"
+PRODUCERS = {
+    "parakeet": "scripts/transcribe_eval.py --condition {c}",
+    "nova3": "scripts/deepgram_eval.py --backend nova3 --condition {c}",
+    "flux": "scripts/deepgram_eval.py --backend flux --condition {c}",
+}
+
+
+def load_asr(
+    condition: str, suffix: str = "", backend: str = "parakeet"
+) -> tuple[dict, dict]:
+    path = ASR_DIR / f"{backend}_{condition}{suffix}.json"
     if not path.exists():
         raise SystemExit(
             f"{path} not found. Produce it first (section 10 exception path):\n"
-            f"  uv run python scripts/transcribe_eval.py --condition {condition}\n"
+            f"  uv run python {PRODUCERS[backend].format(c=condition)}\n"
             f"Not substituting anything (rule 3)."
         )
     spec = json.loads(path.read_text())
     meta = {k: v for k, v in spec.items() if k != "turns"}
     return meta, spec["turns"]
+
+
+def deepgram_systems(flux: dict, nova3: dict) -> list[tuple[ReplayedEOT, str, float]]:
+    """The vendor's own detectors, replayed from the caches: (detector, knob,
+    value); a knob of "threshold" means sweep it over THRESHOLDS."""
+    thr = float(flux["query"]["eot_threshold"])
+    return [
+        (ReplayedEOT("flux", flux_shipped_series(flux)), "eot_threshold", thr),
+        (ReplayedEOT("flux_conf", flux_confidence_series(flux)), "threshold", 0.0),
+        (ReplayedEOT("nova3_speech_final", nova3_endpoint_series(nova3)), "none", 0.0),
+    ]
 
 
 def systems_for(
@@ -88,10 +129,19 @@ def systems_for(
     transcripts,
     label,
     prosody: ProsodyCache,
+    black_boxes: list[tuple[ReplayedEOT, str, float]] = (),
 ) -> list[dict]:
     """Every system at every operating point, for one condition."""
     kw = {"transcripts": transcripts, "transcript_label": label}
     out = []
+    for det, knob, value in black_boxes:
+        if knob == "threshold":
+            for thr in THRESHOLDS:
+                s = evaluate(det, cache=cache, name="c", threshold=thr, **kw)
+                out.append(row(det.name, knob, thr, s))
+        else:
+            s = evaluate(det, cache=cache, name="c", **kw)
+            out.append(row(det.name, knob, value, s))
     for ms in TIMEOUTS_MS:
         s = evaluate(FixedSilenceTimeout(ms), cache=cache, name="c", **kw)
         out.append(row("fixed_timeout+silero", "timeout_ms", ms, s))
@@ -150,9 +200,22 @@ def run_all(tail: str = "caller") -> tuple[list[dict], dict]:
         pr_a, pr_ta = pr16, pr_tel
     meta16, asr16 = load_asr("16k", suffix)
     meta_tel, asr_tel = load_asr("tel", suffix)
-    missing = [t for t in sil16.frames if t not in asr16 or t not in asr_tel]
-    if missing:
-        raise SystemExit(f"ASR cache lacks {len(missing)} turns, e.g. {missing[:3]}")
+    caches = {"asr_16k": asr16, "asr_tel": asr_tel}
+    meta = {"asr_16k": meta16, "asr_tel": meta_tel}
+    if tail == "caller":
+        # The Deepgram passes exist for the caller channel only: the raw-tail
+        # evidence was collected once, on the local recogniser, and does not
+        # need buying again.
+        for backend in ("nova3", "flux"):
+            for cond in ("16k", "tel"):
+                m, c = load_asr(cond, backend=backend)
+                meta[f"{backend}_{cond}"], caches[f"{backend}_{cond}"] = m, c
+    for name, c in caches.items():
+        missing = [t for t in sil16.frames if t not in c]
+        if missing:
+            raise SystemExit(
+                f"{name} cache lacks {len(missing)} turns, e.g. {missing[:3]}"
+            )
 
     tl16 = {k: asr_timeline(v) for k, v in asr16.items()}
     tl_tel = {k: asr_timeline(v) for k, v in asr_tel.items()}
@@ -170,12 +233,28 @@ def run_all(tail: str = "caller") -> tuple[list[dict], dict]:
             pr_a,
         ),
     }
+    boxes: dict[str, list] = {}
+    if tail == "caller":
+        for cond, sil, en, pr in (
+            ("16k", sil_a, en_a, pr_a),
+            ("tel", sil_ta, en_ta, pr_ta),
+        ):
+            tl = {k: asr_timeline(v) for k, v in caches[f"nova3_{cond}"].items()}
+            plan[f"nova3_{cond}"] = (sil, en, tl, f"nova3_{cond}", pr)
+            flux, nova3 = (
+                {"turns": caches[f"flux_{cond}"], **meta[f"flux_{cond}"]},
+                {"turns": caches[f"nova3_{cond}"]},
+            )
+            boxes[f"nova3_{cond}"] = deepgram_systems(flux, nova3)
     rows = []
     for cond, (cache, energy, transcripts, label, prosody) in plan.items():
         print(f"condition {cond} ...", flush=True)
-        for r in systems_for(cache, energy, transcripts, label, prosody):
+        systems = systems_for(
+            cache, energy, transcripts, label, prosody, boxes.get(cond, ())
+        )
+        for r in systems:
             rows.append({"condition": cond, **r})
-    return rows, {"asr_16k": meta16, "asr_tel": meta_tel}
+    return rows, meta
 
 
 def write_csv(rows: list[dict], path: Path) -> None:
@@ -191,12 +270,14 @@ def plot(rows: list[dict]) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(2, 2, figsize=(13, 10.5), facecolor=SURFACE)
+    fig, axes = plt.subplots(3, 2, figsize=(13, 15.5), facecolor=SURFACE)
     titles = {
         "gold_16k": "gold transcripts, wideband",
         "gold_tel": "gold transcripts, telephony band",
-        "asr_16k": "parakeet-mlx transcripts, wideband",
-        "asr_tel": "parakeet-mlx transcripts, telephony band",
+        "asr_16k": "parakeet-mlx transcripts (local), wideband",
+        "asr_tel": "parakeet-mlx transcripts (local), telephony band",
+        "nova3_16k": "Deepgram Nova-3 transcripts (cloud) and Flux, wideband",
+        "nova3_tel": "Deepgram Nova-3 transcripts (cloud) and Flux, telephony band",
     }
     for ax, cond in zip(axes.ravel(), CHARTED, strict=True):
         draw_panel(
@@ -207,17 +288,17 @@ def plot(rows: list[dict]) -> None:
             tags_on=False,
         )
     fig.legend(
-        handles=legend_handles([r for r in rows if r["condition"] == "gold_16k"]),
+        handles=legend_handles(rows),
         loc="lower center",
         ncol=4,
         frameon=False,
         fontsize=9,
         labelcolor=INK,
-        bbox_to_anchor=(0.5, -0.01),
+        bbox_to_anchor=(0.5, 0.002),
     )
     n = rows[0]["n_turns"]
     fig.suptitle(
-        f"The same systems under four conditions  ({n} turns; cutoff at the "
+        f"The same systems under six conditions  ({n} turns; cutoff at the "
         f"150ms tolerance; p50 latency, never-answered turns at the 2000ms fallback)",
         color=INK,
         fontsize=12,
@@ -226,15 +307,16 @@ def plot(rows: list[dict]) -> None:
     )
     fig.text(
         0.02,
-        0.945,
-        "top: gold transcripts. bottom: a real streaming recogniser, partials "
-        "available when the caller would have them. right column: 300-3400Hz, "
-        "G.711 mu-law.",
+        0.946,
+        "top: gold transcripts. middle and bottom: real streaming recognisers, "
+        "partials available when the caller would have them;\nthe bottom row also "
+        "carries Deepgram's own detectors on the same audio. right column: "
+        "300-3400Hz, G.711 mu-law.",
         color=INK2,
         fontsize=9,
         ha="left",
     )
-    fig.tight_layout(rect=(0, 0.04, 1, 0.94))
+    fig.tight_layout(rect=(0, 0.05, 1, 0.935))
     fig.savefig(PNG_PATH, dpi=160, facecolor=SURFACE)
     plt.close(fig)
 
@@ -248,6 +330,9 @@ HEADLINE = (
     ("text_eot_v1.1+gate200", "threshold", 0.5, "text EOT v1.1 + gate @0.5"),
     ("prosody_prosody+gate200", "threshold", 0.5, "prosody only @0.5"),
     ("prosody_fusion+gate200", "threshold", 0.5, "prosody + text @0.5"),
+    ("flux", "eot_threshold", 0.7, "Deepgram Flux, as shipped (eot_threshold 0.7)"),
+    ("flux_conf", "threshold", 0.7, "Deepgram Flux, confidence >= 0.7 (offline)"),
+    ("nova3_speech_final", "none", 0.0, "Nova-3 speech_final, default endpointing"),
 )
 
 
@@ -324,13 +409,21 @@ def main() -> int:
         f"{g['false_hold_rate'] * 100:.1f}% -> {a['false_hold_rate'] * 100:.1f}%"
     )
     for cond, m in meta.items():
-        rtf = m["total_compute_s"] / m["total_audio_s"]
-        print(
-            f"\n{cond}: {m['model']} parakeet-mlx {m['parakeet_mlx']} on "
-            f"{m['machine']}, {m['date']}, tail={m.get('tail', 'raw')}; "
-            f"{m['total_audio_s']:.0f}s audio in {m['total_compute_s']:.0f}s "
-            f"({rtf:.2f}x realtime)"
-        )
+        if "parakeet_mlx" in m:
+            rtf = m["total_compute_s"] / m["total_audio_s"]
+            print(
+                f"\n{cond}: {m['model']} parakeet-mlx {m['parakeet_mlx']} on "
+                f"{m['machine']}, {m['date']}, tail={m.get('tail', 'raw')}; "
+                f"{m['total_audio_s']:.0f}s audio in {m['total_compute_s']:.0f}s "
+                f"({rtf:.2f}x realtime)"
+            )
+        else:
+            print(
+                f"\n{cond}: Deepgram {m['model']} streaming, {m['date']}, "
+                f"tail={m['tail']}; {m['total_audio_s']:.0f}s audio paced 1x over "
+                f"{m['workers']} streams, {m['wall_s']:.0f}s wall, "
+                f"{m['n_messages']} messages, {m['n_closed_early']} closed early"
+            )
     root = RESULTS.parent
     print(
         f"\nwrote {csv_path.relative_to(root)}"

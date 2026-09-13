@@ -85,13 +85,15 @@ def main() -> int:
     pauses = json.loads((REPO / "data/train/PAUSE_STATS.json").read_text())
     asr16 = json.loads((R / "asr/parakeet_16k.json").read_text())
     raw16 = json.loads((R / "asr/parakeet_16k_rawtail.json").read_text())
+    nova16 = json.loads((R / "asr/nova3_16k.json").read_text())
+    flux16 = json.loads((R / "asr/flux_16k.json").read_text())
     eval_set = {
         t["turn_id"]: t
         for t in json.loads((REPO / "data/eval/eval_set.json").read_text())["turns"]
     }
     tv11 = json.loads((R / "text_eot_v1.1.json").read_text())
 
-    S, E, P, G, T, TG, PR, FU = (
+    S, E, P, G, T, TG, PR, FU, FX, FC, NS = (
         "fixed_timeout+silero",
         "fixed_timeout+energy",
         "punctuation",
@@ -100,7 +102,11 @@ def main() -> int:
         "text_eot_v1.1+gate200",
         "prosody_prosody+gate200",
         "prosody_fusion+gate200",
+        "flux",
+        "flux_conf",
+        "nova3_speech_final",
     )
+    flux_thr = float(flux16["query"]["eot_threshold"])
     # --- recomputed from the caches, so they are file-derived ---------------
     errs = tot = 0
     for tid, parts in asr16["turns"].items():
@@ -108,6 +114,13 @@ def main() -> int:
         errs += e
         tot += n
     wer_pct = errs / tot * 100
+    errs_n = 0
+    for tid, parts in nova16["turns"].items():
+        e, _ = wer(norm(eval_set[tid]["text"]), norm(parts[-1]["text"]))
+        errs_n += e
+    nova_wer_pct = errs_n / tot * 100
+    silent_para = sum(1 for v in asr16["turns"].values() if not v[-1]["text"].strip())
+    silent_nova = sum(1 for v in nova16["turns"].values() if not v[-1]["text"].strip())
     grew = 0
     for tid, parts in raw16["turns"].items():
         end = eval_set[tid]["true_end_ms"]
@@ -181,6 +194,52 @@ def main() -> int:
         "revisions": revisions,
         "asr_rtf": asr16["total_compute_s"] / asr16["total_audio_s"],
         "asr_audio_s": asr16["total_audio_s"],
+        # Deepgram: Flux as shipped and on its confidence, Nova-3 as a
+        # recogniser for our systems and as an endpointer on its own.
+        "flux_thr": flux_thr,
+        "flux_cut": cut(pick(sweep, FX, flux_thr)),
+        "flux_hold": hold(pick(sweep, FX, flux_thr)),
+        "flux_p50": p50(pick(sweep, FX, flux_thr)),
+        "flux_p95": p95(pick(sweep, FX, flux_thr)),
+        "fluxc07_cut": cut(pick(sweep, FC, 0.7)),
+        "fluxc07_hold": hold(pick(sweep, FC, 0.7)),
+        "fluxc07_p50": p50(pick(sweep, FC, 0.7)),
+        "fluxc05_cut": cut(pick(sweep, FC, 0.5)),
+        "fluxc05_hold": hold(pick(sweep, FC, 0.5)),
+        "fluxc05_p50": p50(pick(sweep, FC, 0.5)),
+        "fluxc075_hold": hold(pick(sweep, FC, 0.75)),
+        "tel_flux_cut": cut(pick(cond, FX, flux_thr, "nova3_tel")),
+        "tel_flux_hold": hold(pick(cond, FX, flux_thr, "nova3_tel")),
+        "tel_flux_p50": p50(pick(cond, FX, flux_thr, "nova3_tel")),
+        "nova3sf_cut": cut(pick(cond, NS, 0.0, "nova3_16k")),
+        "nova3sf_hold": hold(pick(cond, NS, 0.0, "nova3_16k")),
+        "nova3sf_p50": p50(pick(cond, NS, 0.0, "nova3_16k")),
+        "tel_nova3sf_cut": cut(pick(cond, NS, 0.0, "nova3_tel")),
+        "tel_nova3sf_hold": hold(pick(cond, NS, 0.0, "nova3_tel")),
+        "tel_nova3sf_p50": p50(pick(cond, NS, 0.0, "nova3_tel")),
+        "nova3_pg_cut": cut(pick(cond, G, 0.0, "nova3_16k")),
+        "nova3_pg_hold": hold(pick(cond, G, 0.0, "nova3_16k")),
+        "nova3_pg_p50": p50(pick(cond, G, 0.0, "nova3_16k")),
+        "nova3tel_pg_cut": cut(pick(cond, G, 0.0, "nova3_tel")),
+        "nova3tel_pg_hold": hold(pick(cond, G, 0.0, "nova3_tel")),
+        "nova3tel_pg_p50": p50(pick(cond, G, 0.0, "nova3_tel")),
+        "nova3tel_v11g03_cut": cut(pick(cond, TG, 0.3, "nova3_tel")),
+        "nova3tel_v11g03_hold": hold(pick(cond, TG, 0.3, "nova3_tel")),
+        "nova3tel_v11g03_p50": p50(pick(cond, TG, 0.3, "nova3_tel")),
+        "nova3_v11g03_cut": cut(pick(cond, TG, 0.3, "nova3_16k")),
+        "nova3_v11g03_hold": hold(pick(cond, TG, 0.3, "nova3_16k")),
+        "nova_wer_pct": nova_wer_pct,
+        "nova_revisions": sum(
+            1
+            for parts in nova16["turns"].values()
+            for a, b in zip(parts, parts[1:], strict=False)
+            if a["text"] and not b["text"].startswith(a["text"])
+        ),
+        "silent_para": silent_para,
+        "silent_nova": silent_nova,
+        "flux_date": flux16["date"],
+        "flux_model": flux16["model"],
+        "nova_model": nova16["model"],
     }
     N.update(
         {
@@ -216,6 +275,16 @@ def main() -> int:
         "tel_v11g03_p50",
         "caller_timer800_p95",
         "asr_audio_s",
+        "flux_p50",
+        "flux_p95",
+        "fluxc07_p50",
+        "fluxc05_p50",
+        "tel_flux_p50",
+        "nova3sf_p50",
+        "tel_nova3sf_p50",
+        "nova3_pg_p50",
+        "nova3tel_pg_p50",
+        "nova3tel_v11g03_p50",
     ):
         f[k] = f"{N[k]:.0f}"
     for k in (
@@ -228,8 +297,13 @@ def main() -> int:
         "pauses",
         "bleed_grew",
         "revisions",
+        "nova_revisions",
+        "silent_para",
+        "silent_nova",
     ):
         f[k] = f"{N[k]:,}"
+    f["nova3_pg_gain"] = f"{N['asr16_pg_cut'] - N['nova3_pg_cut']:.1f}"
+    f["flux_thr"] = f"{N['flux_thr']:g}"
 
     for k in (
         "timer500_p50",
@@ -250,9 +324,9 @@ silence, typically 500–1000ms. That is wrong in both directions: it interrupts
 you when you pause mid-thought (*"my order number is… umm…"*) and it leaves
 dead air after a short complete answer (*"yes"*). This project measures how
 much better anything can do — a silence timer, a punctuation heuristic, a
-text classifier, a prosody classifier — on the same held-out audio, under
-the same conditions, as a full tradeoff curve rather than one operating
-point.
+text classifier, a prosody classifier, and the closest commercial system,
+Deepgram Flux — on the same held-out audio, under the same conditions, as a
+full tradeoff curve rather than one operating point.
 
 **The evaluation is the contribution.** The models are participants in it.
 Every number below is read from a file in [`results/`](results/) by
@@ -272,9 +346,11 @@ allows the 150ms the boundary itself is uncertain to. Reading:
 
 ![conditions](results/conditions.png)
 
-The same systems under four conditions — gold transcripts and a real
-streaming recogniser, wideband and the 300–3400Hz μ-law telephony band.
-Reading: [`results/conditions.md`](results/conditions.md).
+The same systems under six conditions — gold transcripts, a local streaming
+recogniser (parakeet-mlx) and a cloud one (Deepgram Nova-3), each at wideband
+and in the 300–3400Hz μ-law telephony band. The Nova-3 panels also carry
+Deepgram's own detectors on the same audio. Reading:
+[`results/conditions.md`](results/conditions.md).
 
 ## The numbers
 
@@ -293,9 +369,18 @@ latency in ms.
 | **text model v1.1 + 200ms gate @0.3** | {f["v11g03_cut"]}% / {f["v11g03_hold"]}% / {f["v11g03_p50"]} | **{f["tel_v11g03_cut"]}% / {f["tel_v11g03_hold"]}% / {f["tel_v11g03_p50"]}** |
 | prosody classifier + gate @0.5 | {f["pro_cut"]}% / {f["pro_hold"]}% / {f["pro_p50"]} | {cut(pick(cond, PR, 0.5, "asr_tel")):.1f}% / {hold(pick(cond, PR, 0.5, "asr_tel")):.1f}% / {p50(pick(cond, PR, 0.5, "asr_tel")):.0f} |
 | prosody + text + gate @0.5 | {f["fus_cut"]}% / {f["fus_hold"]}% / {f["fus_p50"]} | {cut(pick(cond, FU, 0.5, "asr_tel")):.1f}% / {hold(pick(cond, FU, 0.5, "asr_tel")):.1f}% / {p50(pick(cond, FU, 0.5, "asr_tel")):.0f} |
+| **Deepgram Flux**, as shipped (eot_threshold {f["flux_thr"]}) — cloud, own recogniser | {f["flux_cut"]}% / {f["flux_hold"]}% / {f["flux_p50"]} | **{f["tel_flux_cut"]}% / {f["tel_flux_hold"]}% / {f["tel_flux_p50"]}** |
+| Deepgram Flux, acting on its confidence ≥0.5 | {f["fluxc05_cut"]}% / {f["fluxc05_hold"]}% / {f["fluxc05_p50"]} | {cut(pick(cond, FC, 0.5, "nova3_tel")):.1f}% / {hold(pick(cond, FC, 0.5, "nova3_tel")):.1f}% / {p50(pick(cond, FC, 0.5, "nova3_tel")):.0f} |
+| Deepgram Nova-3 `speech_final`, default endpointing | {f["nova3sf_cut"]}% / {f["nova3sf_hold"]}% / {f["nova3sf_p50"]} | {f["tel_nova3sf_cut"]}% / {f["tel_nova3sf_hold"]}% / {f["tel_nova3sf_p50"]} |
+| punctuation + gate, on Nova-3 transcripts | {f["nova3_pg_cut"]}% / {f["nova3_pg_hold"]}% / {f["nova3_pg_p50"]} | {f["nova3tel_pg_cut"]}% / {f["nova3tel_pg_hold"]}% / {f["nova3tel_pg_p50"]} |
+| text model v1.1 + gate @0.3, on Nova-3 transcripts | {f["nova3_v11g03_cut"]}% / {f["nova3_v11g03_hold"]}% / {p50(pick(cond, TG, 0.3, "nova3_16k")):.0f} | {f["nova3tel_v11g03_cut"]}% / {f["nova3tel_v11g03_hold"]}% / {f["nova3tel_v11g03_p50"]} |
 
-Full sweeps in [`results/tradeoff.csv`](results/tradeoff.csv); all four
-conditions in [`results/conditions.csv`](results/conditions.csv).
+The Deepgram rows hear the audio directly (there is no gold-transcript
+condition for a system with its own recogniser), so their left column is the
+same wideband audio the gold rows use, and the Nova-3 rows' right column is
+Nova-3 on the telephony audio. Full sweeps in
+[`results/tradeoff.csv`](results/tradeoff.csv); all conditions in
+[`results/conditions.csv`](results/conditions.csv).
 
 ## What worked
 
@@ -358,6 +443,44 @@ conditions in [`results/conditions.csv`](results/conditions.csv).
   zeroing that fixed the first problem. Both are in the commit history with
   their evidence.
 
+## The commercial system, measured
+
+Deepgram Flux is the closest thing on the market to what this project argues
+for: one model doing recognition and end-of-turn together, no silence timer,
+with a confidence reported on every update. It was run over the same {f["n_turns"]}
+turns ([`scripts/deepgram_eval.py`](scripts/deepgram_eval.py), {f["flux_date"]}), audio
+paced at real time so that network and model latency land on the clock a
+caller experiences, responses cached under `results/asr/` so the comparison
+reproduces without a key. Reading: [`results/tradeoff.md`](results/tradeoff.md)
+and [`results/conditions.md`](results/conditions.md).
+
+- **Flux is on the Pareto front, and on the deployment condition it is the
+  best system measured.** As shipped: {f["flux_cut"]}% cutoff / {f["flux_hold"]}% never
+  answered / {f["flux_p50"]}ms at wideband; {f["tel_flux_cut"]}% / {f["tel_flux_hold"]}% / {f["tel_flux_p50"]}ms on
+  the telephony band, where the timer goes to {f["tel_timer800_cut"]}% and the gated
+  heuristic to {f["tel_pg_cut"]}%. Nothing here beats it on all three axes: the gated
+  heuristic answers in half the time ({f["pg_p50"]}ms) and cuts off more; our gated
+  model matches its cutoff rate and leaves three to four times as many
+  callers waiting. Said plainly, as the charter requires.
+- **Its usable range is one threshold wide.** Sweeping the fire threshold
+  over the confidence it reports while a turn is open: 0.5 gives {f["fluxc05_cut"]}%
+  cutoff at {f["fluxc05_p50"]}ms, 0.7 gives {f["fluxc07_cut"]}% at {f["fluxc07_p50"]}ms, and at 0.75 the
+  holds jump to {f["fluxc075_hold"]}% because the confidence rarely gets there. The
+  curve passes through the shipped point; the vendor's default is the knee,
+  and there is no hidden better setting. Its holds are the one-word
+  backchannels — *"Mm-hmm"*, *"Yeah"* — on which it never opens a turn.
+- **Nova-3 is the better recogniser on every axis, and it moves the
+  heuristic, not the model.** Word error {f["nova_wer_pct"]}% against parakeet's {f["wer_pct"]}%,
+  {f["silent_nova"]} silent turns against {f["silent_para"]}, {f["nova_revisions"]} hypothesis revisions against
+  {f["revisions"]}, first partial 500ms after the first word. On its transcripts the
+  gated heuristic drops {f["nova3_pg_gain"]} points of cutoff and pays for it in holds
+  ({f["nova3_pg_hold"]}%: Nova-3's interim results carry no punctuation until the
+  segment is final). The text model holds exactly as it does on gold
+  ({f["nova3_v11g03_hold"]}% against {f["v11g03_hold"]}%) — parakeet's lower hold rate was its
+  revisions handing the model extra strings to score, not better text. And
+  Nova-3's own default endpointing, `speech_final`, cuts off {f["nova3sf_cut"]}% of
+  turns: a pause detector, not a turn detector.
+
 ## Known limitations
 
 - **Meeting speech, not calls.** AMI is four-person meetings on headset
@@ -377,9 +500,12 @@ conditions in [`results/conditions.csv`](results/conditions.csv).
   eliminated.
 - **The live path is Apple Silicon only** (parakeet-mlx). The results
   reproduce on any machine from the cached recogniser output.
-- **Not yet measured:** Deepgram Flux, the closest commercial system, and
-  Nova-3 as a second recogniser. Both are one API key and about a dollar of
-  credit away; the harness takes a second backend unchanged.
+- **The cloud numbers are a snapshot.** Deepgram `{f["flux_model"]}` and
+  `{f["nova_model"]}` were measured once, on {f["flux_date"]}, paced at real time
+  over five concurrent streams from one machine; the raw responses are
+  cached under `results/asr/` so the numbers reproduce, but the vendor can
+  change the model underneath them. Network latency is included in their
+  clocks, as a caller would experience it.
 
 ## How to reproduce
 
@@ -409,6 +535,13 @@ instead:
 uv run python scripts/transcribe_eval.py --condition 16k
 uv run python scripts/transcribe_eval.py --condition tel
 
+# Deepgram caches (DEEPGRAM_API_KEY or ~/.config/sara/deepgram_api_key;
+# ~4 min and ~$0.15 per pass at list price; the key is never written anywhere)
+uv run python scripts/deepgram_eval.py --backend nova3 --condition 16k
+uv run python scripts/deepgram_eval.py --backend nova3 --condition tel
+uv run python scripts/deepgram_eval.py --backend flux --condition 16k
+uv run python scripts/deepgram_eval.py --backend flux --condition tel
+
 # text model (make install-train first; ~3 min on an M4)
 uv run python scripts/build_train_set.py
 uv run python scripts/train_eot.py
@@ -429,10 +562,10 @@ refuses to re-freeze a changed set without `--force`.
 
 ```
 src/eot/         the detector interface, the text model, the gate, the pause classifier
-src/baselines/   silence timers, energy VAD, punctuation heuristic
+src/baselines/   silence timers, energy VAD, punctuation heuristic, the Deepgram client
 src/audio/       Silero VAD, prosody tracker, telephony simulation, mic capture
 src/stt/         streaming STT for the live path only -- never imported by eval/
-eval/            harness, sweep, conditions; replays gold or cached recogniser output
+eval/            harness, sweep, conditions; replays gold or cached recogniser/vendor output
 scripts/         every build, fetch, train and report step, each runnable alone
 data/eval/       198 frozen turns, audio and manifest, committed
 results/         every number, chart and reading, committed

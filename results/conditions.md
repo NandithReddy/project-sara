@@ -12,6 +12,12 @@ tolerance; a turn never answered is counted at the 2000ms fallback.
 | `gold_tel` | gold | 300–3400Hz, G.711 μ-law round trip |
 | `asr_16k` | parakeet-mlx partials, available at audio + compute time | **caller channel**, wideband |
 | `asr_tel` | parakeet-mlx partials | **caller channel**, telephony band |
+| `nova3_16k` | Deepgram Nova-3 partials, at their arrival on a real-time stream | **caller channel**, wideband |
+| `nova3_tel` | Deepgram Nova-3 partials | **caller channel**, telephony band |
+
+The two `nova3_*` panels also carry Deepgram's own detectors on the same
+audio — Flux, and Nova-3's `speech_final` — which need no transcript from us.
+Phase 10, below.
 
 **Caller channel.** In the `asr_*` conditions every audio consumer — the
 recogniser and the VAD — hears the frozen audio zeroed from `true_end + 150ms`.
@@ -164,10 +170,9 @@ gated heuristic read 19.2% / 8.6% at wideband; on the caller channel,
 1. **Replace the live recogniser.** The §5 decision deferred to this phase now
    has its evidence: revisions, hypothesis collapse, a p90 first-partial lag of
    two seconds, and no finality signal are all parakeet-mlx's, and they hit
-   every text system before any of ours gets a say. A streaming API with
-   finality (Deepgram Nova-3 was the named fallback) is an API key and about
-   $0.26 per eval pass; `scripts/transcribe_eval.py` takes a second backend
-   and the same runner measures it.
+   every text system before any of ours gets a say. Measured in Phase 10
+   below with Deepgram Nova-3: better on every recogniser axis, and what it
+   moves is the heuristic, not the model.
 2. **Put the model, not the heuristic, behind the gate.** Measured above: the
    model lost 2.5 points of cutoff to the deployment condition where
    the heuristic lost 8.6. Its holds are the cost, and they are the
@@ -178,6 +183,86 @@ gated heuristic read 19.2% / 8.6% at wideband; on the caller channel,
 
 For the band itself: Silero has a native 8kHz mode, and the +6.6 points the
 timer loses to narrowband audio are the VAD's, not the timer's. Untried.
+
+## Phase 10 — Deepgram: Nova-3 as a second recogniser, Flux as the competitor
+
+Four passes on 2026-09-13 (`scripts/deepgram_eval.py`; ~$0.62 at list
+price), caller-channel audio paced at real time over five concurrent streams,
+raw responses cached as `asr/nova3_{16k,tel}.json` and `asr/flux_{16k,tel}.json`
+with model, parameters and date. Nova-3 was run with `interim_results`,
+`punctuate` and its default 10ms `endpointing`; Flux at its default
+`eot_threshold` 0.7 and `eot_timeout_ms` 5000. Every message's wall-clock
+arrival is its availability on the audio clock, network included; the server's
+own audio position is cached beside it.
+
+### The recogniser
+
+| | parakeet-mlx 16k | Nova-3 16k | parakeet-mlx tel | Nova-3 tel |
+|---|---|---|---|---|
+| word error rate vs gold | 20.9% | **17.4%** | 24.4% | **21.4%** |
+| turns with no final text | 30 | **12** | 36 | **16** |
+| hypothesis revisions | 846 | **118** | 844 | **110** |
+| first partial after the first word, p50 / p90 | 581 / 1248ms | **500 / 549ms** | 596 / 1265ms | **500 / 554ms** |
+| compute lag behind the audio, p50 | 538ms | **0ms** | 529ms | **0ms** |
+
+Better on every axis, by a margin that is not noise. The 12 turns Nova-3 hears
+nothing on are all one-word backchannels (*"Mm"*, *"Yeah"*, *"Okay"*, *"Uh"*);
+parakeet drops those and 18 more.
+
+### What that does to the text systems
+
+| system | parakeet 16k | Nova-3 16k | parakeet tel | Nova-3 tel |
+|---|---|---|---|---|
+| punctuation + 200ms gate | 19.7% / 6.1% / 256 | **16.2%** / 18.2% / 256 | 20.2% / 8.6% / 384 | 21.7% / 18.7% / 288 |
+| text EOT v1.1 + gate @0.3 | 10.6% / 30.8% / 576 | 8.6% / 45.5% / 1880 | 10.1% / 34.3% / 832 | 10.6% / 48.5% / 2000 |
+| Silero timer 800ms *(reads no text)* | 10.6% / 0.0% / 800 | 10.6% / 0.0% / 800 | 17.2% / 0.0% / 800 | 17.2% / 0.0% / 800 |
+
+(cutoff at tolerance / never answered / p50 latency in ms; the timer row is
+identical by construction and is the check that the panels share their audio.)
+
+**The heuristic gains, then gives it back as holds.** 3.5 fewer points of
+cutoff at wideband from a cleaner transcript — and 18.2% of callers waiting,
+against 6.1%, because Nova-3's interim results carry no punctuation until the
+segment is final, and on 12 turns there is no text at all. On the telephony
+band the gain is gone (21.7%) and the holds remain.
+
+**The model holds on Nova-3 exactly as it holds on gold** — 45.5% against
+44.9% at wideband, with the same cutoff rate to within a point. Parakeet's
+lower hold rate (30.8%) was not better text: its 846 revisions hand the model
+hundreds of extra strings to score, and on 176 turns one of them crossed 0.3
+against 123 on Nova-3's stable output. On the final transcript the two
+recognisers give the model the same answer (49% and 45% of turns above 0.3).
+The Phase 4 diagnosis stands, sharper: the model's holds are the model's, and
+the recogniser that fixes the text does not fix them. The p50 of 1880ms is
+the fallback-inclusive median sitting on the edge of a 45% hold rate; it
+moves from 352 to 1880 on a half-point change and means nothing by itself.
+
+### Flux on the deployment audio
+
+| system, telephony band | cutoff | never answered | p50 |
+|---|---|---|---|
+| **Deepgram Flux, as shipped** | **9.6%** | 12.1% | 544ms |
+| Deepgram Flux, confidence ≥ 0.5 | 19.2% | 9.1% | 320ms |
+| Deepgram Flux, confidence ≥ 0.75 | 4.0% | 64.1% | 2000ms |
+| Silero timer 800ms | 17.2% | 0.0% | 800ms |
+| Silero timer 1000ms | 4.0% | 7.6% | 1024ms |
+| punctuation + gate, parakeet | 20.2% | 8.6% | 384ms |
+| text EOT v1.1 + gate @0.3, parakeet | 10.1% | 34.3% | 832ms |
+
+Flux loses two points of cutoff to the telephony band (7.6% → 9.6%) where the
+timer loses seven and the heuristic nine, and it is the best system on this
+row by any weighting that does not put everything on latency: fewer cutoffs
+than any system under 1000ms, a third of the holds of the model that matches
+it. Said plainly, as the charter requires: on the condition this project was
+aimed at, the commercial fused model wins. Its 12.1% holds are the 18 turns
+on which it never opens a turn (one-word backchannels again) plus three that
+opened and never closed; no threshold recovers them.
+
+**Nova-3's own `speech_final`** — Deepgram's endpointing at its 10ms default —
+fires 579 times across 198 turns and cuts off 36.9% of them at wideband,
+44.4% on telephony, at ~100ms. It is a pause detector, not a turn detector,
+and Deepgram's documented alternative (`utterance_end_ms`, ≥1000ms of no new
+words) is a one-second silence timer whose family is already on every panel.
 
 ## Caveats that travel with these numbers
 
@@ -196,5 +281,12 @@ timer loses to narrowband audio are the VAD's, not the timer's. Untried.
   realtime; 0.6× solo). `compute_ms` is inflated by the contention;
   `asr_16k_content` isolates what the recogniser's *errors* cost from what its
   *speed* cost.
+- The Deepgram passes exist for the caller channel only. The raw-tail
+  evidence was collected once, on the local recogniser, and did not need
+  buying again; `conditions_rawtail.csv` therefore has no `nova3_*` rows.
+- The Deepgram numbers are a snapshot: one pass per condition on 2026-09-13,
+  five concurrent streams from one machine, network latency on the clock.
+  The vendor can change the model under them; the cached responses cannot
+  change, and the tables above reproduce from the caches without a key.
 - 198 turns, 19 speakers: one turn is 0.5%. Differences under ~2 points are
   inside the noise.

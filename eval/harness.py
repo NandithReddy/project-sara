@@ -234,6 +234,8 @@ def run_turn(
     prosody: ProsodyFrames | None = None,
 ) -> tuple[TurnResult, list[float]]:
     detector.reset()
+    if hasattr(detector, "begin"):
+        detector.begin(turn)  # replayed black boxes need to know the turn
     deadline = turn.true_end_ms + horizon_ms
     fired_at, n, latencies = None, 0, []
 

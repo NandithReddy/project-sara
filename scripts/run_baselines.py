@@ -16,12 +16,18 @@ between them; sharing a source would make them one baseline reported twice.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from eval.harness import evaluate, precompute_prosody, write_results  # noqa: E402
+from eval.harness import (  # noqa: E402
+    RESULTS,
+    evaluate,
+    precompute_prosody,
+    write_results,
+)
 from src.audio.vad import SileroVAD  # noqa: E402
 from src.baselines.energy import EnergyVAD  # noqa: E402
 from src.baselines.punctuation import PunctuationHeuristic  # noqa: E402
@@ -32,6 +38,11 @@ from src.baselines.silence import (  # noqa: E402
 from src.eot.gated import DEFAULT_GATE_MS, SilenceGated  # noqa: E402
 from src.eot.model import TextEOT  # noqa: E402
 from src.eot.prosody_eot import ProsodyEOT  # noqa: E402
+from src.eot.replayed import (  # noqa: E402
+    ReplayedEOT,
+    flux_shipped_series,
+    nova3_endpoint_series,
+)
 
 # 800ms is what the Phase 1 live loop shipped with, so the demo and the
 # measurement talk about the same operating point.
@@ -56,6 +67,19 @@ def main() -> int:
     # Phase 7: the pause classifier, prosody alone and fused with the text model.
     runs.append((ProsodyEOT(kind="prosody"), SileroVAD(), None))
     runs.append((ProsodyEOT(kind="fusion"), SileroVAD(), None))
+    # Baseline #4: Deepgram Flux as shipped, and Nova-3's own endpointing,
+    # replayed from their cached responses on the same audio (caller channel,
+    # wideband). Cloud, own recogniser; the silence source is not consulted.
+    flux = json.loads((RESULTS / "asr" / "flux_16k.json").read_text())
+    nova3 = json.loads((RESULTS / "asr" / "nova3_16k.json").read_text())
+    runs.append((ReplayedEOT("flux", flux_shipped_series(flux)), SileroVAD(), "flux"))
+    runs.append(
+        (
+            ReplayedEOT("nova3_speech_final", nova3_endpoint_series(nova3)),
+            SileroVAD(),
+            "nova3_speech_final",
+        )
+    )
 
     print("prosody features ...", flush=True)
     prosody = precompute_prosody()
