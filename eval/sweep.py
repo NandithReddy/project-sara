@@ -22,6 +22,8 @@ Run from the repo root as a module, so `eval` resolves as a package:
 from __future__ import annotations
 
 import csv
+import json
+from pathlib import Path
 
 from eval.harness import (
     RESULTS,
@@ -38,6 +40,11 @@ from src.baselines.silence import FixedSilenceTimeout
 from src.eot.gated import DEFAULT_GATE_MS, SilenceGated
 from src.eot.model import TextEOT
 from src.eot.prosody_eot import ProsodyEOT
+from src.eot.replayed import (
+    ReplayedEOT,
+    flux_confidence_series,
+    flux_shipped_series,
+)
 
 TIMEOUTS_MS = tuple(range(100, 2001, 100))
 THRESHOLDS = tuple(round(x * 0.05, 2) for x in range(1, 20))  # 0.05 .. 0.95
@@ -129,6 +136,40 @@ def gate_sensitivity(cache: FrameCache) -> list[dict]:
     return out
 
 
+FLUX_16K = RESULTS / "asr" / "flux_16k.json"
+
+
+def load_flux(path: Path = FLUX_16K) -> tuple[dict, dict]:
+    """Deepgram Flux's cached responses on the eval audio (scripts/deepgram_eval.py).
+    Committed, so reproducing never needs a key; regenerating does."""
+    if not path.exists():
+        raise SystemExit(
+            f"{path} not found. Produce it (needs a Deepgram key, ~$0.15):\n"
+            f"  uv run python scripts/deepgram_eval.py --backend flux --condition 16k\n"
+            f"Not substituting anything (rule 3)."
+        )
+    spec = json.loads(path.read_text())
+    return {k: v for k, v in spec.items() if k != "turns"}, spec
+
+
+def flux_systems(cache: FrameCache, path: Path = FLUX_16K) -> list[dict]:
+    """Baseline #4, Deepgram Flux, two ways from one cached pass: its own
+    EndOfTurn events at the eot_threshold it shipped with, and a sweep of the
+    fire threshold over the end_of_turn_confidence it reports on every update.
+    The sweep is what a developer gets by acting on the confidence directly;
+    Flux itself fires an update or two after the crossing, so the shipped
+    point sits a little to the right of its own curve. Flux hears the audio
+    and ignores the silence cache; the cache only sets the frame clock."""
+    meta, spec = load_flux(path)
+    thr = float(meta["query"]["eot_threshold"])
+    shipped = ReplayedEOT("flux", flux_shipped_series(spec), meta)
+    s = evaluate(shipped, cache=cache, name="sweep_flux")
+    rows = [row("flux", "eot_threshold", thr, s)]
+    conf = ReplayedEOT("flux_conf", flux_confidence_series(spec), meta)
+    rows += sweep_thresholds(conf, cache)
+    return rows
+
+
 def run_sweep() -> list[dict]:
     rows: list[dict] = []
     silero = precompute(SileroVAD())
@@ -160,6 +201,9 @@ def run_sweep() -> list[dict]:
         det = ProsodyEOT(kind=kind)
         print(f"sweeping {det.name} on threshold ...", flush=True)
         rows += sweep_thresholds(det, silero, pros)
+    # Baseline #4: the commercial system, from its cached responses.
+    print("Deepgram Flux (cached responses) ...", flush=True)
+    rows += flux_systems(silero)
     return rows
 
 
@@ -193,6 +237,14 @@ def style_for(system: str):
         return "#4a3aa7", "X", "prosody only, at the pause"
     if system.startswith("prosody_fusion"):
         return "#e34948", "*", "prosody + text, at the pause"
+    # The cloud vendor's systems wear ink, not a ninth hue: eight is the
+    # palette's limit, and a reference drawn in neutral reads as one.
+    if system == "flux":
+        return "#52514e", "H", "Deepgram Flux, as shipped"
+    if system == "flux_conf":
+        return "#52514e", "p", "Deepgram Flux, acting on its confidence"
+    if system == "nova3_speech_final":
+        return "#8a8884", "d", "Deepgram Nova-3 speech_final, default endpointing"
     return None
 
 
@@ -242,6 +294,11 @@ def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True
                 zorder=3,
             )
         visible = [r for r in pts if r["cutoff_rate_at_tolerance"] * 100 <= Y_MAX]
+        # In the six-panel chart the Flux sweep is the only ink-coloured line
+        # and its shipped point is labelled on it; the corner it enters has no
+        # room for a second label there, so the legend carries it.
+        if system == "flux_conf" and not tags_on:
+            visible = []
         if visible:
             # The bare model enters from the top-left, where the timer's label
             # lives, so it is labelled mid-curve instead of at its first point.
@@ -256,6 +313,12 @@ def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True
                 off = (10, 9)
             elif system.startswith("prosody_fusion"):
                 off = (10, -9)
+            elif system == "flux":
+                off = (10, 9)  # its own sweep runs through the point
+            elif system == "flux_conf":
+                off = (10, -66)  # enters the crowded top-left corner: below the
+            elif system == "nova3_speech_final":  # timer's label, leader line
+                off = (10, -28)
             else:
                 off = (0, 9) if bare_model else (10, 2) if len(pts) > 1 else (10, -4)
             ax.annotate(
@@ -267,6 +330,11 @@ def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True
                 color=INK,
                 ha="center" if bare_model else "left",
                 va="center",
+                arrowprops=(
+                    {"arrowstyle": "-", "color": INK2, "linewidth": 0.6}
+                    if system in ("flux_conf", "nova3_speech_final")
+                    else None
+                ),
             )
         if not tags_on:
             continue
@@ -281,12 +349,14 @@ def draw_panel(ax, rows: list[dict], xkey: str, title: str, tags_on: bool = True
             )
         if system.startswith("prosody_"):
             tags[system] = ((0.3, 0.5, 0.7), (6, 5))
+        if system == "flux_conf":
+            tags[system] = ((0.5, 0.6), (-30, 2))
         if system in tags:
             values, offset = tags[system]
             for r in pts:
                 y_pct = r["cutoff_rate_at_tolerance"] * 100
                 if r["knob_value"] in values and r[xkey] < 1900 and y_pct <= Y_MAX:
-                    is_thr = system.startswith(("text_eot", "prosody_"))
+                    is_thr = system.startswith(("text_eot", "prosody_", "flux_conf"))
                     ax.annotate(
                         f"p≥{r['knob_value']}"
                         if is_thr

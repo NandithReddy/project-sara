@@ -59,6 +59,9 @@ def test_every_system_has_the_expected_number_of_points():
     assert len(by_system[bare[0]]) == len(THRESHOLDS), "sweeps on threshold"
     assert len(by_system[gated[0]]) == len(THRESHOLDS), "sweeps on threshold"
     assert any(s.startswith("punctuation+gate") for s in by_system), "the fair fight"
+    # Baseline #4 from its committed cache: one shipped point, one sweep.
+    assert len(by_system["flux"]) == 1, "as shipped: one operating point"
+    assert len(by_system["flux_conf"]) == len(THRESHOLDS), "sweeps on threshold"
     from src.eot.prosody_eot import DEFAULT_MODEL_DIR
 
     if (DEFAULT_MODEL_DIR / "fusion_lr.json").exists():

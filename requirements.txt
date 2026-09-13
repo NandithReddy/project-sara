@@ -170,3 +170,5 @@ typing-extensions==4.16.0
     #   soundfile
 urllib3==2.7.0
     # via requests
+websockets==17.1
+    # via -r requirements.in

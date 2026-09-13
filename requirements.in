@@ -30,3 +30,8 @@ tokenizers     # Rust tokenizer for the exported model. The one piece of the
 parakeet-mlx; sys_platform == "darwin" and platform_machine == "arm64"
 
 # TTS on the live path is macOS /usr/bin/say -- no dependency.
+
+# --- Phase 10: Deepgram baselines (Flux, Nova-3), scripts/deepgram_eval.py ---
+# Pure Python, no transitive deps. The stdlib has no WebSocket client and
+# httpx (already here via parakeet) does not speak it either.
+websockets

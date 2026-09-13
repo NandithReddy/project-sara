@@ -152,6 +152,52 @@ models are not in the repo, and the lesson is in `models/README.md`.
 **Decision, per the plan:** prosody does not help; the text-only model stays
 the model, and this is the negative result reported.
 
+## Baseline #4 — Deepgram Flux, measured
+
+Two series come from one cached pass over the same 198 turns
+(`results/asr/flux_16k.json`: `flux-general-en`, 2026-09-13, caller-channel
+audio paced at real time over five streams, so network and model latency sit
+on the clock a caller would experience; ~$0.15 at list price). **As shipped**
+is Flux's own `EndOfTurn` at its default `eot_threshold` of 0.7. **Acting on
+its confidence** sweeps the fire threshold over the `end_of_turn_confidence`
+Flux reports every ~240ms while it has a turn open — what a developer gets by
+reading the number themselves. p95 is the 2000ms fallback for every row: Flux
+never answers 9.6–11.1% of these turns at any threshold.
+
+| Flux | cutoff (>150ms) | never answered | p50 latency |
+|---|---|---|---|
+| as shipped, `eot_threshold` 0.7 | **7.6%** | 11.1% | 576ms |
+| confidence ≥ 0.5 | 20.7% | 9.6% | 320ms |
+| confidence ≥ 0.6 | 14.6% | 9.6% | 416ms |
+| confidence ≥ 0.65 | 10.6% | 10.6% | 480ms |
+| confidence ≥ 0.7 | 8.6% | 11.1% | 544ms |
+| confidence ≥ 0.75 | 4.5% | 61.1% | 2000ms |
+| confidence ≥ 0.8 | 2.0% | 83.8% | 2000ms |
+
+**It is on the Pareto front, and nothing here dominates it.** 7.6% cutoff at
+576ms with 11.1% holds sits between the 800ms Silero timer (10.6%, 4.5%,
+800ms) and the gated heuristic (11.1%, 9.1%, 256ms). The gated text model
+matches its cutoff rate at 0.3 (7.6%) and leaves four times as many callers
+waiting (44.9%). Per the charter, said plainly: at wideband the commercial
+system is at least as good as anything built here, and on the telephony
+band it is better than all of it ([`conditions.md`](conditions.md)).
+
+**The curve passes through the shipped point, and the default is where it
+turns.** On the median turn Flux's `EndOfTurn` *is* the first message at or
+above 0.7 (p90: 165ms later), so acting on the confidence at 0.7 reproduces
+the product to within a point. Below 0.65 cutoffs climb steeply — 0.5 costs
+20.7% — and above 0.7 the confidence mostly never arrives: 0.75 already holds
+on 61% of turns. There is no hidden better setting; the vendor's default is
+the knee.
+
+**Its holds are structural.** On 17 of the 198 turns Flux never opens a turn
+at all — the one-word backchannels, *"Mm-hmm"*, *"Yeah"*, *"Okay"*, the same
+turns Nova-3 returns no text for. Its idle-state confidence drifts past 0.7
+on several of them, but there is no turn for it to end and its own
+`EndOfTurn` cannot fire; the sweep counts only in-turn messages for that
+reason (the raw feed would have answered a few of them, late, by accident).
+No threshold recovers those callers.
+
 ## What the chart says
 
 **1. There is an empty region, and it is the whole point.**
@@ -187,6 +233,13 @@ A 500ms Silero timer interrupts **17.2%** of turns. At 1000ms that falls to
 4.0% — and 7.6% of turns now wait the full fallback, with p95 at the wall.
 There is no timeout on this set that is both safe and fast.
 
+**6. The commercial fused model does not enter the empty region either.**
+Flux's 7.6% at 576ms is the best point on the chart that also answers nearly
+everyone, and it is still outside the under-10%, under-500ms corner. A
+product built the way this project argues for — acoustics and semantics in
+one pass, no silence timer — lands 76ms outside the region, which says the
+headroom in point 1 is real and that the last stretch of it is hard.
+
 ## Where a timer beats the heuristic, and where it does not
 
 | you need | timer | punctuation | winner |
@@ -211,6 +264,10 @@ while fixing the semantic cutoffs has ~600ms to gain over the best timer.**
   timer alone goes 10.6% → 17.2% cutoff, all of it through the VAD. And the
   headset's raw tail carries the next speaker: the timer's 4.5% false holds
   here are that, and read 0.0% on a caller's channel.
+- **Flux is a snapshot of a cloud service.** One pass on 2026-09-13, five
+  concurrent streams from one machine, network latency included in its clock.
+  The vendor can change the model underneath the number; the cached responses
+  cannot change, and the comparison reproduces from them without a key.
 - **The boundary is Silero-refined, and Silero is baseline #2.** Mitigated
   (raw probability, not the smoothed flag) and quantified (boundary delta
   p10 −144ms, p90 +145ms), but the ground truth shares a model with one system

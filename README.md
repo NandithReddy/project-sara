@@ -5,9 +5,9 @@ silence, typically 500–1000ms. That is wrong in both directions: it interrupts
 you when you pause mid-thought (*"my order number is… umm…"*) and it leaves
 dead air after a short complete answer (*"yes"*). This project measures how
 much better anything can do — a silence timer, a punctuation heuristic, a
-text classifier, a prosody classifier — on the same held-out audio, under
-the same conditions, as a full tradeoff curve rather than one operating
-point.
+text classifier, a prosody classifier, and the closest commercial system,
+Deepgram Flux — on the same held-out audio, under the same conditions, as a
+full tradeoff curve rather than one operating point.
 
 **The evaluation is the contribution.** The models are participants in it.
 Every number below is read from a file in [`results/`](results/) by
@@ -27,9 +27,11 @@ allows the 150ms the boundary itself is uncertain to. Reading:
 
 ![conditions](results/conditions.png)
 
-The same systems under four conditions — gold transcripts and a real
-streaming recogniser, wideband and the 300–3400Hz μ-law telephony band.
-Reading: [`results/conditions.md`](results/conditions.md).
+The same systems under six conditions — gold transcripts, a local streaming
+recogniser (parakeet-mlx) and a cloud one (Deepgram Nova-3), each at wideband
+and in the 300–3400Hz μ-law telephony band. The Nova-3 panels also carry
+Deepgram's own detectors on the same audio. Reading:
+[`results/conditions.md`](results/conditions.md).
 
 ## The numbers
 
@@ -48,9 +50,18 @@ latency in ms.
 | **text model v1.1 + 200ms gate @0.3** | 7.6% / 44.9% / 352 | **10.1% / 34.3% / 832** |
 | prosody classifier + gate @0.5 | 24.7% / 9.6% / 256 | 25.8% / 20.2% / 288 |
 | prosody + text + gate @0.5 | 23.7% / 12.1% / 256 | 21.7% / 19.7% / 336 |
+| **Deepgram Flux**, as shipped (eot_threshold 0.7) — cloud, own recogniser | 7.6% / 11.1% / 576 | **9.6% / 12.1% / 544** |
+| Deepgram Flux, acting on its confidence ≥0.5 | 20.7% / 9.6% / 320 | 19.2% / 9.1% / 320 |
+| Deepgram Nova-3 `speech_final`, default endpointing | 36.9% / 1.0% / 128 | 44.4% / 3.5% / 96 |
+| punctuation + gate, on Nova-3 transcripts | 16.2% / 18.2% / 256 | 21.7% / 18.7% / 288 |
+| text model v1.1 + gate @0.3, on Nova-3 transcripts | 8.6% / 45.5% / 1880 | 10.6% / 48.5% / 2000 |
 
-Full sweeps in [`results/tradeoff.csv`](results/tradeoff.csv); all four
-conditions in [`results/conditions.csv`](results/conditions.csv).
+The Deepgram rows hear the audio directly (there is no gold-transcript
+condition for a system with its own recogniser), so their left column is the
+same wideband audio the gold rows use, and the Nova-3 rows' right column is
+Nova-3 on the telephony audio. Full sweeps in
+[`results/tradeoff.csv`](results/tradeoff.csv); all conditions in
+[`results/conditions.csv`](results/conditions.csv).
 
 ## What worked
 
@@ -113,6 +124,44 @@ conditions in [`results/conditions.csv`](results/conditions.csv).
   zeroing that fixed the first problem. Both are in the commit history with
   their evidence.
 
+## The commercial system, measured
+
+Deepgram Flux is the closest thing on the market to what this project argues
+for: one model doing recognition and end-of-turn together, no silence timer,
+with a confidence reported on every update. It was run over the same 198
+turns ([`scripts/deepgram_eval.py`](scripts/deepgram_eval.py), 2026-09-13), audio
+paced at real time so that network and model latency land on the clock a
+caller experiences, responses cached under `results/asr/` so the comparison
+reproduces without a key. Reading: [`results/tradeoff.md`](results/tradeoff.md)
+and [`results/conditions.md`](results/conditions.md).
+
+- **Flux is on the Pareto front, and on the deployment condition it is the
+  best system measured.** As shipped: 7.6% cutoff / 11.1% never
+  answered / 576ms at wideband; 9.6% / 12.1% / 544ms on
+  the telephony band, where the timer goes to 17.2% and the gated
+  heuristic to 20.2%. Nothing here beats it on all three axes: the gated
+  heuristic answers in half the time (256ms) and cuts off more; our gated
+  model matches its cutoff rate and leaves three to four times as many
+  callers waiting. Said plainly, as the charter requires.
+- **Its usable range is one threshold wide.** Sweeping the fire threshold
+  over the confidence it reports while a turn is open: 0.5 gives 20.7%
+  cutoff at 320ms, 0.7 gives 8.6% at 544ms, and at 0.75 the
+  holds jump to 61.1% because the confidence rarely gets there. The
+  curve passes through the shipped point; the vendor's default is the knee,
+  and there is no hidden better setting. Its holds are the one-word
+  backchannels — *"Mm-hmm"*, *"Yeah"* — on which it never opens a turn.
+- **Nova-3 is the better recogniser on every axis, and it moves the
+  heuristic, not the model.** Word error 17.4% against parakeet's 20.9%,
+  12 silent turns against 30, 118 hypothesis revisions against
+  846, first partial 500ms after the first word. On its transcripts the
+  gated heuristic drops 3.5 points of cutoff and pays for it in holds
+  (18.2%: Nova-3's interim results carry no punctuation until the
+  segment is final). The text model holds exactly as it does on gold
+  (45.5% against 44.9%) — parakeet's lower hold rate was its
+  revisions handing the model extra strings to score, not better text. And
+  Nova-3's own default endpointing, `speech_final`, cuts off 36.9% of
+  turns: a pause detector, not a turn detector.
+
 ## Known limitations
 
 - **Meeting speech, not calls.** AMI is four-person meetings on headset
@@ -132,9 +181,12 @@ conditions in [`results/conditions.csv`](results/conditions.csv).
   eliminated.
 - **The live path is Apple Silicon only** (parakeet-mlx). The results
   reproduce on any machine from the cached recogniser output.
-- **Not yet measured:** Deepgram Flux, the closest commercial system, and
-  Nova-3 as a second recogniser. Both are one API key and about a dollar of
-  credit away; the harness takes a second backend unchanged.
+- **The cloud numbers are a snapshot.** Deepgram `flux-general-en` and
+  `nova-3` were measured once, on 2026-09-13, paced at real time
+  over five concurrent streams from one machine; the raw responses are
+  cached under `results/asr/` so the numbers reproduce, but the vendor can
+  change the model underneath them. Network latency is included in their
+  clocks, as a caller would experience it.
 
 ## How to reproduce
 
@@ -164,6 +216,13 @@ instead:
 uv run python scripts/transcribe_eval.py --condition 16k
 uv run python scripts/transcribe_eval.py --condition tel
 
+# Deepgram caches (DEEPGRAM_API_KEY or ~/.config/sara/deepgram_api_key;
+# ~4 min and ~$0.15 per pass at list price; the key is never written anywhere)
+uv run python scripts/deepgram_eval.py --backend nova3 --condition 16k
+uv run python scripts/deepgram_eval.py --backend nova3 --condition tel
+uv run python scripts/deepgram_eval.py --backend flux --condition 16k
+uv run python scripts/deepgram_eval.py --backend flux --condition tel
+
 # text model (make install-train first; ~3 min on an M4)
 uv run python scripts/build_train_set.py
 uv run python scripts/train_eot.py
@@ -184,10 +243,10 @@ refuses to re-freeze a changed set without `--force`.
 
 ```
 src/eot/         the detector interface, the text model, the gate, the pause classifier
-src/baselines/   silence timers, energy VAD, punctuation heuristic
+src/baselines/   silence timers, energy VAD, punctuation heuristic, the Deepgram client
 src/audio/       Silero VAD, prosody tracker, telephony simulation, mic capture
 src/stt/         streaming STT for the live path only -- never imported by eval/
-eval/            harness, sweep, conditions; replays gold or cached recogniser output
+eval/            harness, sweep, conditions; replays gold or cached recogniser/vendor output
 scripts/         every build, fetch, train and report step, each runnable alone
 data/eval/       198 frozen turns, audio and manifest, committed
 results/         every number, chart and reading, committed

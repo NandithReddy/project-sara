@@ -105,3 +105,11 @@ prosodic numbers at the **last speech frame before the pause** (see
 frozen text model's P(complete) on it. 359 of the mid-turn pauses (10.7%) are
 followed by VAD speech but no word — label noise, counted and kept for
 consistency with the VAD-based eval boundary. Review: `data/train/PAUSE_REVIEW.md`.
+
+**Sent to a third party (Phase 10).** For the Deepgram baselines, the 198 eval
+segments (20 minutes, caller channel, once at wideband and once through the
+telephony simulation) were streamed to Deepgram's Nova-3 and Flux APIs on
+2026-09-13 by `scripts/deepgram_eval.py`. AMI's CC BY 4.0 licence permits
+this; no other data leaves the machine, and the responses — not the audio —
+are cached under `results/asr/` with the model, parameters and date, so the
+measurement reproduces without sending anything again.
