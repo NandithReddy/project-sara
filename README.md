@@ -272,9 +272,10 @@ make readme                               # the two headline charts and this pag
 
 The frozen eval set, the recogniser caches under `results/asr/`, and both
 models are committed, so the three commands above reproduce every number on
-this page on any machine. Verified on a fresh clone at commit `09bd61b`
-(2026-09-13): install, tests, the table, both CSVs' decision columns and this
-page came out identical; only the CPU inference-latency column moved. Two tests skip without the optional
+this page on any machine. Verified on a fresh clone at commit `0baa88e`
+(2026-09-14): install, tests, the table, both CSVs' decision columns, the
+headline charts' points and this page came out identical; only the CPU
+inference-latency column moved. Two tests skip without the optional
 `data/raw/jfk.wav` sample, which is gitignored. To regenerate the inputs
 instead:
 
