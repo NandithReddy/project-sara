@@ -21,7 +21,8 @@ format:           ## Apply formatting and safe autofixes
 	$(UV) run ruff format .
 	$(UV) run ruff check --fix .
 
-readme:           ## Regenerate README.md from results/, models/ and data/
+readme:           ## Redraw the headline charts from the CSVs, then regenerate README.md
+	$(UV) run python -m eval.headline
 	$(UV) run python scripts/write_readme.py
 
 compile:          ## Re-pin both requirement sets; train is constrained by runtime

@@ -1,0 +1,79 @@
+{
+ "headline": {
+  "fixed_timeout+silero@500": {
+   "condition": "asr_tel",
+   "cut": 24.242424242424242,
+   "hold": 0.0,
+   "p50": 512.0
+  },
+  "fixed_timeout+silero@800": {
+   "condition": "asr_tel",
+   "cut": 17.17171717171717,
+   "hold": 0.0,
+   "p50": 800.0
+  },
+  "fixed_timeout+silero@1000": {
+   "condition": "asr_tel",
+   "cut": 10.1010101010101,
+   "hold": 0.0,
+   "p50": 1024.0
+  },
+  "text_eot_v1.1+gate200@0.3": {
+   "condition": "asr_tel",
+   "cut": 10.1010101010101,
+   "hold": 34.34343434343434,
+   "p50": 832.0
+  },
+  "flux_conf@0.7": {
+   "condition": "nova3_tel",
+   "cut": 10.606060606060606,
+   "hold": 12.121212121212121,
+   "p50": 512.0
+  },
+  "punctuation+gate200@0": {
+   "condition": "asr_tel",
+   "cut": 20.2020202020202,
+   "hold": 8.585858585858585,
+   "p50": 384.0
+  },
+  "flux@0.7": {
+   "condition": "nova3_tel",
+   "cut": 9.595959595959595,
+   "hold": 12.121212121212121,
+   "p50": 544.0
+  },
+  "nova3_speech_final@0": {
+   "condition": "nova3_tel",
+   "cut": 44.44444444444444,
+   "hold": 3.535353535353535,
+   "p50": 96.0
+  }
+ },
+ "bars": {
+  "500ms silence timer (industry default)": {
+   "cut": 24.242424242424242,
+   "hold": 0.0,
+   "p50": 512.0
+  },
+  "800ms silence timer": {
+   "cut": 17.17171717171717,
+   "hold": 0.0,
+   "p50": 800.0
+  },
+  "punctuation + 200ms gate": {
+   "cut": 20.2020202020202,
+   "hold": 8.585858585858585,
+   "p50": 384.0
+  },
+  "text model + gate (ours, p\u22650.3)": {
+   "cut": 10.1010101010101,
+   "hold": 34.34343434343434,
+   "p50": 832.0
+  },
+  "Deepgram Flux (as shipped)": {
+   "cut": 9.595959595959595,
+   "hold": 12.121212121212121,
+   "p50": 544.0
+  }
+ }
+}

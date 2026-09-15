@@ -164,6 +164,7 @@ def main() -> int:
         "pro_hold": hold(pick(sweep, PR, 0.5)),
         "fus_cut": cut(pick(sweep, FU, 0.5)),
         "fus_hold": hold(pick(sweep, FU, 0.5)),
+        "tel_timer500_cut": cut(pick(cond, S, 500.0, "asr_tel")),
         "tel_timer800_cut": cut(pick(cond, S, 800.0, "asr_tel")),
         "tel_timer800_hold": hold(pick(cond, S, 800.0, "asr_tel")),
         "tel_pg_cut": cut(pick(cond, G, 0.0, "asr_tel")),
@@ -317,70 +318,140 @@ def main() -> int:
     f["punct_hold"] = f"{N['punct_hold']:.1f}"
     f["pause_chance_ap"] = f"{N['pause_chance_ap']:.3f}"
 
+    def tri(r):
+        return f"{cut(r):.1f}% | {hold(r):.1f}% | {p50(r):.0f} ms"
+
     readme = f"""# SARA — Semantic End-of-Turn Detection for Voice Agents
 
-Production voice agents decide that you have stopped speaking by waiting for
-silence, typically 500–1000ms. That is wrong in both directions: it interrupts
-you when you pause mid-thought (*"my order number is… umm…"*) and it leaves
-dead air after a short complete answer (*"yes"*). This project measures how
-much better anything can do — a silence timer, a punctuation heuristic, a
-text classifier, a prosody classifier, and the closest commercial system,
-Deepgram Flux — on the same held-out audio, under the same conditions, as a
-full tradeoff curve rather than one operating point.
+When you talk to an automated phone agent it has to guess the moment you have
+finished speaking. Guess too early and it talks over you (*"my order number
+is… umm…"*); guess too late and you get dead air after a short answer
+(*"yes"*). Nearly every production system makes that guess the same way: it
+waits for 500–1000ms of silence.
 
-**The evaluation is the contribution.** The models are participants in it.
-Every number below is read from a file in [`results/`](results/) by
-[`scripts/write_readme.py`](scripts/write_readme.py); nothing is typed, and a
-test fails if this page and the CSVs disagree.
+This project measures how well that guess can be made — by the silence timer
+everyone ships, by a one-line punctuation heuristic, by a small text
+classifier trained here, by a prosody classifier, and by the closest
+commercial product, Deepgram Flux — on the same {f["n_turns"]} held-out turns of
+real conversation, on clean audio and on phone-quality audio, as full
+tradeoff curves rather than a single number each.
 
-## The chart
+**The evaluation is the contribution; the models are participants in it.**
+Every number on this page is read from a file in [`results/`](results/) by
+[`scripts/write_readme.py`](scripts/write_readme.py) — nothing is typed — and
+a test fails if the page and the CSVs disagree.
+
+## In one picture
+
+![headline](results/headline.png)
+
+Every system moves along a curve as its setting changes: further right, the
+caller waits longer; higher, more callers get interrupted. The shaded corner
+— interrupts fewer than one caller in ten, answers within half a second — is
+what everyone wants and nothing reaches. Hollow markers mean the system left
+more than one caller in ten with no answer at all.
+
+## Three findings
+
+1. **The industry default is measurably bad.** A 500ms silence timer
+   interrupts **{f["timer500_cut"]}%** of turns on clean audio and **{f["tel_timer500_cut"]}%** on
+   phone audio. Lengthening it trades interruptions for dead air; no timeout
+   fixes both.
+2. **Reading the words helps, and a real recogniser eats most of the gain.**
+   On perfect transcripts, a 200ms silence gate plus a punctuation check
+   matches the 800ms timer's interruptions ({f["pg_cut"]}% vs {f["timer800_cut"]}%) at a
+   third of the wait ({f["pg_p50"]} vs {f["timer800_p50"]}ms). Through a real recogniser on
+   phone audio it interrupts {f["tel_pg_cut"]}% — worse than the timer. The text
+   model is the only system built here that interrupts less than the timer
+   there ({f["tel_v11g03_cut"]}% vs {f["tel_timer800_cut"]}%), and it leaves {f["tel_v11g03_hold"]}% of
+   callers waiting out the timeout, so it is not something to ship.
+3. **Deepgram Flux is the best system measured on phone audio, and nothing
+   here beats it on all three counts.** {f["tel_flux_cut"]}% interruptions, {f["tel_flux_hold"]}%
+   never answered, {f["tel_flux_p50"]}ms wait. Sweeping its confidence threshold
+   passes straight through its default setting: there is no hidden better
+   one. Said plainly, because the charter requires it.
+
+## How to read the numbers
+
+Three numbers describe every system, each measured from the audio-grounded
+moment the speaker actually stopped:
+
+- **Interrupts** — the system decided the turn was over more than 150ms
+  *before* it was. The caller gets talked over. (In the CSVs: `cutoff_rate_at_tolerance`.)
+- **Never answers** — two seconds after the caller stopped the system still
+  had not decided, so the agent's fallback timeout fired instead. Dead air.
+  (`false_hold_rate`.)
+- **Wait** — the median time between the caller stopping and the system
+  deciding. A never-answered turn counts as the full 2000ms. (`latency_fallback_p50`.)
+
+They trade against each other. A system is only better if it improves one
+without paying more on the other two, which is why the charts show curves
+and not single points.
+
+## The numbers
+
+![bars](results/summary_bars.png)
+
+Two conditions are tabled below. **Clean:** perfect human transcripts and
+wideband audio, the best case. **Phone:** a real streaming recogniser on
+300–3400Hz μ-law audio, the deployment case.
+
+### Clean audio, perfect transcripts
+
+| system | interrupts | never answers | wait |
+|---|---|---|---|
+| Silero VAD + 500ms timer *(the industry default)* | {tri(pick(sweep, S, 500.0))} |
+| Silero VAD + 800ms timer | {tri(pick(sweep, S, 800.0))} |
+| Silero VAD + 1000ms timer | {tri(pick(sweep, S, 1000.0))} |
+| punctuation heuristic, bare | {tri(pick(sweep, P, 0.0))} |
+| **punctuation + 200ms silence gate** | {tri(pick(sweep, G, 0.0))} |
+| text model v1.1 (bert-mini), bare | {tri(pick(sweep, T, 0.5))} |
+| text model v1.1 + 200ms gate, p≥0.3 | {tri(pick(sweep, TG, 0.3))} |
+| prosody classifier + gate, p≥0.5 | {tri(pick(sweep, PR, 0.5))} |
+| prosody + text + gate, p≥0.5 | {tri(pick(sweep, FU, 0.5))} |
+| Deepgram Flux, as shipped *(own recogniser, same audio)* | {tri(pick(sweep, FX, flux_thr))} |
+
+### Phone audio, real recogniser
+
+| system | interrupts | never answers | wait |
+|---|---|---|---|
+| Silero VAD + 500ms timer *(the industry default)* | {tri(pick(cond, S, 500.0, "asr_tel"))} |
+| Silero VAD + 800ms timer | {tri(pick(cond, S, 800.0, "asr_tel"))} |
+| Silero VAD + 1000ms timer | {tri(pick(cond, S, 1000.0, "asr_tel"))} |
+| punctuation heuristic, bare | {tri(pick(cond, P, 0.0, "asr_tel"))} |
+| punctuation + 200ms silence gate | {tri(pick(cond, G, 0.0, "asr_tel"))} |
+| **text model v1.1 + 200ms gate, p≥0.3** | {tri(pick(cond, TG, 0.3, "asr_tel"))} |
+| prosody classifier + gate, p≥0.5 | {tri(pick(cond, PR, 0.5, "asr_tel"))} |
+| prosody + text + gate, p≥0.5 | {tri(pick(cond, FU, 0.5, "asr_tel"))} |
+| **Deepgram Flux, as shipped** *(cloud, own recogniser)* | {tri(pick(cond, FX, flux_thr, "nova3_tel"))} |
+| Deepgram Flux, acting on its confidence at 0.5 | {tri(pick(cond, FC, 0.5, "nova3_tel"))} |
+| Deepgram Nova-3 `speech_final`, default endpointing | {tri(pick(cond, NS, 0.0, "nova3_tel"))} |
+| punctuation + gate, on Nova-3 transcripts | {tri(pick(cond, G, 0.0, "nova3_tel"))} |
+| text model + gate, p≥0.3, on Nova-3 transcripts | {tri(pick(cond, TG, 0.3, "nova3_tel"))} |
+
+The systems built here read parakeet-mlx transcripts (a local recogniser)
+unless a row says Nova-3; Deepgram's own detectors hear the audio directly,
+so there is no perfect-transcript condition for them — their "clean" row is
+the same wideband audio the other systems use. Full sweeps:
+[`results/tradeoff.csv`](results/tradeoff.csv); every condition:
+[`results/conditions.csv`](results/conditions.csv).
+
+## The full picture
 
 ![tradeoff](results/tradeoff.png)
 
-Premature-cutoff rate against added latency, {f["n_turns"]} held-out turns from the
-AMI Meeting Corpus ({f["n_meetings"]} meetings, {f["n_speakers"]} speakers; frozen, SHA256-manifested,
-never trained on). Latency is measured from the audio-grounded true end of
-the turn; a turn never answered is counted at the 2000ms fallback; cutoff
-allows the 150ms the boundary itself is uncertain to. Reading:
+Every system at every setting on clean audio with perfect transcripts: the
+ceiling. {f["n_turns"]} held-out turns from the AMI Meeting Corpus ({f["n_meetings"]} meetings,
+{f["n_speakers"]} speakers; frozen, SHA256-manifested, never trained on). Reading:
 [`results/tradeoff.md`](results/tradeoff.md).
 
 ![conditions](results/conditions.png)
 
-The same systems under six conditions — gold transcripts, a local streaming
-recogniser (parakeet-mlx) and a cloud one (Deepgram Nova-3), each at wideband
-and in the 300–3400Hz μ-law telephony band. The Nova-3 panels also carry
-Deepgram's own detectors on the same audio. Reading:
+The same systems under six conditions — perfect transcripts, a local
+streaming recogniser (parakeet-mlx) and a cloud one (Deepgram Nova-3), each
+at wideband and in the telephony band. The Nova-3 panels also carry
+Deepgram's own detectors. Reading:
 [`results/conditions.md`](results/conditions.md).
-
-## The numbers
-
-Gold transcripts, wideband — the ceiling — and the deployment condition, a
-real recogniser on telephony-band audio. Cutoff / never answered / median
-latency in ms.
-
-| system | gold, wideband | real ASR, telephony |
-|---|---|---|
-| Silero VAD + 500ms timer *(the industry default)* | {f["timer500_cut"]}% / {f["timer500_hold"]}% / {f["timer500_p50"]} | — |
-| Silero VAD + 800ms timer | {f["timer800_cut"]}% / {f["timer800_hold"]}% / {f["timer800_p50"]} | {f["tel_timer800_cut"]}% / {f["tel_timer800_hold"]}% / 800 |
-| Silero VAD + 1000ms timer | {f["timer1000_cut"]}% / {f["timer1000_hold"]}% / {f["timer1000_p50"]} | — |
-| punctuation heuristic | {f["punct_cut"]}% / {f["punct_hold"]}% / {f["punct_p50"]} | {cut(pick(cond, P, 0.0, "asr_tel")):.1f}% / {hold(pick(cond, P, 0.0, "asr_tel")):.1f}% / {p50(pick(cond, P, 0.0, "asr_tel")):.0f} |
-| **punctuation + 200ms silence gate** | **{f["pg_cut"]}% / {f["pg_hold"]}% / {f["pg_p50"]}** | {f["tel_pg_cut"]}% / {f["tel_pg_hold"]}% / {f["tel_pg_p50"]} |
-| text model v1.1 (bert-mini), bare | {f["v11_cut"]}% / {f["v11_hold"]}% / {f["v11_p50"]} | — |
-| **text model v1.1 + 200ms gate @0.3** | {f["v11g03_cut"]}% / {f["v11g03_hold"]}% / {f["v11g03_p50"]} | **{f["tel_v11g03_cut"]}% / {f["tel_v11g03_hold"]}% / {f["tel_v11g03_p50"]}** |
-| prosody classifier + gate @0.5 | {f["pro_cut"]}% / {f["pro_hold"]}% / {f["pro_p50"]} | {cut(pick(cond, PR, 0.5, "asr_tel")):.1f}% / {hold(pick(cond, PR, 0.5, "asr_tel")):.1f}% / {p50(pick(cond, PR, 0.5, "asr_tel")):.0f} |
-| prosody + text + gate @0.5 | {f["fus_cut"]}% / {f["fus_hold"]}% / {f["fus_p50"]} | {cut(pick(cond, FU, 0.5, "asr_tel")):.1f}% / {hold(pick(cond, FU, 0.5, "asr_tel")):.1f}% / {p50(pick(cond, FU, 0.5, "asr_tel")):.0f} |
-| **Deepgram Flux**, as shipped (eot_threshold {f["flux_thr"]}) — cloud, own recogniser | {f["flux_cut"]}% / {f["flux_hold"]}% / {f["flux_p50"]} | **{f["tel_flux_cut"]}% / {f["tel_flux_hold"]}% / {f["tel_flux_p50"]}** |
-| Deepgram Flux, acting on its confidence ≥0.5 | {f["fluxc05_cut"]}% / {f["fluxc05_hold"]}% / {f["fluxc05_p50"]} | {cut(pick(cond, FC, 0.5, "nova3_tel")):.1f}% / {hold(pick(cond, FC, 0.5, "nova3_tel")):.1f}% / {p50(pick(cond, FC, 0.5, "nova3_tel")):.0f} |
-| Deepgram Nova-3 `speech_final`, default endpointing | {f["nova3sf_cut"]}% / {f["nova3sf_hold"]}% / {f["nova3sf_p50"]} | {f["tel_nova3sf_cut"]}% / {f["tel_nova3sf_hold"]}% / {f["tel_nova3sf_p50"]} |
-| punctuation + gate, on Nova-3 transcripts | {f["nova3_pg_cut"]}% / {f["nova3_pg_hold"]}% / {f["nova3_pg_p50"]} | {f["nova3tel_pg_cut"]}% / {f["nova3tel_pg_hold"]}% / {f["nova3tel_pg_p50"]} |
-| text model v1.1 + gate @0.3, on Nova-3 transcripts | {f["nova3_v11g03_cut"]}% / {f["nova3_v11g03_hold"]}% / {p50(pick(cond, TG, 0.3, "nova3_16k")):.0f} | {f["nova3tel_v11g03_cut"]}% / {f["nova3tel_v11g03_hold"]}% / {f["nova3tel_v11g03_p50"]} |
-
-The Deepgram rows hear the audio directly (there is no gold-transcript
-condition for a system with its own recogniser), so their left column is the
-same wideband audio the gold rows use, and the Nova-3 rows' right column is
-Nova-3 on the telephony audio. Full sweeps in
-[`results/tradeoff.csv`](results/tradeoff.csv); all conditions in
-[`results/conditions.csv`](results/conditions.csv).
 
 ## What worked
 
@@ -519,7 +590,7 @@ make test                                 # includes the eval-set freeze check
 uv run python scripts/run_baselines.py    # the table, ~1 min
 uv run python -m eval.sweep               # results/tradeoff.png, ~2 min
 uv run python -m eval.conditions          # results/conditions.png, ~5 min
-uv run python scripts/write_readme.py     # this page, from the files above
+make readme                               # the two headline charts and this page
 ```
 
 The frozen eval set, the recogniser caches under `results/asr/`, and both
@@ -576,6 +647,29 @@ The engineering charter — what is forbidden, and why — is
 [`ENGINEERING.md`](ENGINEERING.md). Inbound calls only; any human test subject
 is told they are talking to an automated system and that audio is recorded;
 dataset licences are in [`data/README.md`](data/README.md).
+
+## Glossary
+
+- **Turn** — one stretch of speech by one person, up to the moment they hand
+  over. The eval has {f["n_turns"]} of them, each with its true end fixed from the audio.
+- **End-of-turn detection** — deciding, while the audio is still coming in,
+  that the current turn is finished. The whole problem.
+- **Interrupts / cutoff** — the system fired before the true end (beyond a
+  150ms tolerance for the boundary's own uncertainty).
+- **Never answers / hold** — the system had not fired 2000ms after the true
+  end; the agent's fallback timeout took over.
+- **Wait / added latency** — time from the true end to the system firing.
+- **Silence timer** — fire after N ms of no speech, as judged by a voice
+  activity detector (VAD). Silero is the VAD used throughout.
+- **Gate** — a short silence (200ms) that a semantic signal must also wait
+  for before it is allowed to fire. Cheap, and the single most useful idea here.
+- **Gold / perfect transcripts** — the human transcript, released word by
+  word at the times the words were said. A ceiling no recogniser reaches.
+- **Telephony band / phone audio** — 300–3400Hz and a G.711 μ-law round
+  trip, simulated from the wideband recording.
+- **Caller channel** — the eval audio zeroed after the turn ends, because the
+  meeting headsets pick up the next speaker and a phone line would not.
+- **Sweep** — running one system at every setting and drawing the curve.
 """
     (REPO / "README.md").write_text(readme)
     print(

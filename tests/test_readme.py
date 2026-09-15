@@ -89,3 +89,39 @@ def test_readme_claims_no_unmeasured_figure():
     text = README.read_text()
     assert "Not yet measured" not in text
     assert n["flux_model"] in text and n["flux_date"] in text
+
+
+@needs
+def test_headline_charts_exist_and_plot_the_csv():
+    """The two charts a reader meets first are drawn from conditions.csv and
+    record what they plotted; those points must be the CSV's."""
+    for name in ("headline.png", "summary_bars.png"):
+        path = REPO / "results" / name
+        assert path.exists() and path.stat().st_size > 10_000, name
+    points = json.loads((REPO / "results" / "headline.json").read_text())
+    cond = list(csv.DictReader((REPO / "results/conditions.csv").open()))
+    checks = {
+        "flux@0.7": pick(cond, "flux", 0.7, "nova3_tel"),
+        "text_eot_v1.1+gate200@0.3": pick(
+            cond, "text_eot_v1.1+gate200", 0.3, "asr_tel"
+        ),
+        "fixed_timeout+silero@800": pick(
+            cond, "fixed_timeout+silero", 800.0, "asr_tel"
+        ),
+        "punctuation+gate200@0": pick(cond, "punctuation+gate200", 0.0, "asr_tel"),
+    }
+    for key, row in checks.items():
+        got = points["headline"][key]
+        assert got["cut"] == pytest.approx(
+            float(row["cutoff_rate_at_tolerance"]) * 100
+        ), key
+        assert got["hold"] == pytest.approx(float(row["false_hold_rate"]) * 100), key
+        assert got["p50"] == pytest.approx(float(row["latency_fallback_p50"])), key
+    bars = points["bars"]
+    assert len(bars) == 5
+    assert (
+        bars["Deepgram Flux (as shipped)"]["cut"]
+        == points["headline"]["flux@0.7"]["cut"]
+    )
+    text = README.read_text()
+    assert "results/headline.png" in text and "results/summary_bars.png" in text
