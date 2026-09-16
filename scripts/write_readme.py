@@ -341,6 +341,10 @@ Every number on this page is read from a file in [`results/`](results/) by
 [`scripts/write_readme.py`](scripts/write_readme.py) — nothing is typed — and
 a test fails if the page and the CSVs disagree.
 
+New here? **[GUIDE.md](GUIDE.md)** explains the whole thing in everyday words
+— the problem, how the contest is scored, who the contestants are, and how to
+run it yourself in fifteen minutes.
+
 ## In one picture
 
 ![headline](results/headline.png)
@@ -633,6 +637,8 @@ refuses to re-freeze a changed set without `--force`.
 ## Where things are
 
 ```
+GUIDE.md         the plain-language walkthrough; start there
+ENGINEERING.md   the charter: what is forbidden, and why
 src/eot/         the detector interface, the text model, the gate, the pause classifier
 src/baselines/   silence timers, energy VAD, punctuation heuristic, the Deepgram client
 src/audio/       Silero VAD, prosody tracker, telephony simulation, mic capture
